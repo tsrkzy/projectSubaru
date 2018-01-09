@@ -2,3 +2,4 @@
 .idea/
 lepradius.iml
 /node_modules
+/js/*.bundle.*
