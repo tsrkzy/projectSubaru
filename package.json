@@ -15,7 +15,8 @@
     "webpack-notifier": "^1.5.0"
   },
   "devDependencies": {
-    "createjs": "^1.0.1"
+    "createjs": "^1.0.1",
+    "webpack-notifier": "^1.5.0"
   },
   "author": "tsrm",
   "license": "ISC"

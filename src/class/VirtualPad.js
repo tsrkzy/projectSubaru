@@ -1,7 +1,21 @@
 "use strict";
 
+/**
+ * virtual GamePad class.
+ * buttons are
+ *  up
+ *  down
+ *  left
+ *  right
+ *  ctrl
+ *
+ * @singleton
+ */
 class VirtualPad {
   
+  /*
+   * getter and setter
+   */
   get keyDownOnly_Right() {
     return this._keyDown_Right && !(this._keyDown_Up || this._keyDown_Down || this._keyDown_Left)
   }
@@ -65,11 +79,21 @@ class VirtualPad {
     this._keyDown_Ctrl = value;
   }
   
+  /**
+   * @constructor
+   */
   constructor() {
+    if (typeof VirtualPad.instance === 'object') {
+      return VirtualPad.instance;
+    }
+    
+    VirtualPad.instance = this;
+    
     this._keyDown_Up    = false;
     this._keyDown_Down  = false;
     this._keyDown_Left  = false;
     this._keyDown_Right = false;
+    this._keyDown_Ctrl  = false;
     
     document.addEventListener('keydown', keyHandler.bind(this, 'down'));
     document.addEventListener('keyup', keyHandler.bind(this, 'up'));
