@@ -147,4 +147,4 @@ class VirtualPad {
   }
 }
 
-module.exports = VirtualPad;
+export default VirtualPad;

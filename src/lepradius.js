@@ -1,7 +1,7 @@
 "use strict";
 
-const Stage = require('./class/Stage.js');
-const GameClock = require('./class/GameClock.js');
+import Stage from "./class/Stage.js";
+import GameClock from "./class/GameClock.js";
 
 /*
  * display "GAME START"

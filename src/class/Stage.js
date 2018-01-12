@@ -1,6 +1,6 @@
 "use strict";
 
-const AirCraft = require('./AirCraft.js');
+import AirCraft from "./AirCraft.js";
 
 class Stage {
   constructor() {
@@ -9,4 +9,4 @@ class Stage {
   }
 }
 
-module.exports = Stage;
+export default Stage;

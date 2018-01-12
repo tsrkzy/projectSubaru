@@ -4,7 +4,9 @@ const EventEmitter = require('events').EventEmitter;
 
 /**
  * Events#EventEmitter Wrapper.
- * Call #init first and static.
+ * At first, call #init.
+ *
+ * Use static.
  * eg. let g = require(...)
  *     g.init();
  *
@@ -22,9 +24,15 @@ class GameClock extends EventEmitter {
   }
   
   static set gameSpeed(speed) {
-    GameClock._gameSpeed = speed;
+    // console.log('GameClock disabled!'); // @DELETEME
+    // GameClock._gameSpeed = speed;
   }
   
+  /**
+   *
+   * @constructor
+   * @returns {*}
+   */
   constructor() {
     /*
      * @singleton

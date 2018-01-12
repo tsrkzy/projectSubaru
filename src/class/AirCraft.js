@@ -1,7 +1,11 @@
 "use strict";
 
-const VirtualPad = require('./VirtualPad.js');
-const GameClock  = require('./GameClock.js');
+import VirtualPad from "./VirtualPad.js";
+import GameClock from "./GameClock.js";
+import BulletTime from "./BulletTime.js";
+import Emitter from "./Emitter.js";
+
+const sqrt2 = Math.sqrt(2);
 
 /**
  * Your AirCraft Class.
@@ -12,6 +16,18 @@ class AirCraft {
   /*
    * getter and setter
    */
+  get ACCELERATION() {
+    return BulletTime.active ? 0.25 : 1;
+  }
+  
+  get DIAGONAL_ACCELERATION() {
+    return this.ACCELERATION * (1 / sqrt2);
+  }
+  
+  get FRICTION() {
+    return BulletTime.active ? 1 : 0.85;
+  }
+  
   get aY() {
     return this._aY;
   }
@@ -67,22 +83,25 @@ class AirCraft {
   constructor() {
     this.stage = new createjs.Stage('demoCanvas');
     this.vp    = new VirtualPad();
+    BulletTime.init();
     
     /*
      * position, velocity, acceleration, frictional damping
      */
-    this._x                    = 0;
-    this._y                    = 0;
-    this._vX                   = 0;
-    this._vY                   = 0;
-    this._aX                   = 0;
-    this._aY                   = 0;
-    this.ACCELERATION          = 1;
-    this.DIAGONAL_ACCELERATION = this.ACCELERATION * (1 / Math.sqrt(2));
-    this.FRICTION              = 0.85;
+    this._x  = 0;
+    this._y  = 0;
+    this._vX = 0;
+    this._vY = 0;
+    this._aX = 0;
+    this._aY = 0;
     
     this.assignTickListener();
     this.deploy();
+  
+    Emitter.on('bulletTimeStateChange', (status) => {
+      this.vX = this.vX * (status ? 0.5 : 2);
+      this.vY = this.vY * (status ? 0.5 : 2);
+    })
   }
   
   /**
@@ -140,4 +159,4 @@ class AirCraft {
   }
 }
 
-module.exports = AirCraft;
+export default AirCraft;
