@@ -1,7 +1,6 @@
 "use strict";
 
 import VirtualPad from "./VirtualPad.js";
-import GameClock from "./GameClock.js";
 import BulletTime from "./BulletTime.js";
 import Emitter from "./Emitter.js";
 
@@ -106,19 +105,10 @@ class AirCraft {
   
   /**
    * set listeners
-   * kicks every GameClock#tick
+   * kicks every tick
    */
   assignTickListener() {
-    GameClock.onTick(() => {
-      
-      /*
-       * bullet time control
-       */
-      if (this.vp.keyDown_Ctrl) {
-        GameClock.gameSpeed = 2;
-      } else {
-        GameClock.gameSpeed = 1;
-      }
+    createjs.Ticker.addEventListener('tick', () => {
       
       /*
        * moving control
@@ -153,9 +143,7 @@ class AirCraft {
     this.shape.graphics.beginFill('lightgray').drawRect(this.x, this.y, 30, 10);
     this.stage.addChild(this.shape);
   
-    GameClock.onTick(() => {
-      this.stage.update();
-    })
+    createjs.Ticker.addEventListener('tick', this.stage)
   }
 }
 
