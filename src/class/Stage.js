@@ -4,8 +4,9 @@ import AirCraft from "./AirCraft.js";
 
 class Stage {
   constructor() {
-    let stage    = new createjs.Stage('demoCanvas');
-    let airCraft = new AirCraft();
+    this.stage   = new createjs.Stage('demoCanvas');
+    this.airCraft = new AirCraft({stage: this.stage});
+    createjs.Ticker.addEventListener('tick', this.stage)
   }
 }
 

@@ -3,6 +3,7 @@
 import VirtualPad from "./VirtualPad.js";
 import BulletTime from "./BulletTime.js";
 import Emitter from "./Emitter.js";
+import Gatling from "./Gatling";
 
 const sqrt2 = Math.sqrt(2);
 
@@ -24,7 +25,7 @@ class AirCraft {
   }
   
   get FRICTION() {
-    return BulletTime.active ? 1 : 0.85;
+    return BulletTime.active ? 0.2 : 0.85;
   }
   
   get aY() {
@@ -79,20 +80,24 @@ class AirCraft {
    * initialize parameters, set listeners
    * @constructor
    */
-  constructor() {
-    this.stage = new createjs.Stage('demoCanvas');
+  constructor(args) {
+  
+    this.stage = args.stage;
+  
     this.vp    = new VirtualPad();
     BulletTime.init();
     
     /*
      * position, velocity, acceleration, frictional damping
      */
-    this._x  = 0;
-    this._y  = 0;
-    this._vX = 0;
-    this._vY = 0;
-    this._aX = 0;
-    this._aY = 0;
+    this._x       = 0;
+    this._y       = 0;
+    this._vX      = 0;
+    this._vY      = 0;
+    this._aX      = 0;
+    this._aY      = 0;
+    this._gun     = new Gatling(this);
+    this._missile = undefined;
     
     this.assignTickListener();
     this.deploy();
@@ -135,15 +140,29 @@ class AirCraft {
       this.y += this.vY;
       this.shape.x = this.x;
       this.shape.y = this.y;
+      if (this.shape.x < 30) this.shape.x = 30;
+      if (this.shape.y < 30) this.shape.y = 30;
+      if (this.shape.x > 680) this.shape.x = 680;
+      if (this.shape.y > 480) this.shape.y = 480;
+  
+      this.text.x = this.shape.x;
+      this.text.y = this.shape.y;
+      this.text.text = `airCraft: {${Math.floor(this.x)},${Math.round(this.y)}}`;
+      
+      /*
+       * firing weapons
+       */
+      this._gun.trigger(this);
     });
   }
   
   deploy() {
     this.shape = new createjs.Shape();
     this.shape.graphics.beginFill('lightgray').drawRect(this.x, this.y, 30, 10);
-    this.stage.addChild(this.shape);
+    this.text = new createjs.Text('airCraft', "bold 9px Arial", "black");
   
-    createjs.Ticker.addEventListener('tick', this.stage)
+    this.stage.addChild(this.shape);
+    this.stage.addChild(this.text);
   }
 }
 
