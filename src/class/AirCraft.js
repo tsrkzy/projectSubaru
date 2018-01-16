@@ -1,8 +1,6 @@
 "use strict";
 
 import VirtualPad from "./VirtualPad.js";
-import BulletTime from "./BulletTime.js";
-import Emitter from "./Emitter.js";
 import Gatling from "./Gatling";
 
 const sqrt2 = Math.sqrt(2);
@@ -17,7 +15,7 @@ class AirCraft {
    * getter and setter
    */
   get ACCELERATION() {
-    return BulletTime.active ? 0.25 : 1;
+    return 1
   }
   
   get DIAGONAL_ACCELERATION() {
@@ -25,7 +23,7 @@ class AirCraft {
   }
   
   get FRICTION() {
-    return BulletTime.active ? 0.2 : 0.85;
+    return 0.85;
   }
   
   get aY() {
@@ -87,7 +85,6 @@ class AirCraft {
     this.stage = args.stage;
   
     this.vp    = new VirtualPad();
-    BulletTime.init();
     
     /*
      * position, velocity, acceleration, frictional damping
@@ -103,11 +100,6 @@ class AirCraft {
     
     this.assignTickListener();
     this.deploy();
-  
-    Emitter.on('bulletTimeStateChange', (status) => {
-      this.vX = this.vX * (status ? 0.5 : 2);
-      this.vY = this.vY * (status ? 0.5 : 2);
-    })
   }
   
   /**
