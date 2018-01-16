@@ -79,6 +79,8 @@ class AirCraft {
   /**
    * initialize parameters, set listeners
    * @constructor
+   * @param {Object} args
+   *   .stage: createjs.Stage
    */
   constructor(args) {
   
@@ -138,12 +140,12 @@ class AirCraft {
       this.vY *= this.FRICTION;
       this.x += this.vX;
       this.y += this.vY;
+      if (this.x < 30) this.x = 30;
+      if (this.y < 30) this.y = 30;
+      if (this.x > 680) this.x = 680;
+      if (this.y > 480) this.y = 480;
       this.shape.x = this.x;
       this.shape.y = this.y;
-      if (this.shape.x < 30) this.shape.x = 30;
-      if (this.shape.y < 30) this.shape.y = 30;
-      if (this.shape.x > 680) this.shape.x = 680;
-      if (this.shape.y > 480) this.shape.y = 480;
   
       this.text.x = this.shape.x;
       this.text.y = this.shape.y;
@@ -158,7 +160,7 @@ class AirCraft {
   
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.beginFill('lightgray').drawRect(this.x, this.y, 30, 10);
+    this.shape.graphics.setStrokeStyle(1).beginStroke('lightgray').drawRect(this.x, this.y, 30, 10);
     this.text = new createjs.Text('airCraft', "bold 9px Arial", "black");
   
     this.stage.addChild(this.shape);
