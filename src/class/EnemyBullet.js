@@ -2,7 +2,7 @@
 import Bullet from "./Bullet";
 
 /**
- * main weapon base bullet class.
+ * enemy bullet base class.
  */
 class EnemyBullet extends Bullet {
   
@@ -12,7 +12,12 @@ class EnemyBullet extends Bullet {
    */
   constructor(args) {
     super(args);
+    EnemyBullet.instances = EnemyBullet.instances || {};
+  
+    EnemyBullet.instances[this.constructor.name] = this.initStaticProperty();
   }
+  
+  
 }
 
 export default EnemyBullet;

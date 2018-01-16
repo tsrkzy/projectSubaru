@@ -35,16 +35,36 @@ class Bullet {
    * @param {Object} args - x, y, stage
    */
   constructor(args) {
-    this.id = Bullet.id;
-    Bullet.id++;
-    Bullet.instances.push(this);
-    
+  
     this.x     = args.x;
     this.y     = args.y;
     this.stage = args.stage;
     this.shape = undefined;
     this.text  = new createjs.Text('Bullet', '9px Arial', 'black');
     this._assignTickListener();
+  }
+  
+  /**
+   * initialize static instances pool.
+   * "this.constructor" means class function
+   *  call it after super(); in constructor()
+   *  eg.
+   *    subclassExtendsBullet#initStaticProperty();
+   *
+   * @return {Array<Object>}
+   */
+  initStaticProperty() {
+    if (typeof this.constructor.id === 'undefined') {
+      this.constructor.id = 0;
+    }
+    if (!(this.constructor.instances instanceof Array)) {
+      this.constructor.instances = [];
+    }
+    
+    this.id = this.constructor.id;
+    this.constructor.id++;
+    this.constructor.instances.push(this);
+    return this.constructor.instances;
   }
   
   /**
@@ -71,18 +91,15 @@ class Bullet {
     this.stage.removeChild(this.shape);
     this.stage.removeChild(this.text);
   
-    for (let i = 0; i < Bullet.instances.length; i++) {
-      let bullet = Bullet.instances[i];
+    for (let i = 0; i < this.constructor.instances.length; i++) {
+      let bullet = this.constructor.instances[i];
       if (bullet.id === this.id) {
-        Bullet.instances.splice(i, 1);
+        this.constructor.instances.splice(i, 1);
         break;
       }
     }
     
   }
 }
-
-Bullet.id        = 0;
-Bullet.instances = [];
 
 export default Bullet;

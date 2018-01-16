@@ -2,7 +2,8 @@
 
 import AirCraft from "./AirCraft.js";
 import Battery from "./Battery";
-import Bullet from "./Bullet";
+import EnemyBullet from "./EnemyBullet";
+import FriendBullet from "./FriendBullet";
 
 class Stage {
   constructor() {
@@ -26,10 +27,13 @@ class Stage {
      */
     createjs.Ticker.addEventListener('tick', this.stage)
     createjs.Ticker.addEventListener('tick', () => {
-      let measuredFPS = createjs.Ticker.getMeasuredFPS();
-      let bulletCount = Bullet.instances.length;
-      this.indicator.text =
-        `FPS: ${measuredFPS}\nBullets: ${bulletCount}\nid:${Bullet.id}`;
+      let measuredFPS       = createjs.Ticker.getMeasuredFPS();
+      let friendBulletCount = ((FriendBullet.instances || {}).GatlingBullet || []).length;
+      let enemyBulletCount  = ((EnemyBullet.instances || {}).EnemyBatteryBullet || []).length;
+      this.indicator.text   =
+        `FPS: ${measuredFPS}\n` +
+        `FriendBullets: ${friendBulletCount}\n` +
+        `EnemyBullets:${enemyBulletCount}`;
     })
   }
 }

@@ -1,11 +1,11 @@
 "use strict";
 
-import Bullet from "./Bullet.js";
+import FriendBullet from "./FriendBullet";
 
 /**
  * gatling gun bullet class.
  */
-class GatlingBullet extends Bullet {
+class GatlingBullet extends FriendBullet {
   
   /**
    * @constructor
