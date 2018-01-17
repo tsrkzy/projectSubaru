@@ -2,6 +2,9 @@
 
 import FriendBullet from "./FriendBullet";
 
+const WIDTH  = 20;
+const HEIGHT = 5;
+
 /**
  * gatling gun bullet class.
  */
@@ -30,7 +33,7 @@ class GatlingBullet extends FriendBullet {
   
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.setStrokeStyle(1).beginStroke('blue').drawRect(0, 0, 20, 5);
+    this.shape.graphics.setStrokeStyle(1).beginStroke('blue').drawRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
     this.stage.addChild(this.shape);
     this.stage.addChild(this.text);
   }

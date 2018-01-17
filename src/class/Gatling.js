@@ -14,7 +14,7 @@ class Gatling extends Guns {
     this.bullets  = [];
     this.coolTime = 400;
     this.shape    = new createjs.Shape();
-    this.shape.graphics.beginFill('red').drawRect(1, 1, 2, 2);
+    this.shape.graphics.beginFill('lightgreen').drawRect(-1, -1, 2, 2);
     this.text = new createjs.Text("gatling", "bold 9px Arial", "black");
     
   }

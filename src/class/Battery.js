@@ -2,6 +2,9 @@
 import Enemy from "./Enemy";
 import EnemyBatteryBullet from "./EnemyBatteryBullet";
 
+const WIDTH  = 30;
+const HEIGHT = 30;
+
 /**
  * Enemy "Battery" class.
  * does not runs.
@@ -50,7 +53,7 @@ class Battery extends Enemy {
   
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.beginFill('darkgray').drawRect(0, 0, 30, 30);
+    this.shape.graphics.beginFill('darkgray').drawRect(0 - WIDTH / 2, 0 - HEIGHT / 2, WIDTH, HEIGHT);
     this.text = new createjs.Text('battery', 'bold 9px Arial', 'black');
     this.updatePos();
     this.assignTickListener();

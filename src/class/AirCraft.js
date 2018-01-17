@@ -2,8 +2,14 @@
 
 import VirtualPad from "./VirtualPad.js";
 import Gatling from "./Gatling";
+import Enemy from "./Enemy";
+import EnemyBullet from "./EnemyBullet";
 
-const sqrt2 = Math.sqrt(2);
+const SQRT2    = Math.sqrt(2);
+const WIDTH    = 30;
+const HEIGHT   = 10;
+const HIT_AREA = 2;
+
 
 /**
  * Your AirCraft Class.
@@ -19,7 +25,7 @@ class AirCraft {
   }
   
   get DIAGONAL_ACCELERATION() {
-    return this.ACCELERATION * (1 / sqrt2);
+    return this.ACCELERATION * (1 / SQRT2);
   }
   
   get FRICTION() {
@@ -147,15 +153,76 @@ class AirCraft {
        * firing weapons
        */
       this._gun.trigger(this);
+  
+      /*
+       * hit area
+       */
+      this.hitArea.x = this.shape.x;
+      this.hitArea.y = this.shape.y;
+  
+      /*
+       * test hitting with enemies
+       */
+      for (let i = 0; i < Enemy.instances.length; i++) {
+    
+        /*
+         * relative axes from enemy to hitArea(aircraft)-origin (zero-point)
+         */
+        let e       = Enemy.instances[i];
+        let pos     = e.shape.localToLocal(0, 0, this.hitArea);
+        let hitTest = e.shape.hitTest(pos.x, pos.y);
+        if (hitTest) {
+          console.log('hit!');
+        }
+      }
+  
+      /*
+       * test hitting with enemyBullets
+       */
+      for (let i = 0; i < Object.keys(EnemyBullet.instances || {}).length; i++) {
+    
+        /*
+         * relative axes from enemyBullets to hitArea(aircraft)-origin (zero-point)
+         */
+        let enemyBullets = EnemyBullet.instances[Object.keys(EnemyBullet.instances)[i]];
+        for (let j = 0; j < enemyBullets.length; j++) {
+          let enemyBullet = enemyBullets[j];
+          let pos         = enemyBullet.shape.localToLocal(0, 0, this.hitArea);
+          let hitTest     = enemyBullet.shape.hitTest(pos.x, pos.y);
+          if (hitTest) {
+            console.log('hit!');
+          }
+        }
+      }
+  
+      Enemy.instances.forEach((e) => {
+      })
     });
   }
   
   deploy() {
+    /*
+     * aircraft
+     */
     this.shape = new createjs.Shape();
-    this.shape.graphics.setStrokeStyle(1).beginStroke('lightgray').drawRect(this.x, this.y, 30, 10);
+    this.shape.graphics.setStrokeStyle(1).beginStroke('lightgray').drawRect(this.x - WIDTH / 2, this.y - HEIGHT / 2, WIDTH, HEIGHT);
+  
+    /*
+     * hit area
+     */
+    this.hitArea = new createjs.Shape();
+    this.hitArea.graphics.beginFill('red').drawRect(this.x - HIT_AREA / 2, this.y - HIT_AREA / 2, HIT_AREA, HIT_AREA);
+  
+    /*
+     * text label
+     */
     this.text = new createjs.Text('airCraft', "bold 9px Arial", "black");
   
+    /*
+     * staging
+     */
     this.stage.addChild(this.shape);
+    this.stage.addChild(this.hitArea);
     this.stage.addChild(this.text);
   }
 }
