@@ -15,6 +15,7 @@ class Battery extends Enemy {
    */
   constructor(args) {
     super(args);
+    this.addInstance();
     this.deploy();
   }
   

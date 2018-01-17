@@ -1,6 +1,7 @@
 "use strict";
 
 import AirCraft from "./AirCraft.js";
+import Enemy from "./Enemy";
 import Battery from "./Battery";
 import EnemyBullet from "./EnemyBullet";
 import FriendBullet from "./FriendBullet";
@@ -23,16 +24,22 @@ class Stage {
     }, 2000);
   
     /*
-     * tick毎にstageを更新する
+     * update stage every tick
      */
-    createjs.Ticker.addEventListener('tick', this.stage)
+    createjs.Ticker.addEventListener('tick', this.stage);
+    
+    /*
+     * display debug indicator
+     */
     createjs.Ticker.addEventListener('tick', () => {
       let measuredFPS       = createjs.Ticker.getMeasuredFPS();
       let friendBulletCount = ((FriendBullet.instances || {}).GatlingBullet || []).length;
       let enemyBulletCount  = ((EnemyBullet.instances || {}).EnemyBatteryBullet || []).length;
+      let enemyCount        = (Enemy.instances || []).length;
       this.indicator.text   =
         `FPS: ${measuredFPS}\n` +
         `FriendBullets: ${friendBulletCount}\n` +
+        `Enemy: ${enemyCount}\n` +
         `EnemyBullets:${enemyBulletCount}`;
     })
   }

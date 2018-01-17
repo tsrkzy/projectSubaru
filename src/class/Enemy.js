@@ -10,15 +10,20 @@ class Enemy {
    * @param {Object} args - x, y, stage
    */
   constructor(args) {
-    this.x     = args.x;
-    this.y     = args.y;
-    this.stage = args.stage;
-    this.shape = undefined;
-    this.text  = undefined;
+    this.x          = args.x;
+    this.y          = args.y;
+    this.stage      = args.stage;
+    this.shape      = undefined;
+    this.text       = undefined;
     createjs.Ticker.addEventListener('tick', () => {
       this.trigger();
       this.move();
     })
+  }
+  
+  addInstance(){
+    Enemy.instances = Enemy.instances || [];
+    Enemy.instances.push(this);
   }
   
   updatePos() {
