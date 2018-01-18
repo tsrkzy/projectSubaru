@@ -98,7 +98,6 @@ class Bullet {
         break;
       }
     }
-    
   }
 }
 

@@ -173,6 +173,7 @@ class AirCraft {
         let hitTest = e.shape.hitTest(pos.x, pos.y);
         if (hitTest) {
           console.log('hit!');
+          this.beShot();
         }
       }
   
@@ -191,6 +192,7 @@ class AirCraft {
           let hitTest     = enemyBullet.shape.hitTest(pos.x, pos.y);
           if (hitTest) {
             console.log('hit!');
+            this.beShot();
           }
         }
       }
@@ -198,6 +200,24 @@ class AirCraft {
       Enemy.instances.forEach((e) => {
       })
     });
+  }
+  
+  /**
+   * kicked when your aircraft have been shot
+   */
+  beShot() {
+    let radius = 40;
+    
+    this.explodeGraphics = new createjs.Graphics();
+    this.explodeGraphics.beginFill('lightpink').drawCircle(0, 0, radius);
+    
+    this.explodeShape   = new createjs.Shape(this.explodeGraphics)
+    this.explodeShape.x = this.x;
+    this.explodeShape.y = this.y;
+    
+    this.stage.addChild(this.explodeShape);
+    
+    createjs.Tween.get(this.explodeShape).to({alpha: 0}, 160);
   }
   
   deploy() {
