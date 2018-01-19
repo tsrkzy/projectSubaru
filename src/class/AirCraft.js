@@ -161,45 +161,39 @@ class AirCraft {
       this.hitArea.y = this.shape.y;
   
       /*
-       * test hitting with enemies
+       * collision check with enemies
        */
-      for (let i = 0; i < Enemy.instances.length; i++) {
-    
-        /*
-         * relative axes from enemy to hitArea(aircraft)-origin (zero-point)
-         */
-        let e       = Enemy.instances[i];
-        let pos     = e.shape.localToLocal(0, 0, this.hitArea);
-        let hitTest = e.shape.hitTest(pos.x, pos.y);
-        if (hitTest) {
-          console.log('hit!');
-          this.beShot();
-        }
-      }
-  
+      this.collisionCheck(Enemy.instances);
+      
       /*
-       * test hitting with enemyBullets
+       * collision check with every kind of enemyBullets
        */
       for (let i = 0; i < Object.keys(EnemyBullet.instances || {}).length; i++) {
-    
-        /*
-         * relative axes from enemyBullets to hitArea(aircraft)-origin (zero-point)
-         */
-        let enemyBullets = EnemyBullet.instances[Object.keys(EnemyBullet.instances)[i]];
-        for (let j = 0; j < enemyBullets.length; j++) {
-          let enemyBullet = enemyBullets[j];
-          let pos         = enemyBullet.shape.localToLocal(0, 0, this.hitArea);
-          let hitTest     = enemyBullet.shape.hitTest(pos.x, pos.y);
-          if (hitTest) {
-            console.log('hit!');
-            this.beShot();
-          }
-        }
-      }
   
-      Enemy.instances.forEach((e) => {
-      })
+        let enemyBulletInstances = EnemyBullet.instances[Object.keys(EnemyBullet.instances)[i]];
+        this.collisionCheck(enemyBulletInstances);
+      }
     });
+  }
+  
+  /**
+   * collision test with your aircraft.
+   * @param {Array<Object>} targetArray - Object must have #shape to hitTest
+   */
+  collisionCheck(targetArray) {
+    
+    for (let j = 0; j < targetArray.length; j++) {
+      
+      /*
+       * relative axis from target to hitArea(aircraft)-origin (zero-point)
+       */
+      let target  = targetArray[j];
+      let pos     = target.shape.localToLocal(0, 0, this.hitArea);
+      let hitTest = target.shape.hitTest(pos.x, pos.y);
+      if (hitTest) {
+        this.beShot();
+      }
+    }
   }
   
   /**
@@ -210,14 +204,15 @@ class AirCraft {
     
     this.explodeGraphics = new createjs.Graphics();
     this.explodeGraphics.beginFill('lightpink').drawCircle(0, 0, radius);
-    
-    this.explodeShape   = new createjs.Shape(this.explodeGraphics)
+  
+    this.explodeShape   = new createjs.Shape(this.explodeGraphics);
     this.explodeShape.x = this.x;
     this.explodeShape.y = this.y;
     
     this.stage.addChild(this.explodeShape);
     
-    createjs.Tween.get(this.explodeShape).to({alpha: 0}, 160);
+    createjs.Tween.get(this.explodeShape).to({alpha: 0}, 160)
+      .call(this.stage.removeChild(this.explodeShape));
   }
   
   deploy() {

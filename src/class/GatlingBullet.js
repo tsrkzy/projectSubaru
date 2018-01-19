@@ -2,8 +2,8 @@
 
 import FriendBullet from "./FriendBullet";
 
-const WIDTH  = 20;
-const HEIGHT = 5;
+const WIDTH  = 10;
+const HEIGHT = 2;
 
 /**
  * gatling gun bullet class.

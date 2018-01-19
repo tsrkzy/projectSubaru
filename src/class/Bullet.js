@@ -40,7 +40,7 @@ class Bullet {
     this.y     = args.y;
     this.stage = args.stage;
     this.shape = undefined;
-    this.text  = new createjs.Text('Bullet', '9px Arial', 'black');
+    this.text  = new createjs.Text('', '9px Arial', 'black');
     this._assignTickListener();
   }
   
@@ -74,10 +74,10 @@ class Bullet {
   _assignTickListener() {
     createjs.Ticker.addEventListener('tick', () => {
   
-      if (this.x > 750) {
+      if (this.x > 710) {
         this.die();
       }
-      if (this.x < -50) {
+      if (this.x < -10) {
         this.die();
       }
 
