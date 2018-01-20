@@ -21,14 +21,20 @@ class GatlingBullet extends FriendBullet {
   }
   
   assignTickListener() {
-    createjs.Ticker.addEventListener('tick', () => {
+    this.clock.onTick(() => {
       this.x += 10;
       this.shape.x = this.x;
       this.shape.y = this.y;
       this.text.x  = this.x;
       this.text.y  = this.y;
+      
+      if (this.x > 710) {
+        this.die();
+      }
+      if (this.x < -10) {
+        this.die();
+      }
     })
-    
   }
   
   deploy() {

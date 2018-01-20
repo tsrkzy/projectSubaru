@@ -1,4 +1,5 @@
 "use strict";
+import Clock from "./Clock";
 
 /**
  * main weapon base bullet class.
@@ -40,8 +41,8 @@ class Bullet {
     this.y     = args.y;
     this.stage = args.stage;
     this.shape = undefined;
+    this.clock = new Clock(this);
     this.text  = new createjs.Text('', '9px Arial', 'black');
-    this._assignTickListener();
   }
   
   /**
@@ -68,28 +69,12 @@ class Bullet {
   }
   
   /**
-   * handle bullets got out of stage
-   * @private
-   */
-  _assignTickListener() {
-    createjs.Ticker.addEventListener('tick', () => {
-  
-      if (this.x > 710) {
-        this.die();
-      }
-      if (this.x < -10) {
-        this.die();
-      }
-
-    })
-  }
-  
-  /**
    * remove bullets themselves got out of stage.
    */
   die() {
     this.stage.removeChild(this.shape);
     this.stage.removeChild(this.text);
+    this.clock.allOff();
   
     for (let i = 0; i < this.constructor.instances.length; i++) {
       let bullet = this.constructor.instances[i];

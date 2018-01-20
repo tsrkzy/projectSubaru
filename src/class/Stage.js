@@ -14,16 +14,13 @@ class Stage {
     this.indicator   = new createjs.Text('', 'bold 9px Arial', 'lightgray');
     this.indicator.x = 400;
     this.stage.addChild(this.indicator);
-  
-    // window.setInterval(() => {
-      let e = new Battery({
-        x    : 300,
-        y    : 100,
-        // y    : 100 + 400 * Math.random(),
-        stage: this.stage,
-      });
-    // }, 2000);
-  
+    
+    // let e = new Battery({
+    //   x    : 300,
+    //   y    : 100,
+    //   stage: this.stage,
+    // });
+    
     /*
      * update stage every tick
      */
