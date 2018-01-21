@@ -31,6 +31,15 @@ class Bullet {
     this.text.y  = this.y;
   }
   
+  getOutHandler() {
+    if (this.x > 710) {
+      this.die();
+    }
+    if (this.x < -10) {
+      this.die();
+    }
+  }
+  
   /**
    * @constructor
    * @param {Object} args - x, y, stage
@@ -75,6 +84,9 @@ class Bullet {
     this.stage.removeChild(this.shape);
     this.stage.removeChild(this.text);
     this.clock.allOff();
+    this.text  = null;
+    this.shape = null;
+    this.stage = null;
   
     for (let i = 0; i < this.constructor.instances.length; i++) {
       let bullet = this.constructor.instances[i];

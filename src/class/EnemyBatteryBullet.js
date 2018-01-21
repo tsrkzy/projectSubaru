@@ -18,9 +18,10 @@ class EnemyBatteryBullet extends EnemyBullet {
   }
   
   assignTickListener() {
-    createjs.Ticker.addEventListener('tick', () => {
+    this.clock.onTick(() => {
       this.x -= 5;
       this.updatePos();
+      this.getOutHandler();
     })
   }
   

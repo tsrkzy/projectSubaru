@@ -23,7 +23,7 @@ class Battery extends Enemy {
   }
   
   assignTickListener() {
-    createjs.Ticker.addEventListener('tick', () => {
+    this.clock.onTick(() => {
       this.updatePos();
     })
   }

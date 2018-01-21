@@ -205,14 +205,27 @@ class AirCraft {
     this.explodeGraphics = new createjs.Graphics();
     this.explodeGraphics.beginFill('lightpink').drawCircle(0, 0, radius);
   
-    this.explodeShape   = new createjs.Shape(this.explodeGraphics);
-    this.explodeShape.x = this.x;
-    this.explodeShape.y = this.y;
-    
+    this.explodeShape       = new createjs.Shape(this.explodeGraphics);
+    this.explodeShape.x     = this.x;
+    this.explodeShape.y     = this.y;
+    this.explodeShape.alpha = 0;
+  
     this.stage.addChild(this.explodeShape);
-    
-    createjs.Tween.get(this.explodeShape).to({alpha: 0}, 160)
-      .call(this.stage.removeChild(this.explodeShape));
+  
+    createjs.Tween.get(this.explodeShape)
+      .to({alpha: 0.6}, 40)
+      .to({alpha: 0}, 240)
+      .call(completeHandler.bind(this));
+  
+    function completeHandler() {
+      /*
+       * @fix leaking
+       */
+      // createjs.Tween.removeTweens(this.explodeShape);
+      this.stage.removeChild(this.explodeShape);
+      this.explodeShape    = null;
+      this.explodeGraphics = null;
+    }
   }
   
   deploy() {
