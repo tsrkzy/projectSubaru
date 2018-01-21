@@ -1,6 +1,7 @@
 "use strict";
 import FriendBullet from "./FriendBullet";
 import Clock from "./Clock";
+import Blow from "./Blow";
 
 /**
  * Enemy base class.
@@ -57,7 +58,7 @@ class Enemy {
           let pos     = this.shape.localToLocal(0, 0, target.shape);
           let hitTest = this.shape.hitTest(pos.x, pos.y);
           if (hitTest) {
-            this.beShot();
+            this.beShot(pos.x, pos.y);
           }
           resolve();
         });
@@ -65,33 +66,18 @@ class Enemy {
     }
   }
   
-  beShot() {
-    let radius = 40;
+  /**
+   * @param x - intercept bullet(base) to Enemy
+   * @param y - intercept bullet(base) to Enemy
+   */
+  beShot(x = 0, y = 0) {
     
-    this.explodeGraphics = new createjs.Graphics();
-    this.explodeGraphics.beginFill('lightblue').drawCircle(0, 0, radius);
-  
-    this.explodeShape       = new createjs.Shape(this.explodeGraphics);
-    this.explodeShape.x     = this.x;
-    this.explodeShape.y     = this.y;
-    this.explodeShape.alpha = 0;
-    
-    this.stage.addChild(this.explodeShape);
-  
-    createjs.Tween.get(this.explodeShape)
-      .to({alpha: 0.6}, 40)
-      .to({alpha: 0}, 240)
-      .call(completeHandler.bind(this));
-  
-    function completeHandler() {
-      /*
-       * @fix leaking
-       */
-      // createjs.Tween.removeTweens(this.explodeShape);
-      this.stage.removeChild(this.explodeShape);
-      this.explodeShape    = null;
-      this.explodeGraphics = null;
-    }
+    new Blow({
+      stage: this.stage,
+      x    : this.x - x,
+      y    : this.y - y,
+      color: 'red',
+    });
   }
   
   trigger() {

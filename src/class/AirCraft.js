@@ -4,6 +4,7 @@ import VirtualPad from "./VirtualPad.js";
 import Gatling from "./Gatling";
 import Enemy from "./Enemy";
 import EnemyBullet from "./EnemyBullet";
+import Blow from "./Blow";
 
 const SQRT2    = Math.sqrt(2);
 const WIDTH    = 30;
@@ -191,7 +192,7 @@ class AirCraft {
       let pos     = target.shape.localToLocal(0, 0, this.hitArea);
       let hitTest = target.shape.hitTest(pos.x, pos.y);
       if (hitTest) {
-        this.beShot();
+        this.beShot(pos.x, pos.y);
       }
     }
   }
@@ -199,33 +200,14 @@ class AirCraft {
   /**
    * kicked when your aircraft have been shot
    */
-  beShot() {
-    let radius = 40;
-    
-    this.explodeGraphics = new createjs.Graphics();
-    this.explodeGraphics.beginFill('lightpink').drawCircle(0, 0, radius);
+  beShot(x = 0, y = 0) {
   
-    this.explodeShape       = new createjs.Shape(this.explodeGraphics);
-    this.explodeShape.x     = this.x;
-    this.explodeShape.y     = this.y;
-    this.explodeShape.alpha = 0;
-  
-    this.stage.addChild(this.explodeShape);
-  
-    createjs.Tween.get(this.explodeShape)
-      .to({alpha: 0.6}, 40)
-      .to({alpha: 0}, 240)
-      .call(completeHandler.bind(this));
-  
-    function completeHandler() {
-      /*
-       * @fix leaking
-       */
-      // createjs.Tween.removeTweens(this.explodeShape);
-      this.stage.removeChild(this.explodeShape);
-      this.explodeShape    = null;
-      this.explodeGraphics = null;
-    }
+    new Blow({
+      stage: this.stage,
+      x    : this.x - x,
+      y    : this.y - y,
+      color: 'red',
+    });
   }
   
   deploy() {
