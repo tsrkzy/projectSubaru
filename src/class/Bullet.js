@@ -25,10 +25,12 @@ class Bullet {
    * update bullets shape position with x,y
    */
   updatePos() {
-    this.shape.x = this.x;
-    this.shape.y = this.y;
-    this.text.x  = this.x;
-    this.text.y  = this.y;
+    this.shape.x   = this.x;
+    this.shape.y   = this.y;
+    this.hitArea.x = this.x;
+    this.hitArea.y = this.y;
+    this.text.x    = this.x;
+    this.text.y    = this.y;
   }
   
   getOutHandler() {
@@ -46,12 +48,13 @@ class Bullet {
    */
   constructor(args) {
   
-    this.x     = args.x;
-    this.y     = args.y;
-    this.stage = args.stage;
-    this.shape = undefined;
-    this.clock = new Clock(this);
-    this.text  = new createjs.Text('', '9px Arial', 'black');
+    this.x       = args.x;
+    this.y       = args.y;
+    this.stage   = args.stage;
+    this.shape   = null;
+    this.hitArea = null;
+    this.clock   = new Clock(this);
+    this.text    = new createjs.Text('', '9px Arial', 'black');
   }
   
   /**
@@ -84,9 +87,10 @@ class Bullet {
     this.stage.removeChild(this.shape);
     this.stage.removeChild(this.text);
     this.clock.allOff();
-    this.text  = null;
-    this.shape = null;
-    this.stage = null;
+    this.text    = null;
+    this.shape   = null;
+    this.hitArea = null;
+    this.stage   = null;
   
     for (let i = 0; i < this.constructor.instances.length; i++) {
       let bullet = this.constructor.instances[i];

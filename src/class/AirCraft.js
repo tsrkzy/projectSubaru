@@ -189,8 +189,8 @@ class AirCraft {
        * relative axis from target to hitArea(aircraft)-origin (zero-point)
        */
       let target  = targetArray[j];
-      let pos     = target.shape.localToLocal(0, 0, this.hitArea);
-      let hitTest = target.shape.hitTest(pos.x, pos.y);
+      let pos     = target.hitArea.localToLocal(0, 0, this.hitArea);
+      let hitTest = target.hitArea.hitTest(pos.x, pos.y);
       if (hitTest) {
         this.beShot(pos.x, pos.y);
       }

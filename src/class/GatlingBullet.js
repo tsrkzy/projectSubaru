@@ -2,7 +2,7 @@
 
 import FriendBullet from "./FriendBullet";
 
-const WIDTH  = 10;
+const WIDTH  = 5;
 const HEIGHT = 2;
 
 /**
@@ -30,8 +30,19 @@ class GatlingBullet extends FriendBullet {
   
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.setStrokeStyle(1).beginStroke('blue').drawRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
+    this.shape.graphics
+      .setStrokeStyle(1)
+      .beginStroke('blue')
+      .drawRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
     this.stage.addChild(this.shape);
+  
+    this.hitArea       = new createjs.Shape();
+    this.hitArea.alpha = 0;
+    this.hitArea.graphics
+      .beginFill('purple')
+      .drawRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
+    this.stage.addChild(this.hitArea);
+    
     this.stage.addChild(this.text);
   }
 }

@@ -13,12 +13,13 @@ class Enemy {
    * @param {Object} args - x, y, stage
    */
   constructor(args) {
-    this.x     = args.x;
-    this.y     = args.y;
-    this.stage = args.stage;
-    this.clock = new Clock(this);
-    this.shape = undefined;
-    this.text  = undefined;
+    this.x       = args.x;
+    this.y       = args.y;
+    this.stage   = args.stage;
+    this.clock   = new Clock(this);
+    this.shape   = null;
+    this.hitArea = null;
+    this.text    = null;
     this._assignTickListener();
   }
   
@@ -28,10 +29,12 @@ class Enemy {
   }
   
   updatePos() {
-    this.shape.x = this.x;
-    this.shape.y = this.y;
-    this.text.x  = this.x;
-    this.text.y  = this.y;
+    this.shape.x   = this.x;
+    this.shape.y   = this.y;
+    this.hitArea.x = this.x;
+    this.hitArea.y = this.y;
+    this.text.x    = this.x;
+    this.text.y    = this.y;
   }
   
   _assignTickListener() {
@@ -50,19 +53,13 @@ class Enemy {
   collisionCheck(targetArray) {
     
     for (let i = 0; i < targetArray.length; i++) {
-      
-      (() => {
-        return new Promise((resolve) => {
-          
-          let target  = targetArray[i];
-          let pos     = this.shape.localToLocal(0, 0, target.shape);
-          let hitTest = this.shape.hitTest(pos.x, pos.y);
-          if (hitTest) {
-            this.beShot(pos.x, pos.y);
-          }
-          resolve();
-        });
-      })()
+  
+      let target  = targetArray[i];
+      let pos     = this.hitArea.localToLocal(0, 0, target.shape);
+      let hitTest = this.hitArea.hitTest(pos.x, pos.y);
+      if (hitTest) {
+        this.beShot(pos.x, pos.y);
+      }
     }
   }
   

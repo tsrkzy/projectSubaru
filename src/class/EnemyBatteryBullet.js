@@ -15,6 +15,7 @@ class EnemyBatteryBullet extends EnemyBullet {
   constructor(args) {
     super(args);
     this.deploy();
+    this.assignTickListener();
   }
   
   assignTickListener() {
@@ -27,11 +28,18 @@ class EnemyBatteryBullet extends EnemyBullet {
   
   deploy() {
     this.shape = new createjs.Shape();
-    this.updatePos();
+  
     this.shape.graphics.setStrokeStyle(1).beginStroke('salmonpink').drawRect(0 - WIDTH / 2, 0 - HEIGHT / 2, WIDTH, HEIGHT);
     this.text.text = 'enemyBatteryBullet';
-    this.assignTickListener();
     this.stage.addChild(this.shape);
+  
+    this.hitArea       = new createjs.Shape();
+    this.hitArea.alpha = 0;
+    this.hitArea.graphics
+      .beginFill('purple')
+      .drawRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
+    this.stage.addChild(this.hitArea);
+    
     this.stage.addChild(this.text);
   }
 }

@@ -20,6 +20,7 @@ class Battery extends Enemy {
     super(args);
     this.addInstance();
     this.deploy();
+    this.assignTickListener();
   }
   
   assignTickListener() {
@@ -55,9 +56,15 @@ class Battery extends Enemy {
     this.shape = new createjs.Shape();
     this.shape.graphics.beginFill('darkgray').drawRect(0 - WIDTH / 2, 0 - HEIGHT / 2, WIDTH, HEIGHT);
     this.text = new createjs.Text('battery', 'bold 9px Arial', 'black');
-    this.updatePos();
-    this.assignTickListener();
     this.stage.addChild(this.shape);
+  
+    this.hitArea       = new createjs.Shape();
+    this.hitArea.alpha = 0;
+    this.hitArea.graphics
+      .beginFill('purple')
+      .drawRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
+    this.stage.addChild(this.hitArea);
+    
     this.stage.addChild(this.text);
   }
 }
