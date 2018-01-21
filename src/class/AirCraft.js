@@ -5,6 +5,7 @@ import Gatling from "./Gatling";
 import Enemy from "./Enemy";
 import EnemyBullet from "./EnemyBullet";
 import Blow from "./Blow";
+import Clock from "./Clock";
 
 const SQRT2    = Math.sqrt(2);
 const WIDTH    = 30;
@@ -92,6 +93,7 @@ class AirCraft {
     this.stage = args.stage;
   
     this.vp    = new VirtualPad();
+    this.clock = new Clock(this);
     
     /*
      * position, velocity, acceleration, frictional damping
@@ -102,7 +104,7 @@ class AirCraft {
     this._vY      = 0;
     this._aX      = 0;
     this._aY      = 0;
-    this._gun     = new Gatling(this);
+    this._gun     = new Gatling({stage : this.stage});
     this._missile = undefined;
     
     this.assignTickListener();
@@ -114,7 +116,7 @@ class AirCraft {
    * kicks every tick
    */
   assignTickListener() {
-    createjs.Ticker.addEventListener('tick', () => {
+    this.clock.onTick(() => {
       
       /*
        * moving control
@@ -153,7 +155,7 @@ class AirCraft {
       /*
        * firing weapons
        */
-      this._gun.trigger(this);
+      this._gun.trigger(this.x, this.y);
   
       /*
        * hit area

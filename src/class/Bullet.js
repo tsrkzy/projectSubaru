@@ -87,6 +87,7 @@ class Bullet {
     this.stage.removeChild(this.shape);
     this.stage.removeChild(this.text);
     this.clock.allOff();
+    this.clock   = null;
     this.text    = null;
     this.shape   = null;
     this.hitArea = null;

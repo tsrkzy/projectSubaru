@@ -20,7 +20,9 @@ class Clock {
   allOff() {
     this.handlers.forEach((handler) => {
       createjs.Ticker.removeEventListener('tick', handler);
-    })
+    });
+    this.instance = null;
+    this.handlers = null;
   }
 }
 
