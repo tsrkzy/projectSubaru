@@ -116,6 +116,7 @@ class AirCraft {
    * kicks every tick
    */
   assignTickListener() {
+
     this.clock.onTick(() => {
       
       /*
@@ -145,38 +146,36 @@ class AirCraft {
       if (this.y < 30) this.y = 30;
       if (this.x > 680) this.x = 680;
       if (this.y > 480) this.y = 480;
-      this.shape.x = this.x;
-      this.shape.y = this.y;
-  
-      this.text.x = this.shape.x;
-      this.text.y = this.shape.y;
+      this.shape.x   = this.x;
+      this.shape.y   = this.y;
+      this.hitArea.x = this.x;
+      this.hitArea.y = this.y;
+      this.text.x    = this.x;
+      this.text.y    = this.y;
       this.text.text = `airCraft: {${Math.floor(this.x)},${Math.round(this.y)}}`;
-      
-      /*
-       * firing weapons
-       */
+  
+    });
+  
+    /*
+     * fire control
+     */
+    this.clock.onTick(() => {
+    
       this._gun.trigger(this.x, this.y);
+    });
   
-      /*
-       * hit area
-       */
-      this.hitArea.x = this.shape.x;
-      this.hitArea.y = this.shape.y;
-  
-      /*
-       * collision check with enemies
-       */
+    /*
+     * collision check with enemies and every kind of enemyBullets
+     */
+    this.clock.onTick(() => {
       this.collisionCheck(Enemy.instances);
-      
-      /*
-       * collision check with every kind of enemyBullets
-       */
+    
       for (let i = 0; i < Object.keys(EnemyBullet.instances || {}).length; i++) {
-  
+      
         let enemyBulletInstances = EnemyBullet.instances[Object.keys(EnemyBullet.instances)[i]];
         this.collisionCheck(enemyBulletInstances);
       }
-    });
+    })
   }
   
   /**
