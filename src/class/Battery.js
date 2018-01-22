@@ -41,8 +41,8 @@ class Battery extends Enemy {
     if (createjs.Ticker.getTicks() % 30 !== 0) {
       return;
     }
-    
-    let b = new EnemyBatteryBullet({
+  
+    new EnemyBatteryBullet({
       x    : this.x,
       y    : this.y,
       stage: this.stage

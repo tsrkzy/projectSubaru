@@ -2,6 +2,7 @@
 import FriendBullet from "./FriendBullet";
 import Clock from "./Clock";
 import Blow from "./Blow";
+import AirCraft from "./AirCraft";
 
 /**
  * Enemy base class.
@@ -26,6 +27,7 @@ class Enemy {
   constructor(args) {
     this.x        = args.x;
     this.y        = args.y;
+    this.airCraft = AirCraft.getInstance();
     this.hitPoint = args.hitPoint;
     this.alive    = true;
     this.stage    = args.stage;
@@ -56,12 +58,13 @@ class Enemy {
   
   _assignTickListener() {
     this.clock.onTick(() => {
+      if (!this.alive) {
+        return false;
+      }
       this.trigger();
       this.move();
       let gatlingBullets = ((FriendBullet.instances || {}).GatlingBullet || []);
-      if (this.alive) {
         this.collisionCheck(gatlingBullets);
-      }
     });
   }
   
@@ -140,11 +143,12 @@ class Enemy {
     this.stage.removeChild(this.shape);
     this.stage.removeChild(this.text);
     this.clock.allOff();
-    this.clock   = null;
-    this.shape   = null;
-    this.text    = null;
-    this.hitArea = null;
-    this.stage   = null;
+    this.airCraft = null;
+    this.clock    = null;
+    this.shape    = null;
+    this.text     = null;
+    this.hitArea  = null;
+    this.stage    = null;
     
     for (let i = 0; i < Enemy.instances.length; i++) {
       let enemy = Enemy.instances[i];

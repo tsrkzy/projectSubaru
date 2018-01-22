@@ -82,6 +82,10 @@ class AirCraft {
     this._x = value;
   }
   
+  static getInstance() {
+    return AirCraft.instance;
+  }
+  
   /**
    * initialize parameters, set listeners
    * @constructor
@@ -89,9 +93,12 @@ class AirCraft {
    *   .stage: createjs.Stage
    */
   constructor(args) {
-  
+    if (AirCraft.instance === 'object') {
+      return AirCraft.instance;
+    }
+    AirCraft.instance = this;
+    
     this.stage = args.stage;
-  
     this.vp    = new VirtualPad();
     this.clock = new Clock(this);
     
