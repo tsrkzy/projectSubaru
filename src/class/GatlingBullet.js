@@ -16,13 +16,14 @@ class GatlingBullet extends FriendBullet {
    */
   constructor(args) {
     super(args);
+    this.stoppingPower = 1;
     this.assignTickListener();
     this.deploy();
   }
   
   assignTickListener() {
     this.clock.onTick(() => {
-      this.x += 10;
+      this.x += 6;
       this.updatePos();
       this.getOutHandler();
     })
@@ -34,15 +35,17 @@ class GatlingBullet extends FriendBullet {
       .setStrokeStyle(1)
       .beginStroke('blue')
       .drawRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
-    this.stage.addChild(this.shape);
   
     this.hitArea       = new createjs.Shape();
     this.hitArea.alpha = 0;
     this.hitArea.graphics
       .beginFill('purple')
       .drawRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
+  
+    this.updatePos();
+  
+    this.stage.addChild(this.shape);
     this.stage.addChild(this.hitArea);
-    
     this.stage.addChild(this.text);
   }
 }

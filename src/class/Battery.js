@@ -26,6 +26,7 @@ class Battery extends Enemy {
   assignTickListener() {
     this.clock.onTick(() => {
       this.updatePos();
+      this.text.text = `battery:{hp: ${this.hitPoint}`;
     })
   }
   
@@ -55,16 +56,19 @@ class Battery extends Enemy {
   deploy() {
     this.shape = new createjs.Shape();
     this.shape.graphics.beginFill('darkgray').drawRect(0 - WIDTH / 2, 0 - HEIGHT / 2, WIDTH, HEIGHT);
-    this.text = new createjs.Text('battery', 'bold 9px Arial', 'black');
-    this.stage.addChild(this.shape);
   
     this.hitArea       = new createjs.Shape();
     this.hitArea.alpha = 0;
     this.hitArea.graphics
       .beginFill('purple')
       .drawRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
+  
+    this.text = new createjs.Text('battery', 'bold 9px Arial', 'black');
+  
+    this.updatePos();
+  
+    this.stage.addChild(this.shape);
     this.stage.addChild(this.hitArea);
-    
     this.stage.addChild(this.text);
   }
 }

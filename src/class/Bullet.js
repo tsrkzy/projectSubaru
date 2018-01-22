@@ -48,13 +48,14 @@ class Bullet {
    */
   constructor(args) {
   
-    this.x       = args.x;
-    this.y       = args.y;
-    this.stage   = args.stage;
-    this.shape   = null;
-    this.hitArea = null;
-    this.clock   = new Clock(this);
-    this.text    = new createjs.Text('', '9px Arial', 'black');
+    this.x             = args.x;
+    this.y             = args.y;
+    this.stoppingPower = 0;
+    this.stage         = args.stage;
+    this.shape         = null;
+    this.hitArea       = null;
+    this.clock         = new Clock(this);
+    this.text          = new createjs.Text('', '9px Arial', 'black');
   }
   
   /**

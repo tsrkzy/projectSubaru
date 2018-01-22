@@ -7,19 +7,32 @@ import Blow from "./Blow";
  * Enemy base class.
  */
 class Enemy {
+  get hitPoint() {
+    return this._hitPoint;
+  }
+  
+  set hitPoint(value) {
+    this._hitPoint = value;
+    if (this._hitPoint <= 0) {
+      this.alive = false;
+      this.destroyed();
+    }
+  }
   
   /**
    * @constructor
    * @param {Object} args - x, y, stage
    */
   constructor(args) {
-    this.x       = args.x;
-    this.y       = args.y;
-    this.stage   = args.stage;
-    this.clock   = new Clock(this);
-    this.shape   = null;
-    this.hitArea = null;
-    this.text    = null;
+    this.x        = args.x;
+    this.y        = args.y;
+    this.hitPoint = args.hitPoint;
+    this.alive    = true;
+    this.stage    = args.stage;
+    this.clock    = new Clock(this);
+    this.shape    = null;
+    this.hitArea  = null;
+    this.text     = null;
     this._assignTickListener();
   }
   
@@ -29,6 +42,10 @@ class Enemy {
   }
   
   updatePos() {
+    if (!this.alive) {
+      return;
+    }
+    
     this.shape.x   = this.x;
     this.shape.y   = this.y;
     this.hitArea.x = this.x;
@@ -41,8 +58,10 @@ class Enemy {
     this.clock.onTick(() => {
       this.trigger();
       this.move();
-      let gatlingBullets = ((FriendBullet.instances || {}).GatlingBullet || [])
-      this.collisionCheck(gatlingBullets);
+      let gatlingBullets = ((FriendBullet.instances || {}).GatlingBullet || []);
+      if (this.alive) {
+        this.collisionCheck(gatlingBullets);
+      }
     });
   }
   
@@ -53,21 +72,31 @@ class Enemy {
   collisionCheck(targetArray) {
     
     for (let i = 0; i < targetArray.length; i++) {
-  
+      if (!this.alive) {
+        break;
+      }
       let target  = targetArray[i];
       let pos     = this.hitArea.localToLocal(0, 0, target.shape);
       let hitTest = this.hitArea.hitTest(pos.x, pos.y);
       if (hitTest) {
-        this.beShot(pos.x, pos.y);
+        this.beShot({x: pos.x, y: pos.y, bullet: target});
       }
     }
   }
   
   /**
-   * @param x - intercept bullet(base) to Enemy
-   * @param y - intercept bullet(base) to Enemy
+   * kicked by collision check.
+   *
+   * @param args
    */
-  beShot(x = 0, y = 0) {
+  beShot(args) {
+  
+    if (!this.alive) {
+      return;
+    }
+  
+    let x = args.x;
+    let y = args.y;
     
     new Blow({
       stage: this.stage,
@@ -75,14 +104,55 @@ class Enemy {
       y    : this.y - y,
       color: 'red',
     });
+  
+    this.beHit(args);
+    args.bullet.die();
   }
   
   trigger() {
-    throw new Error('implement abstract #trigger.')
+    throw new Error('implement abstract #trigger.');
   }
   
   move() {
-    throw new Error('implement abstract #move.')
+    throw new Error('implement abstract #move.');
+  }
+  
+  beHit(args) {
+    let bullet = args.bullet;
+    
+    this.hitPoint -= bullet.stoppingPower;
+  }
+  
+  destroyed() {
+    
+    new Blow({
+      stage : this.stage,
+      x     : this.x,
+      y     : this.y,
+      color : 'red',
+      radius: 100
+    });
+    
+    this.die();
+  }
+  
+  die() {
+    this.stage.removeChild(this.shape);
+    this.stage.removeChild(this.text);
+    this.clock.allOff();
+    this.clock   = null;
+    this.shape   = null;
+    this.text    = null;
+    this.hitArea = null;
+    this.stage   = null;
+    
+    for (let i = 0; i < Enemy.instances.length; i++) {
+      let enemy = Enemy.instances[i];
+      if (enemy === this) {
+        Enemy.instances.splice(i, 1);
+        break;
+      }
+    }
   }
   
 }
