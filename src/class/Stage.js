@@ -9,7 +9,7 @@ import FriendBullet from "./FriendBullet";
 class Stage {
   constructor() {
     this.stage   = new createjs.Stage('demoCanvas');
-    this.airCraft = new AirCraft({stage: this.stage});
+    this.airCraft    = new AirCraft({stage: this.stage});
   
     this.indicator   = new createjs.Text('', 'bold 9px Arial', 'lightgray');
     this.indicator.x = 400;

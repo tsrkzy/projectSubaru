@@ -25,6 +25,9 @@ class Battery extends Enemy {
   
   assignTickListener() {
     this.clock.onTick(() => {
+      if (!this.alive) {
+        return false;
+      }
       this.updatePos();
       this.text.text = `battery:{hp: ${this.hitPoint}`;
     })

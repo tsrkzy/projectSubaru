@@ -222,7 +222,7 @@ class AirCraft {
      * hit area
      */
     this.hitArea = new createjs.Shape();
-    this.hitArea.graphics.beginFill('red').drawRect(this.x - HIT_AREA / 2, this.y - HIT_AREA / 2, HIT_AREA, HIT_AREA);
+    this.hitArea.graphics.beginFill('red').drawCircle(this.x, this.y, HIT_AREA);
   
     /*
      * text label

@@ -25,6 +25,9 @@ class Bullet {
    * update bullets shape position with x,y
    */
   updatePos() {
+    if (!this.alive) {
+      return false;
+    }
     this.shape.x   = this.x;
     this.shape.y   = this.y;
     this.hitArea.x = this.x;
@@ -51,6 +54,7 @@ class Bullet {
     this.x             = args.x;
     this.y             = args.y;
     this.stoppingPower = 0;
+    this.alive         = true;
     this.stage         = args.stage;
     this.shape         = null;
     this.hitArea       = null;
@@ -68,6 +72,7 @@ class Bullet {
    * @return {Array<Object>}
    */
   initStaticProperty() {
+  
     if (typeof this.constructor.id === 'undefined') {
       this.constructor.id = 0;
     }
@@ -85,6 +90,8 @@ class Bullet {
    * remove bullets themselves got out of stage.
    */
   die() {
+  
+    this.alive = false;
     this.stage.removeChild(this.shape);
     this.stage.removeChild(this.text);
     this.clock.allOff();
