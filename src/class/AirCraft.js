@@ -11,60 +11,13 @@ const SQRT2    = Math.sqrt(2);
 const WIDTH    = 30;
 const HEIGHT   = 10;
 const HIT_AREA = 2;
-
+const VELOCITY = 3;
+const DIAGONAL_VELOCITY = VELOCITY / SQRT2;
 
 /**
  * Your AirCraft Class.
- * moves inertial, equip weapons.
  */
 class AirCraft {
-  
-  /*
-   * getter and setter
-   */
-  get ACCELERATION() {
-    return 1
-  }
-  
-  get DIAGONAL_ACCELERATION() {
-    return this.ACCELERATION * (1 / SQRT2);
-  }
-  
-  get FRICTION() {
-    return 0.85;
-  }
-  
-  get aY() {
-    return this._aY;
-  }
-  
-  set aY(value) {
-    this._aY = value;
-  }
-  
-  get aX() {
-    return this._aX;
-  }
-  
-  set aX(value) {
-    this._aX = value;
-  }
-  
-  get vY() {
-    return this._vY;
-  }
-  
-  set vY(value) {
-    this._vY = value;
-  }
-  
-  get vX() {
-    return this._vX;
-  }
-  
-  set vX(value) {
-    this._vX = value;
-  }
   
   get y() {
     return this._y || 0;
@@ -102,17 +55,11 @@ class AirCraft {
     this.vp    = new VirtualPad();
     this.clock = new Clock(this);
     
-    /*
-     * position, velocity, acceleration, frictional damping
-     */
-    this._x       = 0;
-    this._y       = 0;
-    this._vX      = 0;
-    this._vY      = 0;
-    this._aX      = 0;
-    this._aY      = 0;
+    this.x       = 0;
+    this.y       = 0;
+
     this._gun     = new Gatling({stage : this.stage});
-    this._missile = undefined;
+    this._missile = null;
     
     this.assignTickListener();
     this.deploy();
@@ -129,26 +76,22 @@ class AirCraft {
       /*
        * moving control
        */
-      this.aX = 0;
-      this.aY = 0;
+      let vX = 0;
+      let vY = 0;
       if (this.vp.keyDown_Right && !this.vp.keyDown_Left) {
-        this.aX = this.vp.keyDownOnly_Right ? this.ACCELERATION : this.DIAGONAL_ACCELERATION;
+        vX = this.vp.keyDownOnly_Right ? VELOCITY : DIAGONAL_VELOCITY;
       }
       if (this.vp.keyDown_Left && !this.vp.keyDown_Right) {
-        this.aX = -1 * (this.vp.keyDownOnly_Left ? this.ACCELERATION : this.DIAGONAL_ACCELERATION);
+        vX = -1 * (this.vp.keyDownOnly_Left ? VELOCITY : DIAGONAL_VELOCITY);
       }
       if (this.vp.keyDown_Down && !this.vp.keyDown_Up) {
-        this.aY = this.vp.keyDownOnly_Down ? this.ACCELERATION : this.DIAGONAL_ACCELERATION;
+        vY = this.vp.keyDownOnly_Down ? VELOCITY : DIAGONAL_VELOCITY;
       }
       if (this.vp.keyDown_Up && !this.vp.keyDown_Down) {
-        this.aY = -1 * (this.vp.keyDownOnly_Up ? this.ACCELERATION : this.DIAGONAL_ACCELERATION);
+        vY = -1 * (this.vp.keyDownOnly_Up ? VELOCITY : DIAGONAL_VELOCITY);
       }
-      this.vX += this.aX;
-      this.vY += this.aY;
-      this.vX *= this.FRICTION;
-      this.vY *= this.FRICTION;
-      this.x += this.vX;
-      this.y += this.vY;
+      this.x += vX;
+      this.y += vY;
       if (this.x < 30) this.x = 30;
       if (this.y < 30) this.y = 30;
       if (this.x > 680) this.x = 680;
