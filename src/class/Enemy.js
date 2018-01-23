@@ -43,17 +43,17 @@ class Enemy {
     Enemy.instances.push(this);
   }
   
-  updatePos() {
+  updatePos(x = this.x, y = this.y) {
     if (!this.alive) {
       return;
     }
     
-    this.shape.x   = this.x;
-    this.shape.y   = this.y;
-    this.hitArea.x = this.x;
-    this.hitArea.y = this.y;
-    this.text.x    = this.x;
-    this.text.y    = this.y;
+    this.shape.x   = x;
+    this.shape.y   = y;
+    this.hitArea.x = x;
+    this.hitArea.y = y;
+    this.text.x    = x;
+    this.text.y    = y;
   }
   
   _assignTickListener() {

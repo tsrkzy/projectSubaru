@@ -28,7 +28,7 @@ class Gatling extends Guns {
    */
   trigger(x, y) {
 
-    if (createjs.Ticker.getTicks() % 20 !== 0) {
+    if (createjs.Ticker.getTicks() % 10 !== 0) {
       return;
     }
   

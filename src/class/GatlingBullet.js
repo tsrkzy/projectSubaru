@@ -4,6 +4,7 @@ import FriendBullet from "./FriendBullet";
 
 const WIDTH  = 5;
 const HEIGHT = 2;
+const SPEED  = 8;
 
 /**
  * gatling gun bullet class.
@@ -23,7 +24,7 @@ class GatlingBullet extends FriendBullet {
   
   assignTickListener() {
     this.clock.onTick(() => {
-      this.x += 6;
+      this.x += SPEED;
       this.updatePos();
       this.getOutHandler();
     })

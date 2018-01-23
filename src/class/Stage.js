@@ -15,16 +15,16 @@ class Stage {
     this.indicator.x = 400;
     this.stage.addChild(this.indicator);
   
-    // window.setInterval(
-    //   () => {
+    window.setInterval(
+      () => {
         new Battery({
-          x       : 300,
-          y       : 100,
+          x       : 600,
+          y       : -50,
           // y       : 100 + Math.random() * 200 - 100,
-          hitPoint: 10,
+          hitPoint: 1,
           stage   : this.stage,
         });
-    // }, 2000);
+      }, 1000);
     
     /*
      * update stage every tick

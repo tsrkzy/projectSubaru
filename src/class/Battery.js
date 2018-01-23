@@ -19,6 +19,7 @@ class Battery extends Enemy {
    */
   constructor(args) {
     super(args);
+    this.direction = 1;
     this.addInstance();
     this.deploy();
     this.assignTickListener();
@@ -29,7 +30,6 @@ class Battery extends Enemy {
       if (!this.alive) {
         return false;
       }
-      this.updatePos();
       this.text.text = `battery:{hp: ${this.hitPoint}`;
     })
   }
@@ -39,7 +39,7 @@ class Battery extends Enemy {
    */
   trigger() {
   
-    if (createjs.Ticker.getTicks() % 30 !== 0) {
+    if (createjs.Ticker.getTicks() % 120 !== 0) {
       return;
     }
   
@@ -79,7 +79,17 @@ class Battery extends Enemy {
    * moving control kicked every tick
    */
   move() {
+    this.walkVertical(50, 450);
+  }
   
+  walkVertical(min, max) {
+    if (this.direction === 1 && this.y >= max) {
+      this.direction = -1;
+    } else if (this.direction === -1 && this.y <= min) {
+      this.direction = 1;
+    }
+    this.y += this.direction;
+    this.updatePos();
   }
   
   deploy() {
@@ -95,7 +105,7 @@ class Battery extends Enemy {
     this.text = new createjs.Text('battery', 'bold 9px Arial', 'black');
   
     this.updatePos();
-  
+    
     this.stage.addChild(this.shape);
     this.stage.addChild(this.hitArea);
     this.stage.addChild(this.text);
