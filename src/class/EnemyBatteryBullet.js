@@ -3,6 +3,7 @@ import EnemyBullet from "./EnemyBullet";
 
 const WIDTH  = 4;
 const HEIGHT = 2;
+const SPEED  = 4;
 /**
  * main weapon base bullet class.
  */
@@ -14,13 +15,15 @@ class EnemyBatteryBullet extends EnemyBullet {
    */
   constructor(args) {
     super(args);
+    this.angle = args.angle;
     this.deploy();
     this.assignTickListener();
   }
   
   assignTickListener() {
     this.clock.onTick(() => {
-      this.x -= 4;
+      this.x -= SPEED * Math.cos(this.angle);
+      this.y -= SPEED * Math.sin(this.angle);
       this.updatePos();
       this.getOutHandler();
     })
@@ -28,7 +31,10 @@ class EnemyBatteryBullet extends EnemyBullet {
   
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.setStrokeStyle(1).beginStroke('salmonpink').drawRect(0 - WIDTH / 2, 0 - HEIGHT / 2, WIDTH, HEIGHT);
+    this.shape.graphics
+      .setStrokeStyle(1)
+      .beginStroke('black')
+      .drawRect(0 - WIDTH / 2, 0 - HEIGHT / 2, WIDTH, HEIGHT);
   
     this.text.text = 'enemyBatteryBullet';
   

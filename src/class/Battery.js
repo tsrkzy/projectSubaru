@@ -1,6 +1,7 @@
 "use strict";
 import Enemy from "./Enemy";
 import EnemyBatteryBullet from "./EnemyBatteryBullet";
+import MathUtil from "./MathUtil";
 
 const WIDTH  = 30;
 const HEIGHT = 30;
@@ -37,16 +38,41 @@ class Battery extends Enemy {
    * firing control kicked every tick
    */
   trigger() {
-    
+  
     if (createjs.Ticker.getTicks() % 30 !== 0) {
       return;
     }
   
+    let x = this.airCraft.x;
+    let y = this.airCraft.y;
+  
+    let dx       = x - this.x;
+    let dy       = y - this.y;
+    let gradient = dy / dx;
+    let flip     = dx > 0 ? Math.PI : 0; // if aircraft flies behind of battery
+    let theta    = Math.atan(gradient) + flip;
+    let shake    = MathUtil.d2r(3);
+    
     new EnemyBatteryBullet({
       x    : this.x,
       y    : this.y,
+      angle: theta,
       stage: this.stage
-    })
+    });
+  
+    new EnemyBatteryBullet({
+      x    : this.x,
+      y    : this.y,
+      angle: theta + shake,
+      stage: this.stage
+    });
+  
+    new EnemyBatteryBullet({
+      x    : this.x,
+      y    : this.y,
+      angle: theta - shake,
+      stage: this.stage
+    });
   }
   
   /**
