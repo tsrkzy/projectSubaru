@@ -8,23 +8,30 @@ import FriendBullet from "./FriendBullet";
 
 class Stage {
   constructor() {
-    this.stage   = new createjs.Stage('demoCanvas');
-    this.airCraft    = new AirCraft({stage: this.stage});
+    console.log('stage created!'); // @DELETEME
+    this.promise = new Promise((resolve, reject) => {
+      window.setTimeout(() => {
+        console.log('cleared!'); // @DELETEME
+        resolve();
+      }, 3000)
+    
+    
+      window.addEventListener('keydown', keyDownHandler);
+    
+      function keyDownHandler() {
+        window.removeEventListener('keydown', keyDownHandler);
+        reject();
+      }
+    
+    });
+    return this;
+  
+    this.stage    = new createjs.Stage('demoCanvas');
+    this.airCraft = new AirCraft({stage: this.stage});
   
     this.indicator   = new createjs.Text('', 'bold 9px Arial', 'lightgray');
     this.indicator.x = 400;
     this.stage.addChild(this.indicator);
-  
-    window.setInterval(
-      () => {
-        new Battery({
-          x       : 600,
-          y       : -50,
-          // y       : 100 + Math.random() * 200 - 100,
-          hitPoint: 1,
-          stage   : this.stage,
-        });
-      }, 1000);
     
     /*
      * update stage every tick
@@ -45,6 +52,18 @@ class Stage {
         `Enemy: ${enemyCount}\n` +
         `EnemyBullets:${enemyBulletCount}`;
     })
+  }
+  
+  /**
+   * @return {Promise}
+   */
+  summonBattery() {
+    new Battery({
+      x       : 600,
+      y       : -50,
+      hitPoint: 1,
+      stage   : this.stage,
+    });
   }
 }
 

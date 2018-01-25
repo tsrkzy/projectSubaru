@@ -19,8 +19,35 @@ import Stage from "./class/Stage.js";
   
   rectShape.addEventListener('click', gameStartHandler, false);
   function gameStartHandler() {
-    let s = new Stage();
     rectShape.removeEventListener('click', gameStartHandler, false)
+  
+    let waveIterator   = wave();
+    let die = false;
+    waveIterator.next();
+  
+    function* wave() {
+      while (1) {
+        new Stage().promise
+          .then(() => {
+            /*
+             * @TODO 生存したらthen, 死亡したらcatchみたいなコードになっているので
+             * thenは正常系(生存、死亡)、catchは異常系(エラーハンドラ)にする
+             */
+            waveIterator.next();
+          })
+          .catch(() => {
+            die = true;
+            waveIterator.next();
+          });
+      
+        yield;
+      
+        if (die) {
+          break;
+        }
+      }
+      console.info('finished!'); // @DELETEME
+    }
   }
   
   stage.addChild(rectShape);
