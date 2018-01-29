@@ -3,6 +3,7 @@ import FriendBullet from "./FriendBullet";
 import Clock from "./Clock";
 import Blow from "./Blow";
 import AirCraft from "./AirCraft";
+import EventWrapper from "./EventsWrapper";
 
 /**
  * Enemy base class.
@@ -25,6 +26,8 @@ class Enemy {
    * @param {Object} args - x, y, stage
    */
   constructor(args) {
+    this.id = Enemy.id;
+    Enemy.id++;
     this.x        = args.x;
     this.y        = args.y;
     this.airCraft = AirCraft.getInstance();
@@ -35,6 +38,12 @@ class Enemy {
     this.shape    = null;
     this.hitArea  = null;
     this.text     = null;
+    this.p        = new Promise((resolve) => {
+      EventWrapper.on(`enemyDestroyed_${this.id}`, () => {
+        EventWrapper.removeAllListeners(`enemyDestroyed_${this.id}`);
+        resolve();
+      });
+    });
     this._assignTickListener();
   }
   
@@ -149,7 +158,8 @@ class Enemy {
     this.text     = null;
     this.hitArea  = null;
     this.stage    = null;
-    
+    EventWrapper.emit(`enemyDestroyed_${this.id}`);
+  
     for (let i = 0; i < Enemy.instances.length; i++) {
       let enemy = Enemy.instances[i];
       if (enemy === this) {
@@ -161,6 +171,7 @@ class Enemy {
   
 }
 
+Enemy.id        = 0;
 Enemy.instances = [];
 
 export default Enemy;

@@ -1,12 +1,13 @@
 "use strict";
 
 import Stage from "./class/Stage.js";
+import EventsWrapper from "./class/EventsWrapper";
 
 /*
  * display "GAME START"
  */
 (window.onLoad = () => {
-  let stage = new createjs.Stage('demoCanvas');
+  let s = new createjs.Stage('demoCanvas');
   
   createjs.Ticker.timingMode = createjs.Ticker.RAF;
   
@@ -18,38 +19,44 @@ import Stage from "./class/Stage.js";
   let rectShape = new createjs.Shape(rect);
   
   rectShape.addEventListener('click', gameStartHandler, false);
-  function gameStartHandler() {
-    rectShape.removeEventListener('click', gameStartHandler, false)
   
-    let waveIterator   = wave();
-    let die = false;
+  function gameStartHandler() {
+    rectShape.removeEventListener('click', gameStartHandler, false);
+    
+    let s = new Stage();
+    let waveIterator  = wave(s);
+    let stageListener = new EventsWrapper();
+    let die           = false;
+    
     waveIterator.next();
   
-    function* wave() {
+    function* wave(s) {
+      s.nextWave();
+      
       while (1) {
-        new Stage().promise
-          .then(() => {
-            /*
-             * @TODO 生存したらthen, 死亡したらcatchみたいなコードになっているので
-             * thenは正常系(生存、死亡)、catchは異常系(エラーハンドラ)にする
-             */
-            waveIterator.next();
-          })
-          .catch(() => {
-            die = true;
-            waveIterator.next();
-          });
-      
-        yield;
-      
         if (die) {
           break;
         }
+  
+        stageListener.on('wave.Clear', () => {
+          waveIterator.next();
+        });
+  
+        stageListener.on('gameOver', () => {
+          die = true;
+          waveIterator.next();
+        });
+  
+        /*
+         * pause process flow till next waveIterator#next();
+         */
+        yield;
       }
-      console.info('finished!'); // @DELETEME
+  
+      stageListener.removeAllListeners();
     }
   }
   
-  stage.addChild(rectShape);
-  stage.update();
+  s.addChild(rectShape);
+  s.update();
 })();
