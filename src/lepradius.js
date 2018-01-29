@@ -27,33 +27,31 @@ import EventsWrapper from "./class/EventsWrapper";
     let waveIterator  = wave(s);
     let stageListener = new EventsWrapper();
     let die           = false;
+
+    stageListener.on('wave.Clear', () => {
+      waveIterator.next();
+    });
+
+    stageListener.on('gameOver', () => {
+      die = true;
+      waveIterator.next();
+    });
     
     waveIterator.next();
   
     function* wave(s) {
-      s.nextWave();
       
       while (1) {
         if (die) {
           break;
         }
-  
-        stageListener.on('wave.Clear', () => {
-          waveIterator.next();
-        });
-  
-        stageListener.on('gameOver', () => {
-          die = true;
-          waveIterator.next();
-        });
-  
+        s.nextWave();
         /*
          * pause process flow till next waveIterator#next();
          */
         yield;
       }
   
-      stageListener.removeAllListeners();
     }
   }
   

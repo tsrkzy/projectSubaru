@@ -2,7 +2,6 @@
 import Battery from "./Battery";
 import EventsWrapper from "./EventsWrapper";
 
-
 class Wave {
   constructor(index, stage) {
     this.promises = [];
