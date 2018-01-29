@@ -3,3 +3,4 @@
 lepradius.iml
 /node_modules
 /js/*.bundle.*
+.vscode/settings.json
