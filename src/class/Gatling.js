@@ -17,7 +17,7 @@ class Gatling extends Guns {
     this.shape    = new createjs.Shape();
     this.shape.graphics.beginFill(createjs.Graphics.getRGB(0, 0, 0, 0)).drawRect(-1, -1, 2, 2);
   
-    this.text = new createjs.Text("gatling", "bold 9px Arial", "black");
+    this.text = new createjs.Text('', "bold 9px Arial", "black");
   
     this.stage.addChild(this.shape);
     this.stage.addChild(this.text);
@@ -36,7 +36,7 @@ class Gatling extends Guns {
     this.y = y;
     this.updatePos();
     
-    this.text.text = `{x:${this.shape.x},y:${this.shape.y}`;
+    // this.text.text = `{x:${this.shape.x},y:${this.shape.y}`;
     
     new GatlingBullet({
       x    : x,

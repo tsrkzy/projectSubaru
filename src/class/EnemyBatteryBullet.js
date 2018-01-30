@@ -36,7 +36,7 @@ class EnemyBatteryBullet extends EnemyBullet {
       .beginStroke('black')
       .drawRect(0 - WIDTH / 2, 0 - HEIGHT / 2, WIDTH, HEIGHT);
   
-    this.text.text = 'enemyBatteryBullet';
+    this.text.text = '';
   
     this.hitArea       = new createjs.Shape();
     this.hitArea.alpha = 0;
