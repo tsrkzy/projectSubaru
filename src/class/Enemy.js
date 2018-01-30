@@ -151,6 +151,7 @@ class Enemy {
 
   die() {
     this.stage.removeChild(this.shape);
+    this.stage.removeChild(this.hitArea);
     this.stage.removeChild(this.text);
     this.clock.allOff();
     this.airCraft = null;
@@ -168,6 +169,13 @@ class Enemy {
         break;
       }
     }
+  }
+
+  get isFrameOut() {
+    return this.x <= -50 ||
+      this.x >= 750 ||
+      this.y <= -50 ||
+      this.y >= 550
   }
 
 }

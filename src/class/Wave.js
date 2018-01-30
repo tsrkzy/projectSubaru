@@ -1,5 +1,6 @@
 "use strict";
 import Battery from "./Battery";
+import Debris from "./Debris";
 import EventsWrapper from "./EventsWrapper";
 import AirCraft from "./AirCraft";
 
@@ -27,6 +28,17 @@ class Wave {
 
     let promiseArray = [];
     let waveConf = [
+      {
+        enemyClass: Debris,
+        delayMs: 0,
+        args: {
+          x: 500,
+          y: 250,
+          speed: -7,
+          angleDegree: 10,
+          hitPoint: 1,
+        }
+      },
       {
         enemyClass: Battery,
         delayMs: 0,
@@ -76,9 +88,9 @@ class Wave {
       window.setTimeout(() => {
         let e = new enemyClass(args);
         let p = e.p;
-        p.then(() => {
-          resolve();
-        })
+          p.then(() => {
+            resolve();
+          })
       }, delayMs);
     })
   }
