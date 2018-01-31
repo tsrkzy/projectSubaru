@@ -2,10 +2,8 @@
 
 import AirCraft from "./AirCraft.js";
 import Enemy from "./Enemy";
-import Battery from "./Battery";
 import EnemyBullet from "./EnemyBullet";
 import FriendBullet from "./FriendBullet";
-import EventsWrapper from "./EventsWrapper";
 import Wave from "./Wave";
 
 class Stage {

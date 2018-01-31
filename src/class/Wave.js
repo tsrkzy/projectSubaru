@@ -1,7 +1,7 @@
 "use strict";
 import Battery from "./Battery";
-import Debris from "./Debris";
 import EventsWrapper from "./EventsWrapper";
+import WaveUtil from "./WaveUtil";
 
 class Wave {
 
@@ -60,12 +60,6 @@ class Wave {
       })
   }
 
-  /**
-   * @return {Array<Object>} array of waveConf object.
-   */
-  static meteor() {
-
-  }
 
   /**
    * @return {Array<Promise>}
@@ -74,50 +68,6 @@ class Wave {
 
     let promiseArray = [];
     let waveConf = [
-      {
-        enemyClass: Debris,
-        delayMs: 0,
-        args: {
-          x: 500,
-          y: 250,
-          speed: -7,
-          angleDegree: 10,
-          hitPoint: 1,
-        }
-      },
-      {
-        enemyClass: Debris,
-        delayMs: 0,
-        args: {
-          x: 500,
-          y: 250,
-          speed: -7,
-          angleDegree: 5,
-          hitPoint: 1,
-        }
-      },
-      {
-        enemyClass: Debris,
-        delayMs: 0,
-        args: {
-          x: 500,
-          y: 250,
-          speed: -7,
-          angleDegree: 0,
-          hitPoint: 1,
-        }
-      },
-      {
-        enemyClass: Debris,
-        delayMs: 0,
-        args: {
-          x: 500,
-          y: 250,
-          speed: -7,
-          angleDegree: -5,
-          hitPoint: 1,
-        }
-      },
       {
         enemyClass: Battery,
         delayMs: 0,
@@ -145,25 +95,37 @@ class Wave {
         }
       }
     ];
+
+    let meteorConf = WaveUtil.meteorRain({
+      number: 20,
+      y: 250,
+      delayMs: 0,
+      spanMs: 3000,
+      spreadDegree: 10,
+    });
+    waveConf = waveConf.concat(meteorConf);
     waveConf.forEach((w) => {
       let promise = this.deployEnemy(w);
       promiseArray.push(promise);
-    })
+    });
 
     return promiseArray;
   }
 
   /**
-   * @param {Object}
+   * dispatch enemy from wave config.
+   * get promise from it and return.
+   *
+   * @param {Object} config
    * @return {Promise}
    */
   deployEnemy(config) {
 
     let enemyClass = config.enemyClass;
-    let delayMs = config.delayMs
-    let args = config.args;
-    args.stage = this.stage;
-    return new Promise((resolve, reject) => {
+    let delayMs    = config.delayMs;
+    let args       = config.args;
+    args.stage     = this.stage;
+    return new Promise((resolve) => {
       window.setTimeout(() => {
         let e = new enemyClass(args);
         let p = e.p;
