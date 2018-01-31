@@ -3,8 +3,8 @@ import Enemy from "./Enemy";
 import EnemyBatteryBullet from "./EnemyBatteryBullet";
 import MathUtil from "./MathUtil";
 
-const WIDTH = 20;
-const HEIGHT = 20;
+const WIDTH = 30;
+const HEIGHT = 30;
 
 /**
  * Enemy "Battery" class.

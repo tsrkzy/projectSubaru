@@ -43,7 +43,7 @@ class Stage {
    * create next Wave
    */
   nextWave() {
-    new Wave(0, this.stage);
+    new Wave(this.stage);
   }
 }
 

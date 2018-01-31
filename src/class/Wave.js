@@ -2,11 +2,36 @@
 import Battery from "./Battery";
 import Debris from "./Debris";
 import EventsWrapper from "./EventsWrapper";
-import AirCraft from "./AirCraft";
 
 class Wave {
-  constructor(index, stage) {
-    this.index = index;
+
+  static nextLevel() {
+    return (Wave._level++)
+  }
+
+  static get level() {
+    return Wave._level
+  };
+
+  static set level(l) {
+    Wave._level = l;
+  }
+
+  get timeMs() {
+    return 3000;
+  }
+
+  /**
+   * @param {Stage} stage 
+   */
+  constructor(stage) {
+
+    if (typeof Wave.level === 'undefined') {
+      Wave.level = 0;
+    }
+
+    this.level = Wave.level;
+    Wave.nextLevel();
     this.stage = stage;
 
     /*
@@ -14,11 +39,32 @@ class Wave {
      */
     this.promises = this.comeOut();
 
-    this.p = Promise.all(this.promises)
+    /*
+     * set wave timer
+     */
+    let timer = new Promise((resolve) => {
+      window.setTimeout(() => {
+        resolve()
+      }, this.timeMs);
+    });
+
+    /*
+     * wave clear ... when (1) or (2) done
+     *   (1) destroy all enemy.
+     *   (2) after ${timeMs} milli seconds.
+     */
+    this.p = Promise.race([Promise.all(this.promises), timer])
       .then(() => {
         console.warn('wave clear!!');
         EventsWrapper.emit('wave.Clear');
       })
+  }
+
+  /**
+   * @return {Array<Object>} array of waveConf object.
+   */
+  static meteor() {
+
   }
 
   /**
@@ -36,6 +82,39 @@ class Wave {
           y: 250,
           speed: -7,
           angleDegree: 10,
+          hitPoint: 1,
+        }
+      },
+      {
+        enemyClass: Debris,
+        delayMs: 0,
+        args: {
+          x: 500,
+          y: 250,
+          speed: -7,
+          angleDegree: 5,
+          hitPoint: 1,
+        }
+      },
+      {
+        enemyClass: Debris,
+        delayMs: 0,
+        args: {
+          x: 500,
+          y: 250,
+          speed: -7,
+          angleDegree: 0,
+          hitPoint: 1,
+        }
+      },
+      {
+        enemyClass: Debris,
+        delayMs: 0,
+        args: {
+          x: 500,
+          y: 250,
+          speed: -7,
+          angleDegree: -5,
           hitPoint: 1,
         }
       },
@@ -88,9 +167,9 @@ class Wave {
       window.setTimeout(() => {
         let e = new enemyClass(args);
         let p = e.p;
-          p.then(() => {
-            resolve();
-          })
+        p.then(() => {
+          resolve();
+        })
       }, delayMs);
     })
   }

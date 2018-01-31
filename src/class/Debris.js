@@ -2,8 +2,8 @@
 import Enemy from "./Enemy";
 import MathUtil from "./MathUtil";
 
-const WIDTH = 30;
-const HEIGHT = 30;
+const WIDTH = 20;
+const HEIGHT = 20;
 
 /**
  * Enemy "Debris" class.
