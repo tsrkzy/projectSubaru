@@ -4,6 +4,12 @@ import Clock from "./Clock";
 import Blow from "./Blow";
 import AirCraft from "./AirCraft";
 import EventWrapper from "./EventsWrapper";
+import {
+  STAGE_FRAME_LEFT,
+  STAGE_FRAME_RIGHT,
+  STAGE_FRAME_TOP,
+  STAGE_FRAME_BOTTOM
+} from "./Constant";
 
 /**
  * Enemy base class.
@@ -137,7 +143,9 @@ class Enemy {
   }
 
   destroyed() {
-
+  
+    this.last();
+    
     new Blow({
       stage: this.stage,
       x: this.x,
@@ -147,6 +155,15 @@ class Enemy {
     });
 
     this.die();
+  }
+  
+  /**
+   * kicked just after #destroyed, before #die.
+   */
+  last() {
+    /*
+     * do nothing in general.
+     */
   }
 
   die() {
@@ -172,12 +189,11 @@ class Enemy {
   }
 
   get isFrameOut() {
-    return this.x <= -50 ||
-      this.x >= 750 ||
-      this.y <= -50 ||
-      this.y >= 550
+    return this.x <= STAGE_FRAME_LEFT ||
+      this.x >= STAGE_FRAME_RIGHT ||
+      this.y <= STAGE_FRAME_TOP ||
+      this.y >= STAGE_FRAME_BOTTOM
   }
-
 }
 
 Enemy.id = 0;

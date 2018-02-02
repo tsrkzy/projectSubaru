@@ -1,9 +1,11 @@
 "use strict";
 import EnemyBullet from "./EnemyBullet";
+import {
+  BATTERY_BULLET_HEIGHT,
+  BATTERY_BULLET_SPEED,
+  BATTERY_BULLET_WIDTH
+} from "./Constant";
 
-const WIDTH  = 4;
-const HEIGHT = 2;
-const SPEED  = 4;
 /**
  * main weapon base bullet class.
  */
@@ -22,8 +24,8 @@ class EnemyBatteryBullet extends EnemyBullet {
   
   assignTickListener() {
     this.clock.onTick(() => {
-      this.x -= SPEED * Math.cos(this.angle);
-      this.y -= SPEED * Math.sin(this.angle);
+      this.x -= BATTERY_BULLET_SPEED * Math.cos(this.angle);
+      this.y -= BATTERY_BULLET_SPEED * Math.sin(this.angle);
       this.updatePos();
       this.getOutHandler();
     })
@@ -34,7 +36,7 @@ class EnemyBatteryBullet extends EnemyBullet {
     this.shape.graphics
       .setStrokeStyle(1)
       .beginStroke('black')
-      .drawRect(0 - WIDTH / 2, 0 - HEIGHT / 2, WIDTH, HEIGHT);
+      .drawRect(-BATTERY_BULLET_WIDTH / 2, -BATTERY_BULLET_HEIGHT / 2, BATTERY_BULLET_WIDTH, BATTERY_BULLET_HEIGHT);
   
     this.text.text = '';
   
@@ -42,7 +44,7 @@ class EnemyBatteryBullet extends EnemyBullet {
     this.hitArea.alpha = 0;
     this.hitArea.graphics
       .beginFill('purple')
-      .drawRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
+      .drawRect(-BATTERY_BULLET_WIDTH / 2, -BATTERY_BULLET_HEIGHT / 2, BATTERY_BULLET_WIDTH, BATTERY_BULLET_HEIGHT);
   
     this.updatePos();
   
