@@ -7,12 +7,19 @@ import EnemyBullet from "./EnemyBullet";
 import Blow from "./Blow";
 import Clock from "./Clock";
 
-const SQRT2    = Math.sqrt(2);
-const WIDTH    = 30;
-const HEIGHT   = 10;
-const HIT_AREA = 2;
-const VELOCITY = 3;
-const DIAGONAL_VELOCITY = VELOCITY / SQRT2;
+import {
+  AIRCRAFT_INITIAL_X,
+  AIRCRAFT_INITIAL_Y,
+  AIRCRAFT_WIDTH,
+  AIRCRAFT_HEIGHT,
+  AIRCRAFT_HIT_AREA,
+  AIRCRAFT_VELOCITY,
+  AIRCRAFT_DIAGONAL_VELOCITY,
+  STAGE_EDGE_LEFT,
+  STAGE_EDGE_RIGHT,
+  STAGE_EDGE_TOP,
+  STAGE_EDGE_BOTTOM,
+} from "./Constant";
 
 /**
  * Your AirCraft Class.
@@ -54,12 +61,15 @@ class AirCraft {
     this.stage = args.stage;
     this.vp    = new VirtualPad();
     this.clock = new Clock(this);
-    
-    this.x       = 0;
-    this.y       = 0;
-
-    this._gun     = new Gatling({stage : this.stage});
-    this._missile = null;
+  
+    this.x = AIRCRAFT_INITIAL_X;
+    this.y = AIRCRAFT_INITIAL_Y;
+  
+    this._gun     = new Gatling({
+      stage: this.stage,
+      x    : this.x,
+      y    : this.y,
+    });
     
     this.assignTickListener();
     this.deploy();
@@ -79,29 +89,25 @@ class AirCraft {
       let vX = 0;
       let vY = 0;
       if (this.vp.keyDown_Right && !this.vp.keyDown_Left) {
-        vX = this.vp.keyDownOnly_Right ? VELOCITY : DIAGONAL_VELOCITY;
+        vX = this.vp.keyDownOnly_Right ? AIRCRAFT_VELOCITY : AIRCRAFT_DIAGONAL_VELOCITY;
       }
       if (this.vp.keyDown_Left && !this.vp.keyDown_Right) {
-        vX = -1 * (this.vp.keyDownOnly_Left ? VELOCITY : DIAGONAL_VELOCITY);
+        vX = -1 * (this.vp.keyDownOnly_Left ? AIRCRAFT_VELOCITY : AIRCRAFT_DIAGONAL_VELOCITY);
       }
       if (this.vp.keyDown_Down && !this.vp.keyDown_Up) {
-        vY = this.vp.keyDownOnly_Down ? VELOCITY : DIAGONAL_VELOCITY;
+        vY = this.vp.keyDownOnly_Down ? AIRCRAFT_VELOCITY : AIRCRAFT_DIAGONAL_VELOCITY;
       }
       if (this.vp.keyDown_Up && !this.vp.keyDown_Down) {
-        vY = -1 * (this.vp.keyDownOnly_Up ? VELOCITY : DIAGONAL_VELOCITY);
+        vY = -1 * (this.vp.keyDownOnly_Up ? AIRCRAFT_VELOCITY : AIRCRAFT_DIAGONAL_VELOCITY);
       }
       this.x += vX;
       this.y += vY;
-      if (this.x < 30) this.x = 30;
-      if (this.y < 30) this.y = 30;
-      if (this.x > 680) this.x = 680;
-      if (this.y > 480) this.y = 480;
-      this.shape.x   = this.x;
-      this.shape.y   = this.y;
-      this.hitArea.x = this.x;
-      this.hitArea.y = this.y;
-      this.text.x    = this.x;
-      this.text.y    = this.y;
+      if (this.x < STAGE_EDGE_LEFT) this.x = STAGE_EDGE_LEFT;
+      if (this.x > STAGE_EDGE_RIGHT) this.x = STAGE_EDGE_RIGHT;
+      if (this.y < STAGE_EDGE_TOP) this.y = STAGE_EDGE_TOP;
+      if (this.y > STAGE_EDGE_BOTTOM) this.y = STAGE_EDGE_BOTTOM;
+      this.updatePos();
+      
       this.text.text = `airCraft: {${Math.floor(this.x)},${Math.round(this.y)}}`;
   
     });
@@ -126,6 +132,20 @@ class AirCraft {
         this.collisionCheck(enemyBulletInstances);
       }
     })
+  }
+  
+  /**
+   * @param {number} x
+   * @param {number} y
+   */
+  updatePos(x = this.x, y = this.y) {
+    
+    this.shape.x   = x;
+    this.shape.y   = y;
+    this.hitArea.x = x;
+    this.hitArea.y = y;
+    this.text.x    = x;
+    this.text.y    = y;
   }
   
   /**
@@ -166,13 +186,13 @@ class AirCraft {
      * aircraft
      */
     this.shape = new createjs.Shape();
-    this.shape.graphics.setStrokeStyle(1).beginStroke('lightgray').drawRect(this.x - WIDTH / 2, this.y - HEIGHT / 2, WIDTH, HEIGHT);
+    this.shape.graphics.setStrokeStyle(1).beginStroke('lightgray').drawRect(0 - AIRCRAFT_WIDTH / 2, 0 - AIRCRAFT_HEIGHT / 2, AIRCRAFT_WIDTH, AIRCRAFT_HEIGHT);
   
     /*
      * hit area
      */
     this.hitArea = new createjs.Shape();
-    this.hitArea.graphics.beginFill('red').drawCircle(this.x, this.y, HIT_AREA);
+    this.hitArea.graphics.beginFill('red').drawCircle(0, 0, AIRCRAFT_HIT_AREA);
   
     /*
      * text label

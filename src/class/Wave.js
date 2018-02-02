@@ -74,7 +74,7 @@ class Wave {
         args: {
           x: 600,
           y: -50,
-          hitPoint: 1,
+          hitPoint: 2,
         }
       },
       {
@@ -83,7 +83,7 @@ class Wave {
         args: {
           x: 600,
           y: -50,
-          hitPoint: 1,
+          hitPoint: 2,
         }
       }, {
         enemyClass: Battery,
@@ -91,7 +91,7 @@ class Wave {
         args: {
           x: 600,
           y: -50,
-          hitPoint: 1,
+          hitPoint: 2,
         }
       }
     ];

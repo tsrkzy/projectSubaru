@@ -2,12 +2,13 @@
 
 import Stage from "./class/Stage.js";
 import EventsWrapper from "./class/EventsWrapper";
+import {CANVAS_ID} from "./class/Constant.js";
 
 /*
  * display "GAME START"
  */
 (window.onLoad = () => {
-  let s = new createjs.Stage('demoCanvas');
+  let s = new createjs.Stage(CANVAS_ID);
   
   createjs.Ticker.timingMode = createjs.Ticker.RAF;
   
@@ -19,6 +20,9 @@ import EventsWrapper from "./class/EventsWrapper";
   let rectShape = new createjs.Shape(rect);
   
   rectShape.addEventListener('click', gameStartHandler, false);
+  
+  s.addChild(rectShape);
+  s.update();
   
   function gameStartHandler() {
     rectShape.removeEventListener('click', gameStartHandler, false);
@@ -54,7 +58,4 @@ import EventsWrapper from "./class/EventsWrapper";
   
     }
   }
-  
-  s.addChild(rectShape);
-  s.update();
 })();

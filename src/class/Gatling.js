@@ -2,6 +2,7 @@
 
 import Guns from "./Guns";
 import GatlingBullet from "./GatlingBullet";
+import {GATLING_COOL_TIME} from "./Constant";
 
 /**
  * main weapon "gatling-gun" class.
@@ -10,9 +11,9 @@ class Gatling extends Guns {
   constructor(args) {
     super();
     this.stage    = args.stage;
-    this.coolTime = 400;
-    this.x        = 0;
-    this.y        = 0;
+    this.coolTime = GATLING_COOL_TIME;
+    this.x        = args.x;
+    this.y        = args.y;
   
     this.shape    = new createjs.Shape();
     this.shape.graphics.beginFill(createjs.Graphics.getRGB(0, 0, 0, 0)).drawRect(-1, -1, 2, 2);

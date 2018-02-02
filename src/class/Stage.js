@@ -5,15 +5,22 @@ import Enemy from "./Enemy";
 import EnemyBullet from "./EnemyBullet";
 import FriendBullet from "./FriendBullet";
 import Wave from "./Wave";
+import {
+  CANVAS_ID,
+  INDICATOR_FONT_STYLE,
+  INDICATOR_X,
+  INDICATOR_Y
+} from "./Constant";
 
 class Stage {
   constructor() {
-    
-    this.stage    = new createjs.Stage('demoCanvas');
+  
+    this.stage    = new createjs.Stage(CANVAS_ID);
     this.airCraft = new AirCraft({stage: this.stage});
   
-    this.indicator   = new createjs.Text('', 'bold 9px Arial', 'lightgray');
-    this.indicator.x = 400;
+    this.indicator   = new createjs.Text('', INDICATOR_FONT_STYLE, 'lightgray');
+    this.indicator.x = INDICATOR_X;
+    this.indicator.y = INDICATOR_Y;
     this.stage.addChild(this.indicator);
     
     /*

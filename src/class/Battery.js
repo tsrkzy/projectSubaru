@@ -2,9 +2,7 @@
 import Enemy from "./Enemy";
 import EnemyBatteryBullet from "./EnemyBatteryBullet";
 import MathUtil from "./MathUtil";
-
-const WIDTH = 30;
-const HEIGHT = 30;
+import {BATTERY_HEIGHT, BATTERY_WIDTH} from "./Constant";
 
 /**
  * Enemy "Battery" class.
@@ -93,13 +91,13 @@ class Battery extends Enemy {
 
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.beginFill('darkgray').drawRect(0 - WIDTH / 2, 0 - HEIGHT / 2, WIDTH, HEIGHT);
+    this.shape.graphics.beginFill('darkgray').drawRect(0 - BATTERY_WIDTH / 2, 0 - BATTERY_HEIGHT / 2, BATTERY_WIDTH, BATTERY_HEIGHT);
 
     this.hitArea = new createjs.Shape();
     this.hitArea.alpha = 0;
     this.hitArea.graphics
       .beginFill('purple')
-      .drawRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
+      .drawRect(-BATTERY_WIDTH / 2, -BATTERY_HEIGHT / 2, BATTERY_WIDTH, BATTERY_HEIGHT);
 
     this.text = new createjs.Text('battery', 'bold 9px Arial', 'black');
 

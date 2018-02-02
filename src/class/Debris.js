@@ -1,9 +1,7 @@
 "use strict";
 import Enemy from "./Enemy";
 import MathUtil from "./MathUtil";
-
-const WIDTH = 20;
-const HEIGHT = 20;
+import {DEBRIS_HEIGHT, DEBRIS_WIDTH} from "./Constant";
 
 /**
  * Enemy "Debris" class.
@@ -30,7 +28,7 @@ class Debris extends Enemy {
 
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.beginFill('black').drawRect(0 - WIDTH / 2, 0 - HEIGHT / 2, WIDTH, HEIGHT);
+    this.shape.graphics.beginFill('black').drawRect(0 - DEBRIS_WIDTH / 2, 0 - DEBRIS_HEIGHT / 2, DEBRIS_WIDTH, DEBRIS_HEIGHT);
 
     this.hitArea = this.shape.clone(true);
     this.hitArea.alpha = 0;

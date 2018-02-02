@@ -1,10 +1,12 @@
 "use strict";
 
 import FriendBullet from "./FriendBullet";
-
-const WIDTH  = 5;
-const HEIGHT = 2;
-const SPEED  = 8;
+import {
+  GATLING_BULLET_HEIGHT,
+  GATLING_BULLET_SPEED,
+  GATLING_BULLET_STOPPING_POWER,
+  GATLING_BULLET_WIDTH
+} from "./Constant";
 
 /**
  * gatling gun bullet class.
@@ -17,14 +19,14 @@ class GatlingBullet extends FriendBullet {
    */
   constructor(args) {
     super(args);
-    this.stoppingPower = 1;
+    this.stoppingPower = GATLING_BULLET_STOPPING_POWER;
     this.assignTickListener();
     this.deploy();
   }
   
   assignTickListener() {
     this.clock.onTick(() => {
-      this.x += SPEED;
+      this.x += GATLING_BULLET_SPEED;
       this.updatePos();
       this.getOutHandler();
     })
@@ -35,13 +37,13 @@ class GatlingBullet extends FriendBullet {
     this.shape.graphics
       .setStrokeStyle(1)
       .beginStroke('blue')
-      .drawRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
+      .drawRect(-GATLING_BULLET_WIDTH / 2, -GATLING_BULLET_HEIGHT / 2, GATLING_BULLET_WIDTH, GATLING_BULLET_HEIGHT);
   
     this.hitArea       = new createjs.Shape();
     this.hitArea.alpha = 0;
     this.hitArea.graphics
       .beginFill('purple')
-      .drawRect(-WIDTH / 2, -HEIGHT / 2, WIDTH, HEIGHT);
+      .drawRect(-GATLING_BULLET_WIDTH / 2, -GATLING_BULLET_HEIGHT / 2, GATLING_BULLET_WIDTH, GATLING_BULLET_HEIGHT);
   
     this.updatePos();
   
