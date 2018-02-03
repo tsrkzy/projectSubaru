@@ -38,6 +38,11 @@ export const STAGE_FRAME_TOP    = 0 - STAGE_MARGIN_Y;
 export const STAGE_FRAME_BOTTOM = STAGE_HEIGHT + STAGE_MARGIN_Y;
 
 /*
+ * wave
+ */
+export const WAVE_TIME_LIMIT = 10 * 1000;
+
+/*
  * aircraft
  */
 export const AIRCRAFT_INITIAL_X         = 50;
@@ -61,6 +66,10 @@ export const GATLING_BULLET_STOPPING_POWER = 1;
 /*
  * >>>>> enemies
  */
+export const ENEMY_LAST_BULLET_WIDTH  = 4;
+export const ENEMY_LAST_BULLET_HEIGHT = 2;
+export const ENEMY_LAST_BULLET_SPEED  = 4;
+
 
 /*
  * battery
@@ -87,8 +96,12 @@ export const AMPLIFIER_HEIGHT = 20;
 /*
  * bomber
  */
-export const BOMBER_WIDTH  = 20;
-export const BOMBER_HEIGHT = 20;
+export const BOMBER_WIDTH           = 20;
+export const BOMBER_HEIGHT          = 20;
+export const BOMBER_LAST_SHOT_COUNT = 30;
+export const BOMBER_BULLET_WIDTH  = 10;
+export const BOMBER_BULLET_HEIGHT = 10;
+export const BOMBER_BULLET_SPEED  = 2;
 
 /*
  * launcher

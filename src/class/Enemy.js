@@ -77,7 +77,7 @@ class Enemy {
       if (!this.alive) {
         return false;
       }
-      this.trigger();
+      // this.trigger();
       this.move();
       let gatlingBullets = ((FriendBullet.instances || {}).GatlingBullet || []);
       this.collisionCheck(gatlingBullets);

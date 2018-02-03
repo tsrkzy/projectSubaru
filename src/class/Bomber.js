@@ -1,6 +1,12 @@
 "use strict";
 import Enemy from "./Enemy";
-import {BOMBER_WIDTH, BOMBER_HEIGHT} from "./Constant";
+import {
+  BOMBER_WIDTH,
+  BOMBER_HEIGHT,
+  BOMBER_LAST_SHOT_COUNT
+} from "./Constant";
+import EnemyLastBullet from "./EnemyLastBullet";
+import EnemyBomberBullet from "./EnemyBomberBullet";
 
 /**
  * Enemy "Bomber" class.
@@ -32,12 +38,48 @@ class Bomber extends Enemy {
    * firing control kicked every tick
    */
   trigger() {
+    if (createjs.Ticker.getTicks() % 120 !== 0) {
+      return
+    }
+  
+    let x = this.airCraft.x;
+    let y = this.airCraft.y;
+  
+    let dx       = x - this.x;
+    let dy       = y - this.y;
+    let gradient = dy / dx;
+    let flip     = dx > 0 ? Math.PI : 0; // if aircraft flies behind of battery
+    let theta    = Math.atan(gradient) + flip;
+  
+    new EnemyBomberBullet({
+      x    : this.x,
+      y    : this.y,
+      angle: theta,
+      stage: this.stage
+    });
   }
   
   /**
    * moving control kicked every tick
    */
   move() {
+  }
+  
+  /**
+   * nasty lastShot
+   */
+  last() {
+    
+    let numOfShot = BOMBER_LAST_SHOT_COUNT;
+    
+    for (let i = 0; i < numOfShot; i++) {
+      new EnemyLastBullet({
+        x    : this.x,
+        y    : this.y,
+        angle: (2 * Math.PI * i) / numOfShot,
+        stage: this.stage,
+      });
+    }
   }
   
   deploy() {

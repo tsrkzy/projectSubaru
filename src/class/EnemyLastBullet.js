@@ -1,15 +1,15 @@
 "use strict";
 import EnemyBullet from "./EnemyBullet";
 import {
-  BATTERY_BULLET_HEIGHT,
-  BATTERY_BULLET_SPEED,
-  BATTERY_BULLET_WIDTH
+  ENEMY_LAST_BULLET_WIDTH,
+  ENEMY_LAST_BULLET_HEIGHT,
+  ENEMY_LAST_BULLET_SPEED,
 } from "./Constant";
 
 /**
- * enemy battery shoot it.
+ * main weapon base bullet class.
  */
-class EnemyBatteryBullet extends EnemyBullet {
+class EnemyLastBullet extends EnemyBullet {
   
   /**
    * @constructor
@@ -24,8 +24,8 @@ class EnemyBatteryBullet extends EnemyBullet {
   
   assignTickListener() {
     this.clock.onTick(() => {
-      this.x -= BATTERY_BULLET_SPEED * Math.cos(this.angle);
-      this.y -= BATTERY_BULLET_SPEED * Math.sin(this.angle);
+      this.x -= ENEMY_LAST_BULLET_SPEED * Math.cos(this.angle);
+      this.y -= ENEMY_LAST_BULLET_SPEED * Math.sin(this.angle);
       this.updatePos();
       this.getOutHandler();
     })
@@ -36,22 +36,30 @@ class EnemyBatteryBullet extends EnemyBullet {
     this.shape.graphics
       .setStrokeStyle(1)
       .beginStroke('black')
-      .drawRect(-BATTERY_BULLET_WIDTH / 2, -BATTERY_BULLET_HEIGHT / 2, BATTERY_BULLET_WIDTH, BATTERY_BULLET_HEIGHT);
-  
+      .drawRect(
+        -ENEMY_LAST_BULLET_WIDTH / 2,
+        -ENEMY_LAST_BULLET_HEIGHT / 2,
+        ENEMY_LAST_BULLET_WIDTH,
+        ENEMY_LAST_BULLET_HEIGHT);
+    
     this.text.text = '';
-  
+    
     this.hitArea       = new createjs.Shape();
     this.hitArea.alpha = 0;
     this.hitArea.graphics
       .beginFill('purple')
-      .drawRect(-BATTERY_BULLET_WIDTH / 2, -BATTERY_BULLET_HEIGHT / 2, BATTERY_BULLET_WIDTH, BATTERY_BULLET_HEIGHT);
-  
+      .drawRect(
+        -ENEMY_LAST_BULLET_WIDTH / 2,
+        -ENEMY_LAST_BULLET_HEIGHT / 2,
+        ENEMY_LAST_BULLET_WIDTH,
+        ENEMY_LAST_BULLET_HEIGHT);
+    
     this.updatePos();
-  
+    
     this.stage.addChild(this.shape);
     this.stage.addChild(this.hitArea);
     this.stage.addChild(this.text);
   }
 }
 
-export default EnemyBatteryBullet;
+export default EnemyLastBullet;

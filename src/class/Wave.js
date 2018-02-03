@@ -2,6 +2,8 @@
 import Battery from "./Battery";
 import EventsWrapper from "./EventsWrapper";
 import WaveUtil from "./WaveUtil";
+import Bomber from "./Bomber";
+import {WAVE_TIME_LIMIT} from "./Constant";
 
 class Wave {
 
@@ -15,10 +17,6 @@ class Wave {
 
   static set level(l) {
     Wave._level = l;
-  }
-
-  get timeMs() {
-    return 3000;
   }
 
   /**
@@ -45,7 +43,7 @@ class Wave {
     let timer = new Promise((resolve) => {
       window.setTimeout(() => {
         resolve()
-      }, this.timeMs);
+      }, WAVE_TIME_LIMIT);
     });
 
     /*
@@ -68,42 +66,53 @@ class Wave {
 
     let promiseArray = [];
     let waveConf = [
-      {
-        enemyClass: Battery,
-        delayMs: 0,
-        args: {
-          x: 600,
-          y: -50,
-          hitPoint: 2,
+        {
+          enemyClass: Bomber,
+          delayMs: 0,
+          args: {
+            x: 600,
+            y: 250,
+            hitPoint: 2,
+          }
         }
-      },
-      {
-        enemyClass: Battery,
-        delayMs: 1000,
-        args: {
-          x: 600,
-          y: -50,
-          hitPoint: 2,
-        }
-      }, {
-        enemyClass: Battery,
-        delayMs: 2000,
-        args: {
-          x: 600,
-          y: -50,
-          hitPoint: 2,
-        }
-      }
     ];
+    //       [
+    //   {
+    //     enemyClass: Battery,
+    //     delayMs: 0,
+    //     args: {
+    //       x: 600,
+    //       y: -50,
+    //       hitPoint: 2,
+    //     }
+    //   },
+    //   {
+    //     enemyClass: Battery,
+    //     delayMs: 1000,
+    //     args: {
+    //       x: 600,
+    //       y: -50,
+    //       hitPoint: 2,
+    //     }
+    //   }, {
+    //     enemyClass: Battery,
+    //     delayMs: 2000,
+    //     args: {
+    //       x: 600,
+    //       y: -50,
+    //       hitPoint: 2,
+    //     }
+    //   }
+    // ];
 
-    let meteorConf = WaveUtil.meteorRain({
-      number: 20,
-      y: 250,
-      delayMs: 0,
-      spanMs: 3000,
-      spreadDegree: 10,
-    });
-    waveConf = waveConf.concat(meteorConf);
+    // let meteorConf = WaveUtil.meteorRain({
+    //   number: 20,
+    //   y: 250,
+    //   delayMs: 0,
+    //   spanMs: 3000,
+    //   spreadDegree: 10,
+    // });
+    // waveConf = waveConf.concat(meteorConf);
     waveConf.forEach((w) => {
       let promise = this.deployEnemy(w);
       promiseArray.push(promise);
