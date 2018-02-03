@@ -3,6 +3,7 @@
 import EventsWrapper from "./EventsWrapper";
 import AirCraft from "./AirCraft";
 import Clock from "./Clock";
+import MathUtil from "./MathUtil";
 import {
   MARKER_HITAREA_RADIUS,
   MARKER_SHAPE_RADIUS,
@@ -12,7 +13,6 @@ import {
   STAGE_FRAME_RIGHT,
   STAGE_FRAME_TOP
 } from "./Constant";
-import MathUtil from "./MathUtil";
 
 /**
  * enemy's target marker.
@@ -103,10 +103,11 @@ class EnemyMarker {
   }
   
   deploy() {
-    this.shape = new createjs.Shape();
+    this.shape       = new createjs.Shape();
+    this.shape.alpha = 1;
     this.shape.graphics
       .setStrokeStyle(1)
-      .beginStroke('black')
+      .beginStroke('dimgray')
       .drawCircle(0, 0, MARKER_SHAPE_RADIUS);
     
     this.text = new createjs.Text('marker', 'bold 9px Arial', 'black');

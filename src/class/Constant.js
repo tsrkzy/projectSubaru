@@ -110,6 +110,10 @@ export const MARKER_SPEED = 6;
 export const MARKER_SHAPE_RADIUS = 40;
 export const MARKER_HITAREA_RADIUS = 10;
 
+/*
+ * sign
+ */
+export const SIGN_RADIUS = 40;
 
 /*
  * launcher

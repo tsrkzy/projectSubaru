@@ -1,13 +1,10 @@
 "use strict";
 import Enemy from "./Enemy";
-import {
-  BOMBER_WIDTH,
-  BOMBER_HEIGHT,
-  BOMBER_LAST_SHOT_COUNT
-} from "./Constant";
+import {BOMBER_HEIGHT, BOMBER_LAST_SHOT_COUNT, BOMBER_WIDTH} from "./Constant";
 import EnemyLastBullet from "./EnemyLastBullet";
 import EnemyMarker from "./EnemyMarker";
 import MathUtil from "./MathUtil";
+import Sign from "./Sign";
 
 /**
  * Enemy "Bomber" class.
@@ -63,26 +60,30 @@ class Bomber extends Enemy {
       stage: this.stage,
     });
     marker.p.then(() => {
-    
+  
+      /*
+       * Bomber was dead, sign does not appear.
+       */
+      if (this.alive === false) {
+        return;
+      }
+      
       /*
        * effect sign on you.
        */
-      // let sign = new EnemySign();
-      // sign.p.then(() => {
-      //
-      //   /*
-      //    * bomb on you.
-      //    */
-      //   new EnemyBombBullet()
-      // });
+      let sign = new Sign({
+        stage: this.stage,
+        x    : this.airCraft.x,
+        y    : this.airCraft.y,
+      });
+      sign.p.then(() => {
+    
+        /*
+         * bomb on you.
+         */
+        // new EnemyBombBullet()
+      });
     });
-  
-    // new EnemyBomberBullet({
-    //   x    : this.x,
-    //   y    : this.y,
-    //   angle: theta,
-    //   stage: this.stage
-    // });
   }
   
   /**
