@@ -5,7 +5,7 @@ const WebpackNotifierPlugin = require('webpack-notifier');
 
 const config = {
   entry  : {
-    lepradius: './src/lepradius.js',
+    subaru: './src/subaru.js',
   },
   output : {
     path    : `${__dirname}/js`,

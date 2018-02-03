@@ -1,10 +1,10 @@
 {
-  "name": "lepradius",
+  "name": "subaru",
   "version": "1.0.0",
   "scripts": {
     "build": "webpack --optimize-minimize --devtool source-map"
   },
-  "main": "./lepradius.js",
+  "main": "./subaru.js",
   "description": "shooting game like gradius",
   "dependencies": {
     "createjs":         "^1.0.1",
