@@ -1,10 +1,10 @@
 "use strict";
 import Enemy from "./Enemy";
-import {BOMBER_HEIGHT, BOMBER_LAST_SHOT_COUNT, BOMBER_WIDTH} from "./Constant";
-import EnemyLastBullet from "./EnemyLastBullet";
+import {BOMBER_HEIGHT, BOMBER_LAST_SHOT_COUNT, BOMBER_LAST_SHOT_DEPTH, BOMBER_SHOT_COUNT, BOMBER_SHOT_DEPTH, BOMBER_WIDTH} from "./Constant";
 import EnemyMarker from "./EnemyMarker";
 import MathUtil from "./MathUtil";
 import Sign from "./Sign";
+import FireWorks from "./FireWorks";
 
 /**
  * Enemy "Bomber" class.
@@ -71,17 +71,25 @@ class Bomber extends Enemy {
       /*
        * effect sign on you.
        */
-      let sign = new Sign({
+      let signX = this.airCraft.x;
+      let signY = this.airCraft.y;
+      let sign  = new Sign({
         stage: this.stage,
-        x    : this.airCraft.x,
-        y    : this.airCraft.y,
+        x    : signX,
+        y    : signY,
       });
       sign.p.then(() => {
     
         /*
          * bomb on you.
          */
-        // new EnemyBombBullet()
+        FireWorks.conch(
+          signX,
+          signY,
+          this.stage,
+          BOMBER_SHOT_COUNT,
+          BOMBER_SHOT_DEPTH,
+        );
       });
     });
   }
@@ -96,17 +104,13 @@ class Bomber extends Enemy {
    * nasty lastShot
    */
   last() {
-    
-    let numOfShot = BOMBER_LAST_SHOT_COUNT;
-    
-    for (let i = 0; i < numOfShot; i++) {
-      new EnemyLastBullet({
-        x    : this.x,
-        y    : this.y,
-        angle: (2 * Math.PI * i) / numOfShot,
-        stage: this.stage,
-      });
-    }
+    FireWorks.sunFlower(
+      this.x,
+      this.y,
+      this.stage,
+      BOMBER_LAST_SHOT_COUNT,
+      BOMBER_LAST_SHOT_DEPTH,
+    );
   }
   
   deploy() {

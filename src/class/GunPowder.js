@@ -1,15 +1,15 @@
 "use strict";
 import EnemyBullet from "./EnemyBullet";
 import {
-  ENEMY_LAST_BULLET_WIDTH,
-  ENEMY_LAST_BULLET_HEIGHT,
-  ENEMY_LAST_BULLET_SPEED,
+  GUNPOWDER_BULLET_WIDTH,
+  GUNPOWDER_BULLET_HEIGHT,
+  GUNPOWDER_BULLET_SPEED,
 } from "./Constant";
 
 /**
- * main weapon base bullet class.
+ * only use for FireWorks.
  */
-class EnemyLastBullet extends EnemyBullet {
+class GunPowder extends EnemyBullet {
   
   /**
    * @constructor
@@ -17,15 +17,17 @@ class EnemyLastBullet extends EnemyBullet {
    */
   constructor(args) {
     super(args);
-    this.angle = args.angle;
+    this.angle   = args.angle;
+    this.delayMs = args.delayMs;
+    this.speed   = GUNPOWDER_BULLET_SPEED * (args.speedCoefficient || 1);
     this.deploy();
     this.assignTickListener();
   }
   
   assignTickListener() {
     this.clock.onTick(() => {
-      this.x -= ENEMY_LAST_BULLET_SPEED * Math.cos(this.angle);
-      this.y -= ENEMY_LAST_BULLET_SPEED * Math.sin(this.angle);
+      this.x -= this.speed * Math.cos(this.angle);
+      this.y -= this.speed * Math.sin(this.angle);
       this.updatePos();
       this.getOutHandler();
     })
@@ -37,10 +39,10 @@ class EnemyLastBullet extends EnemyBullet {
       .setStrokeStyle(1)
       .beginStroke('black')
       .drawRect(
-        -ENEMY_LAST_BULLET_WIDTH / 2,
-        -ENEMY_LAST_BULLET_HEIGHT / 2,
-        ENEMY_LAST_BULLET_WIDTH,
-        ENEMY_LAST_BULLET_HEIGHT);
+        -GUNPOWDER_BULLET_WIDTH / 2,
+        -GUNPOWDER_BULLET_HEIGHT / 2,
+        GUNPOWDER_BULLET_WIDTH,
+        GUNPOWDER_BULLET_HEIGHT);
     
     this.text.text = '';
     
@@ -49,10 +51,10 @@ class EnemyLastBullet extends EnemyBullet {
     this.hitArea.graphics
       .beginFill('purple')
       .drawRect(
-        -ENEMY_LAST_BULLET_WIDTH / 2,
-        -ENEMY_LAST_BULLET_HEIGHT / 2,
-        ENEMY_LAST_BULLET_WIDTH,
-        ENEMY_LAST_BULLET_HEIGHT);
+        -GUNPOWDER_BULLET_WIDTH / 2,
+        -GUNPOWDER_BULLET_HEIGHT / 2,
+        GUNPOWDER_BULLET_WIDTH,
+        GUNPOWDER_BULLET_HEIGHT);
     
     this.updatePos();
     
@@ -62,4 +64,4 @@ class EnemyLastBullet extends EnemyBullet {
   }
 }
 
-export default EnemyLastBullet;
+export default GunPowder;

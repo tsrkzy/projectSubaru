@@ -71,7 +71,7 @@ class Wave {
           delayMs: 0,
           args: {
             x: 600,
-            y: 250,
+            y: 300,
             hitPoint: 2,
           }
         },

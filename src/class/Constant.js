@@ -66,9 +66,9 @@ export const GATLING_BULLET_STOPPING_POWER = 1;
 /*
  * >>>>> enemies
  */
-export const ENEMY_LAST_BULLET_WIDTH  = 4;
-export const ENEMY_LAST_BULLET_HEIGHT = 2;
-export const ENEMY_LAST_BULLET_SPEED  = 4;
+export const GUNPOWDER_BULLET_WIDTH  = 8;
+export const GUNPOWDER_BULLET_HEIGHT = 4;
+export const GUNPOWDER_BULLET_SPEED  = 4;
 
 
 /*
@@ -99,9 +99,9 @@ export const AMPLIFIER_HEIGHT = 20;
 export const BOMBER_WIDTH           = 20;
 export const BOMBER_HEIGHT          = 20;
 export const BOMBER_LAST_SHOT_COUNT = 30;
-export const BOMBER_BULLET_WIDTH  = 10;
-export const BOMBER_BULLET_HEIGHT = 10;
-export const BOMBER_BULLET_SPEED  = 2;
+export const BOMBER_LAST_SHOT_DEPTH = 2;
+export const BOMBER_SHOT_COUNT = 3;
+export const BOMBER_SHOT_DEPTH = 8;
 
 /*
  * marker
