@@ -1,15 +1,12 @@
 "use strict";
 import EnemyBullet from "./EnemyBullet";
 import {
-  BOMBER_BULLET_HEIGHT,
-  BOMBER_BULLET_SPEED,
-  BOMBER_BULLET_WIDTH
-} from "./Constant";
+  BOMBER_BULLET_SPEED} from "./Constant";
 
 /**
  * enemy bomber shoot it.
  */
-class EnemyBomberBullet extends EnemyBullet {
+class EnemyBombStrike extends EnemyBullet {
   
   /**
    * @constructor
@@ -17,7 +14,6 @@ class EnemyBomberBullet extends EnemyBullet {
    */
   constructor(args) {
     super(args);
-    this.angle = args.angle;
     this.deploy();
     this.assignTickListener();
   }
@@ -54,4 +50,4 @@ class EnemyBomberBullet extends EnemyBullet {
   }
 }
 
-export default EnemyBomberBullet;
+export default EnemyBombStrike;

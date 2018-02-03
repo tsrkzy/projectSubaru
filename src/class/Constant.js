@@ -104,6 +104,14 @@ export const BOMBER_BULLET_HEIGHT = 10;
 export const BOMBER_BULLET_SPEED  = 2;
 
 /*
+ * marker
+ */
+export const MARKER_SPEED = 6;
+export const MARKER_SHAPE_RADIUS = 40;
+export const MARKER_HITAREA_RADIUS = 10;
+
+
+/*
  * launcher
  */
 export const LAUNCHER_WIDTH  = 20;

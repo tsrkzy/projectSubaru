@@ -27,10 +27,6 @@ const config = {
   },
   resolve: {},
   plugins: [
-    // new DotEnv({
-    //   path: `./.env`,
-    //   safe: false
-    // }),
     new WebpackNotifierPlugin({
       title       : 'Webpack',
       alwaysNotify: true

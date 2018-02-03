@@ -37,6 +37,16 @@ class EventsWrapper extends Events {
   }
   
   /**
+   * shorthand of #once
+   * diff with #on ...when #once triggered, listeners are removed.
+   *
+   * @param args
+   */
+  static once(...args) {
+    EventsWrapper.instance.once(...args);
+  }
+  
+  /**
    * shorthand of #removeAllListeners
    * @param args
    */

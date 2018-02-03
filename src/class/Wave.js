@@ -74,7 +74,16 @@ class Wave {
             y: 250,
             hitPoint: 2,
           }
+        },
+      {
+        enemyClass: Battery,
+        delayMs   : 0,
+        args      : {
+          x       : 600,
+          y       : -50,
+          hitPoint: 2,
         }
+      },
     ];
     //       [
     //   {

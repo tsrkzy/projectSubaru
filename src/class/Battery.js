@@ -39,15 +39,15 @@ class Battery extends Enemy {
     if (createjs.Ticker.getTicks() % 120 !== 0) {
       return;
     }
-
-    let x = this.airCraft.x;
-    let y = this.airCraft.y;
-
-    let dx = x - this.x;
-    let dy = y - this.y;
-    let gradient = dy / dx;
-    let flip = dx > 0 ? Math.PI : 0; // if aircraft flies behind of battery
-    let theta = Math.atan(gradient) + flip;
+  
+    let x     = this.airCraft.x;
+    let y     = this.airCraft.y;
+    let theta = MathUtil.getAngleDegree(
+      this.x,
+      this.y,
+      this.airCraft.x,
+      this.airCraft.y,
+    );
     let shake = MathUtil.d2r(3);
 
     new EnemyBatteryBullet({

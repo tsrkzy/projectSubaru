@@ -3,7 +3,7 @@ import FriendBullet from "./FriendBullet";
 import Clock from "./Clock";
 import Blow from "./Blow";
 import AirCraft from "./AirCraft";
-import EventWrapper from "./EventsWrapper";
+import EventsWrapper from "./EventsWrapper";
 import {
   STAGE_FRAME_LEFT,
   STAGE_FRAME_RIGHT,
@@ -46,8 +46,8 @@ class Enemy {
     this.text = null;
     console.log(`enemy_${this.id} spawned`);
     this.p = new Promise((resolve) => {
-      EventWrapper.on(`enemyDestroyed_${this.id}`, () => {
-        EventWrapper.removeAllListeners(`enemyDestroyed_${this.id}`);
+      EventsWrapper.once(`enemyDestroyed_${this.id}`, () => {
+        EventsWrapper.removeAllListeners(`enemyDestroyed_${this.id}`);
         resolve();
       });
     });
@@ -77,7 +77,7 @@ class Enemy {
       if (!this.alive) {
         return false;
       }
-      // this.trigger();
+      this.trigger();
       this.move();
       let gatlingBullets = ((FriendBullet.instances || {}).GatlingBullet || []);
       this.collisionCheck(gatlingBullets);
@@ -177,7 +177,7 @@ class Enemy {
     this.text = null;
     this.hitArea = null;
     this.stage = null;
-    EventWrapper.emit(`enemyDestroyed_${this.id}`);
+    EventsWrapper.emit(`enemyDestroyed_${this.id}`);
 
     for (let i = 0; i < Enemy.instances.length; i++) {
       let enemy = Enemy.instances[i];

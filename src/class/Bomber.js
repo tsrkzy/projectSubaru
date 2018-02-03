@@ -6,7 +6,8 @@ import {
   BOMBER_LAST_SHOT_COUNT
 } from "./Constant";
 import EnemyLastBullet from "./EnemyLastBullet";
-import EnemyBomberBullet from "./EnemyBomberBullet";
+import EnemyMarker from "./EnemyMarker";
+import MathUtil from "./MathUtil";
 
 /**
  * Enemy "Bomber" class.
@@ -45,18 +46,43 @@ class Bomber extends Enemy {
     let x = this.airCraft.x;
     let y = this.airCraft.y;
   
-    let dx       = x - this.x;
-    let dy       = y - this.y;
-    let gradient = dy / dx;
-    let flip     = dx > 0 ? Math.PI : 0; // if aircraft flies behind of battery
-    let theta    = Math.atan(gradient) + flip;
-  
-    new EnemyBomberBullet({
+    let theta = MathUtil.getAngleDegree(
+      this.x,
+      this.y,
+      this.airCraft.x,
+      this.airCraft.y,
+    );
+    
+    /*
+     * lock marker on you.
+     */
+    let marker = new EnemyMarker({
       x    : this.x,
       y    : this.y,
       angle: theta,
-      stage: this.stage
+      stage: this.stage,
     });
+    marker.p.then(() => {
+    
+      /*
+       * effect sign on you.
+       */
+      // let sign = new EnemySign();
+      // sign.p.then(() => {
+      //
+      //   /*
+      //    * bomb on you.
+      //    */
+      //   new EnemyBombBullet()
+      // });
+    });
+  
+    // new EnemyBomberBullet({
+    //   x    : this.x,
+    //   y    : this.y,
+    //   angle: theta,
+    //   stage: this.stage
+    // });
   }
   
   /**

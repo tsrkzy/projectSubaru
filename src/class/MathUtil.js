@@ -9,6 +9,29 @@ class MathUtil {
     let radian = (degree / 180) * PI;
     return radian
   }
+  
+  /**
+   * get angle(degree) from observer pos to target pos.
+   *
+   * @param {number} fromX
+   * @param {number} fromY
+   * @param {number} toX
+   * @param {number} toY
+   * @return {number} theta
+   */
+  static getAngleDegree(fromX, fromY, toX, toY) {
+    
+    let dx       = toX - fromX;
+    let dy       = toY - fromY;
+    let gradient = dy / dx;
+    
+    /*
+     * target flies behind of observer? then flip.
+     */
+    let flip     = dx > 0 ? Math.PI : 0;
+    let theta    = Math.atan(gradient) + flip;
+    return theta
+  }
 
   /**
    * @SEE https://qiita.com/sifue/items/e1dbfe671f42886e47d6
