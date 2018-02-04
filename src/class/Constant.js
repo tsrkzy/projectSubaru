@@ -51,7 +51,6 @@ export const AIRCRAFT_WIDTH             = 30;
 export const AIRCRAFT_HEIGHT            = 10;
 export const AIRCRAFT_HIT_AREA          = 2;
 export const AIRCRAFT_VELOCITY          = 3;
-export const AIRCRAFT_DIAGONAL_VELOCITY = AIRCRAFT_VELOCITY / SQRT2;
 
 /*
  * gatling

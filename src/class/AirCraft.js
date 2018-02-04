@@ -14,13 +14,13 @@ import {
   AIRCRAFT_HEIGHT,
   AIRCRAFT_HIT_AREA,
   AIRCRAFT_VELOCITY,
-  AIRCRAFT_DIAGONAL_VELOCITY,
   STAGE_EDGE_LEFT,
   STAGE_EDGE_RIGHT,
   STAGE_EDGE_TOP,
   STAGE_EDGE_BOTTOM,
 } from "./Constant";
 import Canvas from "./Canvas";
+import Jammer from "./Jammer";
 
 /**
  * Your AirCraft Class.
@@ -43,6 +43,21 @@ class AirCraft {
     this._x = value;
   }
   
+  /**
+   * get airCraft's speed.
+   * if snared, slows down to half.
+   *
+   * @return {number}
+   */
+  get velocity() {
+    let coefficient = (!this.snared) ? 1 : 0.5;
+    return AIRCRAFT_VELOCITY * coefficient;
+  }
+  
+  get diagonalVelocity() {
+    return this.velocity / Math.sqrt(2);
+  }
+  
   static getInstance() {
     return AirCraft.instance;
   }
@@ -61,10 +76,10 @@ class AirCraft {
     this.vp    = new VirtualPad();
     this.clock = new Clock(this);
   
-    this.x = AIRCRAFT_INITIAL_X;
-    this.y = AIRCRAFT_INITIAL_Y;
-  
-    this._gun     = new Gatling({
+    this.x      = AIRCRAFT_INITIAL_X;
+    this.y      = AIRCRAFT_INITIAL_Y;
+    this.snared = false;
+    this._gun   = new Gatling({
       x    : this.x,
       y    : this.y,
     });
@@ -87,16 +102,16 @@ class AirCraft {
       let vX = 0;
       let vY = 0;
       if (this.vp.keyDown_Right && !this.vp.keyDown_Left) {
-        vX = this.vp.keyDownOnly_Right ? AIRCRAFT_VELOCITY : AIRCRAFT_DIAGONAL_VELOCITY;
+        vX = this.vp.keyDownOnly_Right ? this.velocity : this.diagonalVelocity;
       }
       if (this.vp.keyDown_Left && !this.vp.keyDown_Right) {
-        vX = -1 * (this.vp.keyDownOnly_Left ? AIRCRAFT_VELOCITY : AIRCRAFT_DIAGONAL_VELOCITY);
+        vX = -1 * (this.vp.keyDownOnly_Left ? this.velocity : this.diagonalVelocity);
       }
       if (this.vp.keyDown_Down && !this.vp.keyDown_Up) {
-        vY = this.vp.keyDownOnly_Down ? AIRCRAFT_VELOCITY : AIRCRAFT_DIAGONAL_VELOCITY;
+        vY = this.vp.keyDownOnly_Down ? this.velocity : this.diagonalVelocity;
       }
       if (this.vp.keyDown_Up && !this.vp.keyDown_Down) {
-        vY = -1 * (this.vp.keyDownOnly_Up ? AIRCRAFT_VELOCITY : AIRCRAFT_DIAGONAL_VELOCITY);
+        vY = -1 * (this.vp.keyDownOnly_Up ? this.velocity : this.diagonalVelocity);
       }
       this.x += vX;
       this.y += vY;
@@ -122,14 +137,26 @@ class AirCraft {
      * collision check with enemies and every kind of enemyBullets
      */
     this.clock.onTick(() => {
-      this.collisionCheck(Enemy.instances);
+      this.collisionCheck(Enemy.instances, this.beShot);
     
       for (let i = 0; i < Object.keys(EnemyBullet.instances || {}).length; i++) {
       
         let enemyBulletInstances = EnemyBullet.instances[Object.keys(EnemyBullet.instances)[i]];
-        this.collisionCheck(enemyBulletInstances);
+        this.collisionCheck(enemyBulletInstances, this.beShot);
       }
+  
+      this.snareCheck();
     })
+  }
+  
+  /**
+   * check airCrafts in Noise's jammer effect.
+   */
+  snareCheck() {
+    
+    let result   = this.collisionCheck(Jammer.instances);
+    let inJammer = result.test;
+    this.snared  = inJammer;
   }
   
   /**
@@ -149,8 +176,15 @@ class AirCraft {
   /**
    * collision test with your aircraft.
    * @param {Array<Object>} targetArray - Object must have #shape to hitTest
+   * @param {function|null} fn callback when every hitTest that returns true.
+   * @return {Object} result
    */
-  collisionCheck(targetArray) {
+  collisionCheck(targetArray, fn = null) {
+  
+    let result = {
+      all : true,
+      test: false
+    };
     
     for (let j = 0; j < targetArray.length; j++) {
       
@@ -161,9 +195,17 @@ class AirCraft {
       let pos     = target.hitArea.localToLocal(0, 0, this.hitArea);
       let hitTest = target.hitArea.hitTest(pos.x, pos.y);
       if (hitTest) {
-        this.beShot(pos.x, pos.y, target);
+        result.test = true;
+        if (typeof fn === 'function') {
+          fn.call(this, pos.x, pos.y, target);
+        }
+  
+        continue;
       }
+      result.all = false;
     }
+  
+    return result;
   }
   
   /**

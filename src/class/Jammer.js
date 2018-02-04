@@ -6,9 +6,13 @@ import {JAMMER_LIFE_TIME, JAMMER_RADIUS} from "./Constant";
 
 class Jammer {
   
+  static get instances() {
+    return Jammer._instances || [];
+  }
+  
   constructor(x, y) {
-    Jammer.instances = Jammer.instances || [];
-    Jammer.instances.push(this);
+    Jammer._instances = Jammer.instances || [];
+    Jammer._instances.push(this);
     this.stage  = Canvas.getStage();
     this.x      = x;
     this.y      = y;
