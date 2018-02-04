@@ -1,6 +1,10 @@
 "use strict";
 import Enemy from "./Enemy";
-import {LAUNCHER_WIDTH, LAUNCHER_HEIGHT} from "./Constant";
+import {LAUNCHER_WIDTH, LAUNCHER_HEIGHT, BOMBER_SHOT_DEPTH, BOMBER_SHOT_COUNT} from "./Constant";
+import MathUtil from "./MathUtil";
+import Sign from "./Sign";
+import EnemyMarker from "./EnemyMarker";
+import FireWorks from "./FireWorks";
 
 /**
  * Enemy "Launcher" class.
@@ -31,7 +35,58 @@ class Launcher extends Enemy {
   /**
    * firing control kicked every tick
    */
-  trigger() {}
+  trigger() {
+    if (createjs.Ticker.getTicks() % 120 !== 0) {
+      return
+    }
+  
+    let theta = MathUtil.getAngleDegree(
+      this.x,
+      this.y,
+      this.airCraft.x,
+      this.airCraft.y,
+    );
+  
+    /*
+     * lock marker on you.
+     */
+    let marker = new EnemyMarker({
+      x    : this.x,
+      y    : this.y,
+      angle: theta,
+    });
+    marker.p.then(() => {
+    
+      /*
+       * Bomber was dead, sign does not appear.
+       */
+      if (this.alive === false) {
+        return;
+      }
+    
+      /*
+       * effect sign on you.
+       */
+      let signX = this.airCraft.x;
+      let signY = this.airCraft.y;
+      let sign  = new Sign({
+        x    : signX,
+        y    : signY,
+      });
+      sign.p.then(() => {
+      
+        /*
+         * bomb on you.
+         */
+        FireWorks.conch(
+          signX,
+          signY,
+          BOMBER_SHOT_COUNT,
+          BOMBER_SHOT_DEPTH,
+        );
+      });
+    });
+  }
 
   /**
    * moving control kicked every tick

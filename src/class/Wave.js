@@ -5,6 +5,7 @@ import WaveUtil from "./WaveUtil";
 import Bomber from "./Bomber";
 import {WAVE_TIME_LIMIT} from "./Constant";
 import Canvas from "./Canvas";
+import Launcher from "./Launcher";
 
 class Wave {
 
@@ -67,6 +68,15 @@ class Wave {
 
     let promiseArray = [];
     let waveConf = [
+      {
+        enemyClass: Launcher,
+        delayMs: 0,
+        args: {
+          x: 600,
+          y: 100,
+          hitPoint: 2,
+        }
+      },
         {
           enemyClass: Bomber,
           delayMs: 0,
