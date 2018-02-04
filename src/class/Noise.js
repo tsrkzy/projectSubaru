@@ -1,6 +1,12 @@
 "use strict";
 import Enemy from "./Enemy";
-import {NOISE_WIDTH, NOISE_HEIGHT} from "./Constant";
+import {NOISE_WIDTH, NOISE_HEIGHT, BOMBER_SHOT_DEPTH, BOMBER_SHOT_COUNT} from "./Constant";
+import MathUtil from "./MathUtil";
+import Sign from "./Sign";
+import EnemyMarker from "./EnemyMarker";
+import FireWorks from "./FireWorks";
+import Jammer from "./Jammer";
+import AirCraft from "./AirCraft";
 
 /**
  * Enemy "Noise" class.
@@ -33,6 +39,41 @@ class Noise extends Enemy {
    * firing control kicked every tick
    */
   trigger() {
+    if (createjs.Ticker.getTicks() % 120 !== 0) {
+      return
+    }
+  
+    let theta = MathUtil.getAngleDegree(
+      this.x,
+      this.y,
+      this.airCraft.x,
+      this.airCraft.y,
+    );
+  
+    /*
+     * lock marker on you.
+     */
+    let marker = new EnemyMarker({
+      x    : this.x,
+      y    : this.y,
+      angle: theta,
+    });
+    marker.p.then(() => {
+    
+      /*
+       * Noise was dead, jammer does not appear.
+       */
+      if (this.alive === false) {
+        return;
+      }
+    
+      /*
+       * jammer on you.
+       */
+      let x = AirCraft.getInstance().x;
+      let y = AirCraft.getInstance().y;
+      new Jammer(x, y);
+    });
   }
   
   /**

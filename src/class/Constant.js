@@ -127,3 +127,9 @@ export const LAUNCHER_HEIGHT = 20;
  */
 export const NOISE_WIDTH  = 20;
 export const NOISE_HEIGHT = 20;
+
+/*
+ * jammer
+ */
+export const JAMMER_RADIUS = 120;
+export const JAMMER_LIFE_TIME = 8000;

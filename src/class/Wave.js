@@ -1,11 +1,10 @@
 "use strict";
 import Battery from "./Battery";
 import EventsWrapper from "./EventsWrapper";
-import WaveUtil from "./WaveUtil";
 import Bomber from "./Bomber";
 import {WAVE_TIME_LIMIT} from "./Constant";
 import Canvas from "./Canvas";
-import Launcher from "./Launcher";
+import Noise from "./Noise";
 
 class Wave {
 
@@ -69,9 +68,9 @@ class Wave {
     let promiseArray = [];
     let waveConf = [
       {
-        enemyClass: Launcher,
-        delayMs: 0,
-        args: {
+        enemyClass: Noise,
+        delayMs   : 0,
+        args      : {
           x: 600,
           y: 100,
           hitPoint: 2,
