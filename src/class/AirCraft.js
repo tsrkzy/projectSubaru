@@ -20,6 +20,7 @@ import {
   STAGE_EDGE_TOP,
   STAGE_EDGE_BOTTOM,
 } from "./Constant";
+import Canvas from "./Canvas";
 
 /**
  * Your AirCraft Class.
@@ -49,16 +50,14 @@ class AirCraft {
   /**
    * initialize parameters, set listeners
    * @constructor
-   * @param {Object} args
-   *   .stage: createjs.Stage
    */
-  constructor(args) {
+  constructor() {
     if (AirCraft.instance === 'object') {
       return AirCraft.instance;
     }
     AirCraft.instance = this;
-    
-    this.stage = args.stage;
+  
+    this.stage = Canvas.getStage();
     this.vp    = new VirtualPad();
     this.clock = new Clock(this);
   
@@ -66,7 +65,6 @@ class AirCraft {
     this.y = AIRCRAFT_INITIAL_Y;
   
     this._gun     = new Gatling({
-      stage: this.stage,
       x    : this.x,
       y    : this.y,
     });
@@ -163,7 +161,7 @@ class AirCraft {
       let pos     = target.hitArea.localToLocal(0, 0, this.hitArea);
       let hitTest = target.hitArea.hitTest(pos.x, pos.y);
       if (hitTest) {
-        this.beShot(pos.x, pos.y);
+        this.beShot(pos.x, pos.y, target);
       }
     }
   }
@@ -171,10 +169,9 @@ class AirCraft {
   /**
    * kicked when your aircraft have been shot
    */
-  beShot(x = 0, y = 0) {
-  
+  beShot(x = 0, y = 0, target) {
+    console.log(`${target.constructor.name} killed you.`);
     new Blow({
-      stage: this.stage,
       x    : this.x - x,
       y    : this.y - y,
       color: 'red',

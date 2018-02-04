@@ -57,7 +57,6 @@ class Bomber extends Enemy {
       x    : this.x,
       y    : this.y,
       angle: theta,
-      stage: this.stage,
     });
     marker.p.then(() => {
   
@@ -74,7 +73,6 @@ class Bomber extends Enemy {
       let signX = this.airCraft.x;
       let signY = this.airCraft.y;
       let sign  = new Sign({
-        stage: this.stage,
         x    : signX,
         y    : signY,
       });
@@ -86,7 +84,6 @@ class Bomber extends Enemy {
         FireWorks.conch(
           signX,
           signY,
-          this.stage,
           BOMBER_SHOT_COUNT,
           BOMBER_SHOT_DEPTH,
         );
@@ -107,7 +104,6 @@ class Bomber extends Enemy {
     FireWorks.sunFlower(
       this.x,
       this.y,
-      this.stage,
       BOMBER_LAST_SHOT_COUNT,
       BOMBER_LAST_SHOT_DEPTH,
     );

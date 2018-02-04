@@ -3,6 +3,7 @@
 import Guns from "./Guns";
 import GatlingBullet from "./GatlingBullet";
 import {GATLING_COOL_TIME} from "./Constant";
+import Canvas from "./Canvas";
 
 /**
  * main weapon "gatling-gun" class.
@@ -10,7 +11,7 @@ import {GATLING_COOL_TIME} from "./Constant";
 class Gatling extends Guns {
   constructor(args) {
     super();
-    this.stage    = args.stage;
+    this.stage    = Canvas.getStage();
     this.coolTime = GATLING_COOL_TIME;
     this.x        = args.x;
     this.y        = args.y;
@@ -42,7 +43,6 @@ class Gatling extends Guns {
     new GatlingBullet({
       x    : x,
       y    : y,
-      stage: this.stage,
     });
   }
   

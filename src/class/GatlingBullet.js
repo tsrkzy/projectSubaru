@@ -15,7 +15,7 @@ class GatlingBullet extends FriendBullet {
   
   /**
    * @constructor
-   * @param {Object} args - x, y, stage
+   * @param {Object} args - x, y
    */
   constructor(args) {
     super(args);

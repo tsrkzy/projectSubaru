@@ -6,6 +6,7 @@ import {
   STAGE_FRAME_RIGHT,
   STAGE_FRAME_TOP
 } from "./Constant";
+import Canvas from "./Canvas";
 
 /**
  * main weapon base bullet class.
@@ -67,7 +68,7 @@ class Bullet {
     this.y             = args.y;
     this.stoppingPower = 0;
     this.alive         = true;
-    this.stage         = args.stage;
+    this.stage         = Canvas.getStage();
     this.shape         = null;
     this.hitArea       = null;
     this.clock         = new Clock(this);
@@ -103,6 +104,10 @@ class Bullet {
    */
   die() {
   
+    if (!this.alive) {
+      return;
+    }
+    
     this.alive = false;
     this.stage.removeChild(this.shape);
     this.stage.removeChild(this.text);

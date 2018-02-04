@@ -1,6 +1,7 @@
 "use strict";
 
 import GunPowder from "./GunPowder";
+import Canvas from "./Canvas";
 
 /**
  * bullet art utility class.
@@ -19,11 +20,10 @@ class FireWorks {
    *
    * @param {number} x
    * @param {number} y
-   * @param stage
    * @param {number} count
    * @param {number} depth
    */
-  static sunFlower(x, y, stage, count = 1, depth = 1) {
+  static sunFlower(x, y, count = 1, depth = 1) {
     let pie   = 2 * Math.PI / count;
     let noise = FireWorks.getRandomRadian(pie);
     for (let j = 0; j < depth; j++) {
@@ -34,15 +34,21 @@ class FireWorks {
             x    : x,
             y    : y,
             angle: ((2 * Math.PI * i) / count) + intercept + noise,
-            stage: stage,
+            stage: Canvas.getStage(),
           });
         }, 100 * j);
       }
     }
   }
   
-  static conch(x, y, stage, count = 1, depth = 1) {
-    let pie = 2 * Math.PI / count;
+  /**
+   * @param x
+   * @param y
+   * @param count
+   * @param depth
+   */
+  static conch(x, y, count = 1, depth = 1) {
+    let pie   = 2 * Math.PI / count;
     let noise = FireWorks.getRandomRadian(pie);
     
     for (let j = 0; j < depth; j++) {
@@ -54,7 +60,7 @@ class FireWorks {
             y               : y,
             speedCoefficient: 0.5,
             angle           : ((2 * Math.PI * i) / count) + intercept + noise,
-            stage           : stage,
+            stage           : Canvas.getStage(),
           });
         }, 100 * j);
       }

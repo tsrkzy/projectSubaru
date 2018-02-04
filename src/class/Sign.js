@@ -1,6 +1,7 @@
 "use strict";
 
 import {SIGN_RADIUS} from "./Constant";
+import Canvas from "./Canvas";
 
 /**
  * enemy bullet-storm drop zone.
@@ -11,7 +12,7 @@ class Sign {
    * @constructor
    */
   constructor(args) {
-    this.stage  = args.stage;
+    this.stage  = Canvas.getStage();
     this.radius = SIGN_RADIUS;
     this.color  = 'red';
     

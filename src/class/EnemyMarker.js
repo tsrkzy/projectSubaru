@@ -13,6 +13,7 @@ import {
   STAGE_FRAME_RIGHT,
   STAGE_FRAME_TOP
 } from "./Constant";
+import Canvas from "./Canvas";
 
 /**
  * enemy's target marker.
@@ -23,14 +24,14 @@ class EnemyMarker {
   
   /**
    * @constructor
-   * @param {Object} args - x, y, stage
+   * @param {Object} args - x, y
    */
   constructor(args) {
     this.id = EnemyMarker.id;
     EnemyMarker.id++;
     this.x        = args.x;
     this.y        = args.y;
-    this.stage    = args.stage;
+    this.stage    = Canvas.getStage();
     this.airCraft = AirCraft.getInstance();
     this.clock    = new Clock(this);
     this.p        = new Promise((resolve) => {
@@ -50,18 +51,22 @@ class EnemyMarker {
    */
   assignTickListener() {
     this.clock.onTick(() => {
-      let angle = MathUtil.getAngleDegree(
-        this.x,
-        this.y,
-        this.airCraft.x,
-        this.airCraft.y,
-      );
-      this.x -= MARKER_SPEED * Math.cos(angle);
-      this.y -= MARKER_SPEED * Math.sin(angle);
+      this.move();
       this.updatePos();
       this.getOutHandler();
       this.collisionCheckWithAircraft();
     })
+  }
+  
+  move() {
+    let angle = MathUtil.getAngleDegree(
+      this.x,
+      this.y,
+      this.airCraft.x,
+      this.airCraft.y,
+    );
+    this.x -= MARKER_SPEED * Math.cos(angle);
+    this.y -= MARKER_SPEED * Math.sin(angle);
   }
   
   updatePos(x = this.x, y = this.y) {

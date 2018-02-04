@@ -4,6 +4,7 @@ import EventsWrapper from "./EventsWrapper";
 import WaveUtil from "./WaveUtil";
 import Bomber from "./Bomber";
 import {WAVE_TIME_LIMIT} from "./Constant";
+import Canvas from "./Canvas";
 
 class Wave {
 
@@ -18,11 +19,11 @@ class Wave {
   static set level(l) {
     Wave._level = l;
   }
-
+  
   /**
-   * @param {Stage} stage 
+   * @constructor
    */
-  constructor(stage) {
+  constructor() {
 
     if (typeof Wave.level === 'undefined') {
       Wave.level = 0;
@@ -30,7 +31,7 @@ class Wave {
 
     this.level = Wave.level;
     Wave.nextLevel();
-    this.stage = stage;
+    this.stage = Canvas.getStage();
 
     /*
      * dispatch enemy waves from config.
@@ -142,7 +143,6 @@ class Wave {
     let enemyClass = config.enemyClass;
     let delayMs    = config.delayMs;
     let args       = config.args;
-    args.stage     = this.stage;
     return new Promise((resolve) => {
       window.setTimeout(() => {
         let e = new enemyClass(args);

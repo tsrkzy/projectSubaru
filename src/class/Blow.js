@@ -1,15 +1,17 @@
 "use strict";
 
+import Canvas from "./Canvas";
+
 /**
  * Blow class.
  * render explode and blow up effect on bullet collision.
  */
 class Blow {
   /**
-   * @param {{stage, radius, color, x, y}} args
+   * @param {{radius, color, x, y}} args
    */
   constructor(args) {
-    this.stage  = args.stage;
+    this.stage  = Canvas.getStage();
     this.radius = args.radius || 20;
     this.color  = args.color || 'lightblue';
     

@@ -10,6 +10,7 @@ import {
   STAGE_FRAME_TOP,
   STAGE_FRAME_BOTTOM
 } from "./Constant";
+import Canvas from "./Canvas";
 
 /**
  * Enemy base class.
@@ -29,21 +30,21 @@ class Enemy {
 
   /**
    * @constructor
-   * @param {Object} args - x, y, stage
+   * @param {Object} args - x, y
    */
   constructor(args) {
     this.id = Enemy.id;
     Enemy.id++;
-    this.x = args.x;
-    this.y = args.y;
+    this.x        = args.x;
+    this.y        = args.y;
     this.airCraft = AirCraft.getInstance();
     this.hitPoint = args.hitPoint;
-    this.alive = true;
-    this.stage = args.stage;
-    this.clock = new Clock(this);
-    this.shape = null;
-    this.hitArea = null;
-    this.text = null;
+    this.alive    = true;
+    this.stage    = Canvas.getStage();
+    this.clock    = new Clock(this);
+    this.shape    = null;
+    this.hitArea  = null;
+    this.text     = null;
     console.log(`enemy_${this.id} spawned`);
     this.p = new Promise((resolve) => {
       EventsWrapper.once(`enemyDestroyed_${this.id}`, () => {
