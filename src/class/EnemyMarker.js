@@ -124,7 +124,7 @@ class EnemyMarker {
       .drawCircle(0, 0, MARKER_HITAREA_RADIUS);
     
     this.updatePos();
-    
+  
     this.stage.addChild(this.shape);
     this.stage.addChild(this.hitArea);
     this.stage.addChild(this.text);

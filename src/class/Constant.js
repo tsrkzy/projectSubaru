@@ -98,6 +98,7 @@ export const AMPLIFIER_HEIGHT = 20;
  */
 export const BOMBER_WIDTH           = 20;
 export const BOMBER_HEIGHT          = 20;
+export const BOMBER_SPEED          = 1;
 export const BOMBER_LAST_SHOT_COUNT = 30;
 export const BOMBER_LAST_SHOT_DEPTH = 2;
 export const BOMBER_SHOT_COUNT = 3;

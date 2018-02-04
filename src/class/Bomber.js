@@ -1,6 +1,6 @@
 "use strict";
 import Enemy from "./Enemy";
-import {BOMBER_HEIGHT, BOMBER_LAST_SHOT_COUNT, BOMBER_LAST_SHOT_DEPTH, BOMBER_SHOT_COUNT, BOMBER_SHOT_DEPTH, BOMBER_WIDTH} from "./Constant";
+import {BOMBER_HEIGHT, BOMBER_LAST_SHOT_COUNT, BOMBER_LAST_SHOT_DEPTH, BOMBER_SHOT_COUNT, BOMBER_SHOT_DEPTH, BOMBER_SPEED, BOMBER_WIDTH} from "./Constant";
 import EnemyMarker from "./EnemyMarker";
 import MathUtil from "./MathUtil";
 import Sign from "./Sign";
@@ -18,6 +18,7 @@ class Bomber extends Enemy {
    */
   constructor(args) {
     super(args);
+    this.theta = 0;
     this.addInstance();
     this.deploy();
     this.assignTickListener();
@@ -39,9 +40,6 @@ class Bomber extends Enemy {
     if (createjs.Ticker.getTicks() % 120 !== 0) {
       return
     }
-  
-    let x = this.airCraft.x;
-    let y = this.airCraft.y;
   
     let theta = MathUtil.getAngleDegree(
       this.x,
@@ -95,6 +93,13 @@ class Bomber extends Enemy {
    * moving control kicked every tick
    */
   move() {
+    let angle    = MathUtil.getAngleDegree(this.x, this.y, this.airCraft.x, this.airCraft.y)
+    let sinTheta = 1 - Math.sin(this.theta);
+    let speed    = BOMBER_SPEED;
+    this.x -= speed * sinTheta * Math.cos(angle);
+    this.y -= speed * sinTheta * Math.sin(angle);
+    this.theta += MathUtil.d2r(1);
+    this.updatePos();
   }
   
   /**
