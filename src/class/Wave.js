@@ -2,9 +2,11 @@
 import Battery from "./Battery";
 import EventsWrapper from "./EventsWrapper";
 import Bomber from "./Bomber";
-import {WAVE_TIME_LIMIT} from "./Constant";
+import {AMPLIFIER_HEIGHT, WAVE_TIME_LIMIT} from "./Constant";
 import Canvas from "./Canvas";
 import Noise from "./Noise";
+import Amplifier from "./Amplifier";
+import Launcher from "./Launcher";
 
 class Wave {
 
@@ -68,7 +70,7 @@ class Wave {
     let promiseArray = [];
     let waveConf = [
       {
-        enemyClass: Noise,
+        enemyClass: Launcher,
         delayMs   : 0,
         args      : {
           x: 600,
@@ -77,7 +79,7 @@ class Wave {
         }
       },
         {
-          enemyClass: Bomber,
+          enemyClass: Amplifier,
           delayMs: 0,
           args: {
             x: 600,

@@ -17,9 +17,34 @@ class Amplifier extends Enemy {
    */
   constructor(args) {
     super(args);
+    Amplifier.instances = Amplifier.instances || [];
+    this.enrage         = true;
+    
     this.addInstance();
     this.deploy();
     this.assignTickListener();
+  }
+  
+  /**
+   * return bullet expand ratio.
+   * returns 2 to the power of number of Amplifier enraged.
+   * (if Amplifier enraged does not exist, return 1)
+   *
+   * @return {number} Math.power(2,n);
+   */
+  static getRatio() {
+    let enraged = 0;
+    
+    for (let i = 0; i < Amplifier.instances.length; i++) {
+      let amp = Amplifier.instances[i];
+      if (amp.enrage === true) {
+        enraged++;
+      }
+    }
+    
+    let amplify = Math.pow(2, enraged);
+    
+    return amplify;
   }
   
   assignTickListener() {
@@ -73,4 +98,4 @@ class Amplifier extends Enemy {
   }
 }
 
-export default Battery;
+export default Amplifier;
