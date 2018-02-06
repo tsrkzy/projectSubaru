@@ -96,6 +96,15 @@ class Wave {
           hitPoint: 2,
         }
       },
+      {
+        enemyClass: Bomber,
+        delayMs   : 0,
+        args      : {
+          x       : 600,
+          y       : -50,
+          hitPoint: 2,
+        }
+      },
     ];
     //       [
     //   {

@@ -5,9 +5,11 @@ import {
   GUNPOWDER_BULLET_HEIGHT,
   GUNPOWDER_BULLET_SPEED,
 } from "./Constant";
+import Amplifier from "./Amplifier";
 
 /**
  * only use for FireWorks.
+ * @requires Amplifier
  */
 class GunPowder extends EnemyBullet {
   
@@ -34,15 +36,17 @@ class GunPowder extends EnemyBullet {
   }
   
   deploy() {
+    let amplify = Amplifier.getRatio();
+    
     this.shape = new createjs.Shape();
     this.shape.graphics
       .setStrokeStyle(1)
       .beginStroke('black')
       .drawRect(
-        -GUNPOWDER_BULLET_WIDTH / 2,
-        -GUNPOWDER_BULLET_HEIGHT / 2,
-        GUNPOWDER_BULLET_WIDTH,
-        GUNPOWDER_BULLET_HEIGHT);
+        amplify * -GUNPOWDER_BULLET_WIDTH / 2,
+        amplify * -GUNPOWDER_BULLET_HEIGHT / 2,
+        amplify * GUNPOWDER_BULLET_WIDTH,
+        amplify * GUNPOWDER_BULLET_HEIGHT);
     
     this.text.text = '';
     
@@ -51,10 +55,10 @@ class GunPowder extends EnemyBullet {
     this.hitArea.graphics
       .beginFill('purple')
       .drawRect(
-        -GUNPOWDER_BULLET_WIDTH / 2,
-        -GUNPOWDER_BULLET_HEIGHT / 2,
-        GUNPOWDER_BULLET_WIDTH,
-        GUNPOWDER_BULLET_HEIGHT);
+        amplify * -GUNPOWDER_BULLET_WIDTH / 2,
+        amplify * -GUNPOWDER_BULLET_HEIGHT / 2,
+        amplify * GUNPOWDER_BULLET_WIDTH,
+        amplify * GUNPOWDER_BULLET_HEIGHT);
     
     this.updatePos();
     

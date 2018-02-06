@@ -18,11 +18,26 @@ class Amplifier extends Enemy {
   constructor(args) {
     super(args);
     Amplifier.instances = Amplifier.instances || [];
-    this.enrage         = true;
+    this.enrage         = false;
     
     this.addInstance();
     this.deploy();
     this.assignTickListener();
+    window.setTimeout(() => {
+      this.rage()
+    }, 1000)
+  }
+  
+  rage() {
+    if (!this.alive) {
+      return false;
+    }
+    this.enrage = true;
+    this.shape.graphics
+      .endFill()
+      .setStrokeStyle(1)
+      .beginStroke('lightblue')
+      .drawCircle(0, 0, 40);
   }
   
   /**
