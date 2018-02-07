@@ -2,7 +2,7 @@
 import Enemy from "./Enemy";
 import EnemyBatteryBullet from "./EnemyBatteryBullet";
 import MathUtil from "./MathUtil";
-import {BATTERY_HEIGHT, BATTERY_WIDTH} from "./Constant";
+import {BATTERY_HEIGHT, BATTERY_WIDTH, STAGE_EDGE_BOTTOM, STAGE_EDGE_LEFT, STAGE_EDGE_RIGHT, STAGE_EDGE_TOP, STAGE_PADDING_X} from "./Constant";
 
 /**
  * Enemy "Battery" class.
@@ -16,7 +16,8 @@ class Battery extends Enemy {
    */
   constructor(args) {
     super(args);
-    this.direction = 1;
+    this.directionX = 1;
+    this.directionY = 1;
     this.addInstance();
     this.deploy();
     this.assignTickListener();
@@ -40,8 +41,6 @@ class Battery extends Enemy {
       return;
     }
   
-    let x     = this.airCraft.x;
-    let y     = this.airCraft.y;
     let theta = MathUtil.getAngleDegree(
       this.x,
       this.y,
@@ -76,16 +75,25 @@ class Battery extends Enemy {
    * moving control kicked every tick
    */
   move() {
-    this.walkVertical(50, 450);
+    this.walkAround(STAGE_EDGE_LEFT, STAGE_EDGE_RIGHT, STAGE_EDGE_TOP, STAGE_EDGE_BOTTOM);
   }
-
-  walkVertical(min, max) {
-    if (this.direction === 1 && this.y >= max) {
-      this.direction = -1;
-    } else if (this.direction === -1 && this.y <= min) {
-      this.direction = 1;
+  
+  walkAround(minX, maxX, minY, maxY) {
+    
+    if (this.directionX === 1 && this.x >= maxX) {
+      this.directionX = -1;
+    } else if (this.directionX === -1 && this.x <= minX) {
+      this.directionX = 1;
     }
-    this.y += this.direction;
+    this.x += this.directionX;
+    
+    if (this.directionY === 1 && this.y >= maxY) {
+      this.directionY = -1;
+    } else if (this.directionY === -1 && this.y <= minY) {
+      this.directionY = 1;
+    }
+    this.y += this.directionY;
+    
     this.updatePos();
   }
 
