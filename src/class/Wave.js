@@ -1,12 +1,7 @@
 "use strict";
-import Battery from "./Battery";
-import EventsWrapper from "./EventsWrapper";
-import Bomber from "./Bomber";
-import {AMPLIFIER_HEIGHT, WAVE_TIME_LIMIT} from "./Constant";
+import {WAVE_TIME_LIMIT} from "./Constant";
 import Canvas from "./Canvas";
-import Noise from "./Noise";
-import Amplifier from "./Amplifier";
-import Launcher from "./Launcher";
+import WaveUtil from "./WaveUtil";
 
 class Wave {
 
@@ -57,7 +52,6 @@ class Wave {
     this.p = Promise.race([Promise.all(this.promises), timer])
       .then(() => {
         console.warn('wave clear!!');
-        EventsWrapper.emit('wave.Clear');
       })
   }
 
@@ -68,81 +62,9 @@ class Wave {
   comeOut() {
 
     let promiseArray = [];
-    let waveConf = [
-      {
-        enemyClass: Launcher,
-        delayMs   : 0,
-        args      : {
-          x: 600,
-          y: 100,
-          hitPoint: 2,
-        }
-      },
-        {
-          enemyClass: Amplifier,
-          delayMs: 0,
-          args: {
-            x: 600,
-            y: 300,
-            hitPoint: 2,
-          }
-        },
-      {
-        enemyClass: Battery,
-        delayMs   : 0,
-        args      : {
-          x       : 600,
-          y       : -50,
-          hitPoint: 2,
-        }
-      },
-      {
-        enemyClass: Bomber,
-        delayMs   : 0,
-        args      : {
-          x       : 600,
-          y       : -50,
-          hitPoint: 2,
-        }
-      },
-    ];
-    //       [
-    //   {
-    //     enemyClass: Battery,
-    //     delayMs: 0,
-    //     args: {
-    //       x: 600,
-    //       y: -50,
-    //       hitPoint: 2,
-    //     }
-    //   },
-    //   {
-    //     enemyClass: Battery,
-    //     delayMs: 1000,
-    //     args: {
-    //       x: 600,
-    //       y: -50,
-    //       hitPoint: 2,
-    //     }
-    //   }, {
-    //     enemyClass: Battery,
-    //     delayMs: 2000,
-    //     args: {
-    //       x: 600,
-    //       y: -50,
-    //       hitPoint: 2,
-    //     }
-    //   }
-    // ];
-
-    // let meteorConf = WaveUtil.meteorRain({
-    //   number: 20,
-    //   y: 250,
-    //   delayMs: 0,
-    //   spanMs: 3000,
-    //   spreadDegree: 10,
-    // });
-    // waveConf = waveConf.concat(meteorConf);
+    
+    let waveConf = WaveUtil.getConfig(Wave.level);
+    
     waveConf.forEach((w) => {
       let promise = this.deployEnemy(w);
       promiseArray.push(promise);

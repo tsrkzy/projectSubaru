@@ -3,6 +3,8 @@
 import Stage from "./class/Stage.js";
 import EventsWrapper from "./class/EventsWrapper";
 import {CANVAS_ID} from "./class/Constant.js";
+import Wave from "./class/Wave";
+
 
 /*
  * display "GAME START"
@@ -26,30 +28,32 @@ import {CANVAS_ID} from "./class/Constant.js";
   
   function gameStartHandler() {
     rectShape.removeEventListener('click', gameStartHandler, false);
-    
-    let s = new Stage();
-    let waveIterator  = wave(s);
+  
+    new Stage();
     let stageListener = new EventsWrapper();
+    let wi            = waveIterator(stageListener);
     let die           = false;
-
-    stageListener.on('wave.Clear', () => {
-      waveIterator.next();
+    wi.next();
+    
+    stageListener.on('wave.clear', () => {
+      wi.next();
     });
-
+  
     stageListener.on('gameOver', () => {
       die = true;
-      waveIterator.next();
+      wi.next();
     });
-    
-    waveIterator.next();
   
-    function* wave(s) {
+    function* waveIterator(listener) {
       
       while (1) {
         if (die) {
           break;
         }
-        s.nextWave();
+        new Wave().p.then(() => {
+          listener.emit('wave.clear');
+        });
+        
         /*
          * pause process flow till next waveIterator#next();
          */

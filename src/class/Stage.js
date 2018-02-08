@@ -4,7 +4,6 @@ import AirCraft from "./AirCraft.js";
 import Enemy from "./Enemy";
 import EnemyBullet from "./EnemyBullet";
 import FriendBullet from "./FriendBullet";
-import Wave from "./Wave";
 import {
   INDICATOR_FONT_STYLE,
   INDICATOR_X,
@@ -51,12 +50,6 @@ class Stage {
     })
   }
   
-  /**
-   * create next Wave
-   */
-  nextWave() {
-    new Wave();
-  }
 }
 
 export default Stage;
