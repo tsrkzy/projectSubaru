@@ -4,6 +4,8 @@ import Bomber from "./Bomber";
 import Amplifier from "./Amplifier";
 import Battery from "./Battery";
 import Launcher from "./Launcher";
+import {STAGE_FRAME_RIGHT} from "./Constant";
+import Noise from "./Noise";
 
 "use strict";
 
@@ -47,13 +49,8 @@ class WaveUtil {
 
     return result
   }
-
-  static batteryArray() {
-
-  }
   
-  static getConfig(level) {
-    
+  static stab() {
     let waveConf = [
       {
         enemyClass: Launcher,
@@ -103,6 +100,231 @@ class WaveUtil {
     // waveConf       = waveConf.concat(meteorConf);
     
     return waveConf
+  }
+  
+  /**
+   *
+   * @param {number} level
+   * @return {Array<Object>}
+   */
+  static getConfig(level) {
+    
+    // return this.stab();
+    
+    let tier = Math.floor(level / 5);
+    
+    
+    // if (tier === 0) {
+    return WaveUtil.intro(level);
+    // }
+    
+    return []
+  }
+  
+  /**
+   * @param {number} level
+   * @return {Array<Object>}
+   */
+  static intro(level) {
+    let waveConfig = [];
+    switch (level) {
+      case 1:
+        // "what is battery"
+        waveConfig.push(...WaveUtil.dispatchBatterySortie());
+        break;
+      case 2:
+        // "launcher and bomber"
+        waveConfig.push(...WaveUtil.dispatchLauncherSortie());
+        waveConfig.push(...WaveUtil.dispatchBomberSortie());
+        break;
+      case 3:
+        // "launcher and amplifier"
+        waveConfig.push(...WaveUtil.dispatchLauncherSortie());
+        waveConfig.push(...WaveUtil.dispatchAmplifierSortie());
+        break;
+      case 4:
+        // "bomber and noise"
+        waveConfig.push(...WaveUtil.dispatchBomberSortie());
+        waveConfig.push(...WaveUtil.dispatchNoiseSortie());
+        break;
+      default:
+        throw new Error(`unexpected level: ${level} in #intro`);
+        break;
+    }
+    
+    return waveConfig
+  }
+  
+  
+  static dispatchSortie(args) {
+    /*
+     * enemyClass
+     * delayMs
+     * spanMs
+     * spanX
+     * spanY
+     * count
+     * args{
+     *   x
+     *   y
+     *   hitPoint
+     * }
+     */
+    let enemyClass = args.enemyClass;
+    let delayMs    = args.delayMs || 0;
+    let spanMs     = args.spanMs || 0;
+    let spanX      = args.spanX || 0;
+    let spanY      = args.spanY || 0;
+    let count      = args.count || 1;
+    let x          = args.x || 0;
+    let y          = args.y || 0;
+    let hitPoint   = args.hitPoint || 1;
+    
+    let waveConf = [];
+    
+    for (let i = 0; i < count; i++) {
+      let conf = {
+        enemyClass: enemyClass,
+        delayMs   : delayMs + spanMs * i,
+        args      : {
+          x       : x + spanX * i,
+          y       : y + spanY * i,
+          hitPoint: hitPoint,
+        }
+      };
+      waveConf.push(conf)
+    }
+    
+    return waveConf
+  }
+  
+  /**
+   * @return {Array<Object>}
+   */
+  static dispatchBatterySortie() {
+    
+    let spanMs   = 800;
+    let count    = 5;
+    let waveConf = [];
+    
+    for (let i = 0; i < count; i++) {
+      
+      let conf = {
+        enemyClass: Battery,
+        delayMs   : 0 + spanMs * i,
+        args      : {
+          x       : 500,
+          y       : -50,
+          hitPoint: 1,
+        }
+      };
+      waveConf.push(conf);
+    }
+    
+    return waveConf;
+  }
+  
+  /**
+   * @return {Array<Object>}
+   */
+  static dispatchLauncherSortie() {
+    let spanY    = 80;
+    let count    = 5;
+    let waveConf = [];
+    
+    for (let i = 0; i < count; i++) {
+      
+      let conf = {
+        enemyClass: Launcher,
+        delayMs   : 0,
+        args      : {
+          x       : STAGE_FRAME_RIGHT,
+          y       : 100 + spanY * i,
+          hitPoint: 1,
+        }
+      };
+      waveConf.push(conf);
+    }
+    
+    return waveConf;
+  }
+  
+  /**
+   * @return {Array<Object>}
+   */
+  static dispatchBomberSortie() {
+    let spanY    = 100;
+    let spanMs   = 800;
+    let count    = 3;
+    let waveConf = [];
+    
+    for (let i = 0; i < count; i++) {
+      
+      let conf = {
+        enemyClass: Bomber,
+        delayMs   : 0 + spanMs * i,
+        args      : {
+          x       : STAGE_FRAME_RIGHT,
+          y       : 100 + spanY * i,
+          hitPoint: 1,
+        }
+      };
+      waveConf.push(conf);
+    }
+    
+    return waveConf;
+  }
+  
+  /**
+   * @return {Array<Object>}
+   */
+  static dispatchAmplifierSortie() {
+    let spanY    = 120;
+    let spanMs   = 800;
+    let count    = 3;
+    let waveConf = [];
+    
+    for (let i = 0; i < count; i++) {
+      
+      let conf = {
+        enemyClass: Amplifier,
+        delayMs   : 0 + spanMs * i,
+        args      : {
+          x       : STAGE_FRAME_RIGHT,
+          y       : 120 + spanY * i,
+          hitPoint: 3,
+        }
+      };
+      waveConf.push(conf);
+    }
+    
+    return waveConf;
+  }
+  
+  /**
+   * @return {Array<Object>}
+   */
+  static dispatchNoiseSortie() {
+    let spanY    = 100;
+    let spanMs   = 800;
+    let count    = 3;
+    let waveConf = [];
+    
+    for (let i = 0; i < count; i++) {
+      
+      let conf = {
+        enemyClass: Noise,
+        delayMs   : 0 + spanMs * i,
+        args      : {
+          x       : STAGE_FRAME_RIGHT,
+          y       : 100 + spanY * i,
+          hitPoint: 1,
+        }
+      };
+      waveConf.push(conf);
+    }
+    
+    return waveConf;
   }
 }
 

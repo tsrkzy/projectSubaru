@@ -8,7 +8,7 @@ import {
   STAGE_FRAME_LEFT,
   STAGE_FRAME_RIGHT,
   STAGE_FRAME_TOP,
-  STAGE_FRAME_BOTTOM
+  STAGE_FRAME_BOTTOM, STAGE_EDGE_LEFT, STAGE_EDGE_RIGHT, STAGE_EDGE_TOP, STAGE_EDGE_BOTTOM
 } from "./Constant";
 import Canvas from "./Canvas";
 
@@ -188,7 +188,33 @@ class Enemy {
       }
     }
   }
-
+  
+  slideIn() {
+    if (!this.isEdgeOut) {
+      return false;
+    }
+    
+    if (this.x <= STAGE_EDGE_LEFT) {
+      this.x += 1;
+    }
+    if (this.x >= STAGE_EDGE_RIGHT) {
+      this.x -= 1;
+    }
+    if (this.y <= STAGE_EDGE_TOP) {
+      this.y += 1;
+    }
+    if (this.y >= STAGE_EDGE_BOTTOM) {
+      this.y -= 1;
+    }
+  }
+  
+  get isEdgeOut() {
+    return this.x <= STAGE_EDGE_LEFT ||
+      this.x >= STAGE_EDGE_RIGHT ||
+      this.y <= STAGE_EDGE_TOP ||
+      this.y >= STAGE_EDGE_BOTTOM
+  }
+  
   get isFrameOut() {
     return this.x <= STAGE_FRAME_LEFT ||
       this.x >= STAGE_FRAME_RIGHT ||

@@ -81,7 +81,8 @@ class Amplifier extends Enemy {
    * moving control kicked every tick
    */
   move() {
-  
+    this.slideIn();
+    this.updatePos();
   }
   
   deploy() {

@@ -76,6 +76,7 @@ class Battery extends Enemy {
    */
   move() {
     this.walkAround(STAGE_EDGE_LEFT, STAGE_EDGE_RIGHT, STAGE_EDGE_TOP, STAGE_EDGE_BOTTOM);
+    this.updatePos();
   }
   
   walkAround(minX, maxX, minY, maxY) {
@@ -93,8 +94,6 @@ class Battery extends Enemy {
       this.directionY = 1;
     }
     this.y += this.directionY;
-    
-    this.updatePos();
   }
 
   deploy() {
