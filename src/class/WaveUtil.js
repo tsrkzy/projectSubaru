@@ -13,42 +13,6 @@ class WaveUtil {
   constructor() {
     throw Error('WaveUtil cannot be instanciate');
   }
-
-  /**
-   * generate debris rain.
-   * @param {Object} args
-   * @return {Array<Object>}
-   */
-  static meteorRain(args) {
-    let number = args.number;
-    let _y = args.y;
-    let delayMs = args.delayMs;
-    let spanMs = args.spanMs;
-    let direction = args.direction;
-    let spreadDegree = args.spreadDegree || 10;
-    let speed = args.speed;
-
-    let result = [];
-    for (let i = 1; i <= number; i++) {
-
-      let y = MathUtil.normalRandom(_y, 100);
-      let angleDegree = MathUtil.normalRandom(0, spreadDegree);
-      let conf = {
-        enemyClass: Debris,
-        delayMs: delayMs + (i * spanMs / number),
-        args: {
-          x: 740,
-          y: y,
-          speed: -7,
-          angleDegree: angleDegree,
-          hitPoint: 1
-        }
-      };
-      result.push(conf);
-    }
-
-    return result
-  }
   
   static stab() {
     let waveConf = [
@@ -89,15 +53,6 @@ class WaveUtil {
         }
       },
     ];
-    
-    // let meteorConf = WaveUtil.meteorRain({
-    //   number      : 20,
-    //   y           : 250,
-    //   delayMs     : 0,
-    //   spanMs      : 3000,
-    //   spreadDegree: 10,
-    // });
-    // waveConf       = waveConf.concat(meteorConf);
     
     return waveConf
   }
@@ -205,21 +160,12 @@ class WaveUtil {
     
     let spanMs   = 800;
     let count    = 5;
-    let waveConf = [];
-    
-    for (let i = 0; i < count; i++) {
-      
-      let conf = {
-        enemyClass: Battery,
-        delayMs   : 0 + spanMs * i,
-        args      : {
-          x       : 500,
-          y       : -50,
-          hitPoint: 1,
-        }
-      };
-      waveConf.push(conf);
-    }
+  
+    let waveConf = WaveUtil.dispatchSortie({
+      enemyClass: Battery,
+      spanMs    : spanMs,
+      count     : count,
+    });
     
     return waveConf;
   }
@@ -230,21 +176,12 @@ class WaveUtil {
   static dispatchLauncherSortie() {
     let spanY    = 80;
     let count    = 5;
-    let waveConf = [];
-    
-    for (let i = 0; i < count; i++) {
-      
-      let conf = {
-        enemyClass: Launcher,
-        delayMs   : 0,
-        args      : {
-          x       : STAGE_FRAME_RIGHT,
-          y       : 100 + spanY * i,
-          hitPoint: 1,
-        }
-      };
-      waveConf.push(conf);
-    }
+  
+    let waveConf = WaveUtil.dispatchSortie({
+      enemyClass: Launcher,
+      spanY     : spanY,
+      count     : count,
+    });
     
     return waveConf;
   }
@@ -256,21 +193,13 @@ class WaveUtil {
     let spanY    = 100;
     let spanMs   = 800;
     let count    = 3;
-    let waveConf = [];
-    
-    for (let i = 0; i < count; i++) {
-      
-      let conf = {
-        enemyClass: Bomber,
-        delayMs   : 0 + spanMs * i,
-        args      : {
-          x       : STAGE_FRAME_RIGHT,
-          y       : 100 + spanY * i,
-          hitPoint: 1,
-        }
-      };
-      waveConf.push(conf);
-    }
+  
+    let waveConf = WaveUtil.dispatchSortie({
+      enemyClass: Bomber,
+      spanY     : spanY,
+      spanMs    : spanMs,
+      count     : count,
+    });
     
     return waveConf;
   }
@@ -282,21 +211,13 @@ class WaveUtil {
     let spanY    = 120;
     let spanMs   = 800;
     let count    = 3;
-    let waveConf = [];
-    
-    for (let i = 0; i < count; i++) {
-      
-      let conf = {
-        enemyClass: Amplifier,
-        delayMs   : 0 + spanMs * i,
-        args      : {
-          x       : STAGE_FRAME_RIGHT,
-          y       : 120 + spanY * i,
-          hitPoint: 3,
-        }
-      };
-      waveConf.push(conf);
-    }
+  
+    let waveConf = WaveUtil.dispatchSortie({
+      enemyClass: Amplifier,
+      spanY     : spanY,
+      spanMs    : spanMs,
+      count     : count,
+    });
     
     return waveConf;
   }
@@ -308,23 +229,58 @@ class WaveUtil {
     let spanY    = 100;
     let spanMs   = 800;
     let count    = 3;
-    let waveConf = [];
-    
-    for (let i = 0; i < count; i++) {
-      
-      let conf = {
-        enemyClass: Noise,
-        delayMs   : 0 + spanMs * i,
-        args      : {
-          x       : STAGE_FRAME_RIGHT,
-          y       : 100 + spanY * i,
-          hitPoint: 1,
-        }
-      };
-      waveConf.push(conf);
-    }
+  
+    let waveConf = WaveUtil.dispatchSortie({
+      enemyClass: Noise,
+      spanY     : spanY,
+      spanMs    : spanMs,
+      count     : count,
+    });
     
     return waveConf;
+  }
+  
+  /**
+   * generate debris rain.
+   * @param {Object} args
+   * @return {Array<Object>}
+   */
+  static dispatchDebrisSortie(args) {
+  
+    // number      : 20,
+    //   y           : 250,
+    //   delayMs     : 0,
+    //   spanMs      : 3000,
+    //   spreadDegree: 10,
+    
+    let number = args.number;
+    let _y = args.y;
+    let delayMs = args.delayMs;
+    let spanMs = args.spanMs;
+    let direction = args.direction;
+    let spreadDegree = args.spreadDegree || 10;
+    let speed = args.speed;
+    
+    let result = [];
+    for (let i = 1; i <= number; i++) {
+      
+      let y = MathUtil.normalRandom(_y, 100);
+      let angleDegree = MathUtil.normalRandom(0, spreadDegree);
+      let conf = {
+        enemyClass: Debris,
+        delayMs: delayMs + (i * spanMs / number),
+        args: {
+          x: 740,
+          y: y,
+          speed: -7,
+          angleDegree: angleDegree,
+          hitPoint: 1
+        }
+      };
+      result.push(conf);
+    }
+    
+    return result
   }
 }
 
