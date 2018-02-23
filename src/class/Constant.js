@@ -41,6 +41,7 @@ export const STAGE_FRAME_BOTTOM = STAGE_HEIGHT + STAGE_MARGIN_Y;
  * wave
  */
 export const WAVE_TIME_LIMIT = 20 * 1000;
+export const ENEMY_VARIATION = 10;
 
 /*
  * aircraft

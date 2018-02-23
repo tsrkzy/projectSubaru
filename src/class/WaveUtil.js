@@ -4,7 +4,7 @@ import Bomber from "./Bomber";
 import Amplifier from "./Amplifier";
 import Battery from "./Battery";
 import Launcher from "./Launcher";
-import {STAGE_FRAME_RIGHT} from "./Constant";
+import {ENEMY_VARIATION, STAGE_FRAME_RIGHT} from "./Constant";
 import Noise from "./Noise";
 
 "use strict";
@@ -14,73 +14,42 @@ class WaveUtil {
     throw Error('WaveUtil cannot be instanciate');
   }
   
-  static stab() {
-    let waveConf = [
-      {
-        enemyClass: Launcher,
-        delayMs   : 0,
-        args      : {
-          x       : 600,
-          y       : 100,
-          hitPoint: 2,
-        }
-      },
-      {
-        enemyClass: Amplifier,
-        delayMs   : 0,
-        args      : {
-          x       : 600,
-          y       : 300,
-          hitPoint: 2,
-        }
-      },
-      {
-        enemyClass: Battery,
-        delayMs   : 0,
-        args      : {
-          x       : 600,
-          y       : -50,
-          hitPoint: 2,
-        }
-      },
-      {
-        enemyClass: Bomber,
-        delayMs   : 0,
-        args      : {
-          x       : 600,
-          y       : -50,
-          hitPoint: 2,
-        }
-      },
-    ];
-    
-    return waveConf
-  }
-  
   /**
    *
    * @param {number} level
    * @return {Array<Object>}
    */
   static getConfig(level) {
-    
-    // return this.stab();
-    
+  
+    /*
+     * get tier (0<=tier<=3)
+     */
     let tier = Math.floor(level / 5);
-    
-    
-    // if (tier === 0) {
-    return WaveUtil.intro(level);
-    // }
-    
-    return []
+    if (tier > 3) {
+      tier = 3;
+    }
+  
+    /*
+     * tier 0 is tutorial
+     */
+    if (tier === 0) {
+      return WaveUtil.tutorial(level);
+    }
+  
+    /*
+     * tier 1~3
+     */
+    return WaveUtil.randomConfig(level, tier);
   }
   
   /**
+   * generate tutorial enemy config.
+   *   every enemy config are static.
+   *
    * @param {number} level
    * @return {Array<Object>}
    */
-  static intro(level) {
+  static tutorial(level) {
     let waveConfig = [];
     switch (level) {
       case 1:
@@ -104,12 +73,76 @@ class WaveUtil {
         break;
       default:
         throw new Error(`unexpected level: ${level} in #intro`);
+    }
+  
+    return waveConfig
+  }
+  
+  /**
+   * generate wave config from level and tier
+   *
+   * @param {number} level
+   * @param {number} tier
+   * @return {Array}
+   */
+  static randomConfig(level, tier) {
+    let debrisLevel    = 0;
+    let amplifierLevel = 0;
+    let patternSeedId  = Math.floor(ENEMY_VARIATION * Math.random()); // 0-9
+    let waveConf       = [];
+    
+    let randomConf    = WaveUtil.generateRandomPattern(level, tier, patternSeedId);
+    let debrisConf    = WaveUtil.generateDebrisConf(level, tier, debrisLevel);
+    let amplifierConf = WaveUtil.generateAmplifierConf(level, tier, amplifierLevel);
+    
+    waveConf.concat(randomConf);
+    waveConf.concat(debrisConf);
+    waveConf.concat(amplifierConf);
+    
+    return waveConf
+  }
+  
+  /**
+   * generate wave config by random patternSeedId
+   *
+   * @param {number} level
+   * @param {number} tier
+   * @param {number} patternSeedId
+   * @return {Array}
+   */
+  static generateRandomPattern(level, tier, patternSeedId) {
+    let waveConfig = [];
+    switch (patternSeedId) {
+      case 1:
+        waveConfig.push(...WaveUtil.generateBatteryConf());
         break;
+      case 2:
+        waveConfig.push(...WaveUtil.dispatchLauncherSortie());
+        waveConfig.push(...WaveUtil.dispatchBomberSortie());
+        break;
+      case 3:
+        waveConfig.push(...WaveUtil.dispatchLauncherSortie());
+        break;
+      case 4:
+        waveConfig.push(...WaveUtil.dispatchBomberSortie());
+        waveConfig.push(...WaveUtil.dispatchNoiseSortie());
+        break;
+      default:
+        throw new Error(`unexpected level: ${patternSeedId} in #generateRandomConf`);
     }
     
     return waveConfig
   }
   
+  static generateBatteryConf() {
+  
+  }
+  
+  static generateDebrisConf(level, tier, debrisLevel) {
+  }
+  
+  static generateAmplifierConf(level, tier, amplifierLevel) {
+  }
   
   static dispatchSortie(args) {
     /*
@@ -163,8 +196,12 @@ class WaveUtil {
   
     let waveConf = WaveUtil.dispatchSortie({
       enemyClass: Battery,
-      spanMs    : spanMs,
-      count     : count,
+      delayMs   : 0,
+      spanMs    : spanMs || 800,
+      count     : count || 1,
+      x         : 500,
+      y         : -50,
+      hitPoint  : 1,
     });
     
     return waveConf;
@@ -179,8 +216,12 @@ class WaveUtil {
   
     let waveConf = WaveUtil.dispatchSortie({
       enemyClass: Launcher,
-      spanY     : spanY,
-      count     : count,
+      delayMs   : 0,
+      spanY     : spanY || 80,
+      count     : count || 1,
+      x         : STAGE_FRAME_RIGHT,
+      y         : 100,
+      hitPoint  : 1,
     });
     
     return waveConf;
@@ -196,9 +237,12 @@ class WaveUtil {
   
     let waveConf = WaveUtil.dispatchSortie({
       enemyClass: Bomber,
+      delayMs   : 0,
+      spanMs    : spanMs || 800,
+      count     : count || 1,
+      x         : STAGE_FRAME_RIGHT,
+      y         : 100,
       spanY     : spanY,
-      spanMs    : spanMs,
-      count     : count,
     });
     
     return waveConf;
@@ -214,9 +258,13 @@ class WaveUtil {
   
     let waveConf = WaveUtil.dispatchSortie({
       enemyClass: Amplifier,
-      spanY     : spanY,
+      delayMs   : 0,
       spanMs    : spanMs,
+      spanY     : spanY,
       count     : count,
+      x         : STAGE_FRAME_RIGHT,
+      y         : 120,
+      hitPoint  : 3,
     });
     
     return waveConf;
@@ -232,9 +280,12 @@ class WaveUtil {
   
     let waveConf = WaveUtil.dispatchSortie({
       enemyClass: Noise,
-      spanY     : spanY,
       spanMs    : spanMs,
+      x         : STAGE_FRAME_RIGHT,
+      y         : 100,
+      spanY     : spanY,
       count     : count,
+      hitPoint  : 1,
     });
     
     return waveConf;
