@@ -1,27 +1,25 @@
-"use strict";
-import {WAVE_TIME_LIMIT} from "./Constant";
-import Canvas from "./Canvas";
-import WaveUtil from "./WaveUtil";
+'use strict';
+import {WAVE_TIME_LIMIT} from './Constant';
+import Canvas from './Canvas';
+import WaveUtil from './WaveUtil';
 
 class Wave {
-
   static nextLevel() {
-    return (Wave._level++)
+    return (Wave._level++);
   }
 
   static get level() {
-    return Wave._level
+    return Wave._level;
   };
 
   static set level(l) {
     Wave._level = l;
   }
-  
+
   /**
    * @constructor
    */
   constructor() {
-
     if (typeof Wave.level === 'undefined') {
       Wave.level = 0;
     }
@@ -38,9 +36,9 @@ class Wave {
     /*
      * set wave timer
      */
-    let timer = new Promise((resolve) => {
+    const timer = new Promise((resolve) => {
       window.setTimeout(() => {
-        resolve()
+        resolve();
       }, WAVE_TIME_LIMIT);
     });
 
@@ -52,7 +50,7 @@ class Wave {
     this.p = Promise.race([Promise.all(this.promises), timer])
       .then(() => {
         console.warn('wave clear!!');
-      })
+      });
   }
 
 
@@ -60,13 +58,12 @@ class Wave {
    * @return {Array<Promise>}
    */
   comeOut() {
+    const promiseArray = [];
 
-    let promiseArray = [];
-    
-    let waveConf = WaveUtil.getConfig(Wave.level);
-    
+    const waveConf = WaveUtil.getConfig(Wave.level);
+
     waveConf.forEach((w) => {
-      let promise = this.deployEnemy(w);
+      const promise = this.deployEnemy(w);
       promiseArray.push(promise);
     });
 
@@ -81,19 +78,18 @@ class Wave {
    * @return {Promise}
    */
   deployEnemy(config) {
-
-    let enemyClass = config.enemyClass;
-    let delayMs    = config.delayMs;
-    let args       = config.args;
+    const EnemyClass = config.enemyClass;
+    const delayMs = config.delayMs;
+    const args = config.args;
     return new Promise((resolve) => {
       window.setTimeout(() => {
-        let e = new enemyClass(args);
-        let p = e.p;
+        const e = new EnemyClass(args);
+        const p = e.p;
         p.then(() => {
           resolve();
-        })
+        });
       }, delayMs);
-    })
+    });
   }
 }
 

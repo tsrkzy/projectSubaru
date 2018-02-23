@@ -1,7 +1,7 @@
-"use strict";
-import Enemy from "./Enemy";
-import MathUtil from "./MathUtil";
-import {DEBRIS_HEIGHT, DEBRIS_WIDTH} from "./Constant";
+'use strict';
+import Enemy from './Enemy';
+import MathUtil from './MathUtil';
+import {DEBRIS_HEIGHT, DEBRIS_WIDTH} from './Constant';
 
 /**
  * Enemy "Debris" class.
@@ -9,7 +9,6 @@ import {DEBRIS_HEIGHT, DEBRIS_WIDTH} from "./Constant";
  * come from outside of stage, go oppsite and die.
  */
 class Debris extends Enemy {
-
   /**
    * @constructor
    * @param {Object} args - x, y, stage
@@ -19,8 +18,8 @@ class Debris extends Enemy {
     this.speed = args.speed;
     this.angleDegree = args.angleDegree;
     this.angleRadian = MathUtil.d2r(this.angleDegree);
-    this.vX = this.speed * Math.cos(this.angleRadian)
-    this.vY = this.speed * Math.sin(this.angleRadian)
+    this.vX = this.speed * Math.cos(this.angleRadian);
+    this.vY = this.speed * Math.sin(this.angleRadian);
     this.addInstance();
     this.deploy();
     this.assignTickListener();
@@ -49,7 +48,7 @@ class Debris extends Enemy {
       if (this.isFrameOut) {
         this.die();
       }
-    })
+    });
   }
 
   /**

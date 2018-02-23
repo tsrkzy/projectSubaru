@@ -1,11 +1,11 @@
-"use strict";
+'use strict';
 
-import VirtualPad from "./VirtualPad.js";
-import Gatling from "./Gatling";
-import Enemy from "./Enemy";
-import EnemyBullet from "./EnemyBullet";
-import Blow from "./Blow";
-import Clock from "./Clock";
+import VirtualPad from './VirtualPad.js';
+import Gatling from './Gatling';
+import Enemy from './Enemy';
+import EnemyBullet from './EnemyBullet';
+import Blow from './Blow';
+import Clock from './Clock';
 
 import {
   AIRCRAFT_INITIAL_X,
@@ -18,31 +18,30 @@ import {
   STAGE_EDGE_RIGHT,
   STAGE_EDGE_TOP,
   STAGE_EDGE_BOTTOM,
-} from "./Constant";
-import Canvas from "./Canvas";
-import Jammer from "./Jammer";
+} from './Constant';
+import Canvas from './Canvas';
+import Jammer from './Jammer';
 
 /**
  * Your AirCraft Class.
  */
 class AirCraft {
-  
   get y() {
     return this._y || 0;
   }
-  
+
   set y(value) {
     this._y = value;
   }
-  
+
   get x() {
     return this._x || 0;
   }
-  
+
   set x(value) {
     this._x = value;
   }
-  
+
   /**
    * get airCraft's speed.
    * if snared, slows down to half.
@@ -50,18 +49,18 @@ class AirCraft {
    * @return {number}
    */
   get velocity() {
-    let coefficient = (!this.snared) ? 1 : 0.5;
+    const coefficient = (!this.snared) ? 1 : 0.5;
     return AIRCRAFT_VELOCITY * coefficient;
   }
-  
+
   get diagonalVelocity() {
     return this.velocity / Math.sqrt(2);
   }
-  
+
   static getInstance() {
     return AirCraft.instance;
   }
-  
+
   /**
    * initialize parameters, set listeners
    * @constructor
@@ -71,31 +70,29 @@ class AirCraft {
       return AirCraft.instance;
     }
     AirCraft.instance = this;
-  
+
     this.stage = Canvas.getStage();
-    this.vp    = new VirtualPad();
+    this.vp = new VirtualPad();
     this.clock = new Clock(this);
-  
-    this.x      = AIRCRAFT_INITIAL_X;
-    this.y      = AIRCRAFT_INITIAL_Y;
+
+    this.x = AIRCRAFT_INITIAL_X;
+    this.y = AIRCRAFT_INITIAL_Y;
     this.snared = false;
-    this._gun   = new Gatling({
-      x    : this.x,
-      y    : this.y,
+    this._gun = new Gatling({
+      x: this.x,
+      y: this.y,
     });
-    
+
     this.assignTickListener();
     this.deploy();
   }
-  
+
   /**
    * set listeners
    * kicks every tick
    */
   assignTickListener() {
-
     this.clock.onTick(() => {
-      
       /*
        * moving control
        */
@@ -120,59 +117,54 @@ class AirCraft {
       if (this.y < STAGE_EDGE_TOP) this.y = STAGE_EDGE_TOP;
       if (this.y > STAGE_EDGE_BOTTOM) this.y = STAGE_EDGE_BOTTOM;
       this.updatePos();
-      
+
       this.text.text = `airCraft: {${Math.floor(this.x)},${Math.round(this.y)}}`;
-  
     });
-  
+
     /*
      * fire control
      */
     this.clock.onTick(() => {
-    
       this._gun.trigger(this.x, this.y);
     });
-  
+
     /*
      * collision check with enemies and every kind of enemyBullets
      */
     this.clock.onTick(() => {
       this.collisionCheck(Enemy.instances, this.beShot);
-    
+
       for (let i = 0; i < Object.keys(EnemyBullet.instances || {}).length; i++) {
-      
-        let enemyBulletInstances = EnemyBullet.instances[Object.keys(EnemyBullet.instances)[i]];
+        const enemyBulletInstances = EnemyBullet.instances[Object.keys(EnemyBullet.instances)[i]];
         this.collisionCheck(enemyBulletInstances, this.beShot);
       }
-  
+
       this.snareCheck();
-    })
+    });
   }
-  
+
   /**
    * check airCrafts in Noise's jammer effect.
    */
   snareCheck() {
-    
-    let result   = this.collisionCheck(Jammer.instances);
-    let inJammer = result.test;
-    this.snared  = inJammer;
+    const result = this.collisionCheck(Jammer.instances);
+    const inJammer = result.test;
+    this.snared = inJammer;
   }
-  
+
   /**
    * @param {number} x
    * @param {number} y
    */
   updatePos(x = this.x, y = this.y) {
-    
-    this.shape.x   = x;
-    this.shape.y   = y;
+    this.shape.x = x;
+    this.shape.y = y;
     this.hitArea.x = x;
     this.hitArea.y = y;
-    this.text.x    = x;
-    this.text.y    = y;
+    this.text.x = x;
+    this.text.y = y;
   }
-  
+
   /**
    * collision test with your aircraft.
    * @param {Array<Object>} targetArray - Object must have #shape to hitTest
@@ -180,64 +172,65 @@ class AirCraft {
    * @return {Object} result
    */
   collisionCheck(targetArray, fn = null) {
-  
-    let result = {
-      all : true,
-      test: false
+    const result = {
+      all: true,
+      test: false,
     };
-    
+
     for (let j = 0; j < targetArray.length; j++) {
-      
       /*
        * relative axis from target to hitArea(aircraft)-origin (zero-point)
        */
-      let target  = targetArray[j];
-      let pos     = target.hitArea.localToLocal(0, 0, this.hitArea);
-      let hitTest = target.hitArea.hitTest(pos.x, pos.y);
+      const target = targetArray[j];
+      const pos = target.hitArea.localToLocal(0, 0, this.hitArea);
+      const hitTest = target.hitArea.hitTest(pos.x, pos.y);
       if (hitTest) {
         result.test = true;
         if (typeof fn === 'function') {
           fn.call(this, pos.x, pos.y, target);
         }
-  
+
         continue;
       }
       result.all = false;
     }
-  
+
     return result;
   }
-  
+
   /**
    * kicked when your aircraft have been shot
+   * @param {number} x
+   * @param {number} y
+   * @param {object} target
    */
   beShot(x = 0, y = 0, target) {
     console.log(`${target.constructor.name} killed you.`);
     new Blow({
-      x    : this.x - x,
-      y    : this.y - y,
+      x: this.x - x,
+      y: this.y - y,
       color: 'red',
     });
   }
-  
+
   deploy() {
     /*
      * aircraft
      */
     this.shape = new createjs.Shape();
     this.shape.graphics.setStrokeStyle(1).beginStroke('lightgray').drawRect(0 - AIRCRAFT_WIDTH / 2, 0 - AIRCRAFT_HEIGHT / 2, AIRCRAFT_WIDTH, AIRCRAFT_HEIGHT);
-  
+
     /*
      * hit area
      */
     this.hitArea = new createjs.Shape();
     this.hitArea.graphics.beginFill('red').drawCircle(0, 0, AIRCRAFT_HIT_AREA);
-  
+
     /*
      * text label
      */
-    this.text = new createjs.Text('airCraft', "bold 9px Arial", "black");
-  
+    this.text = new createjs.Text('airCraft', 'bold 9px Arial', 'black');
+
     /*
      * staging
      */

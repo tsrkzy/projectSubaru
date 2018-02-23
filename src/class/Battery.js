@@ -1,15 +1,21 @@
-"use strict";
-import Enemy from "./Enemy";
-import EnemyBatteryBullet from "./EnemyBatteryBullet";
-import MathUtil from "./MathUtil";
-import {BATTERY_HEIGHT, BATTERY_WIDTH, STAGE_EDGE_BOTTOM, STAGE_EDGE_LEFT, STAGE_EDGE_RIGHT, STAGE_EDGE_TOP, STAGE_PADDING_X} from "./Constant";
+'use strict';
+import Enemy from './Enemy';
+import EnemyBatteryBullet from './EnemyBatteryBullet';
+import MathUtil from './MathUtil';
+import {
+  BATTERY_HEIGHT,
+  BATTERY_WIDTH,
+  STAGE_EDGE_BOTTOM,
+  STAGE_EDGE_LEFT,
+  STAGE_EDGE_RIGHT,
+  STAGE_EDGE_TOP,
+} from './Constant';
 
 /**
  * Enemy "Battery" class.
  * shoot a bullet at you.
  */
 class Battery extends Enemy {
-
   /**
    * @constructor
    * @param {Object} args - x, y
@@ -29,45 +35,44 @@ class Battery extends Enemy {
         return false;
       }
       this.text.text = `battery:{hp: ${this.hitPoint}`;
-    })
+    });
   }
 
   /**
    * firing control kicked every tick
    */
   trigger() {
-
     if (createjs.Ticker.getTicks() % 120 !== 0) {
       return;
     }
-  
-    let theta = MathUtil.getAngleDegree(
+
+    const theta = MathUtil.getAngleDegree(
       this.x,
       this.y,
       this.airCraft.x,
-      this.airCraft.y,
+      this.airCraft.y
     );
-    let shake = MathUtil.d2r(3);
+    const shake = MathUtil.d2r(3);
 
     new EnemyBatteryBullet({
       x: this.x,
       y: this.y,
       angle: theta,
-      stage: this.stage
+      stage: this.stage,
     });
 
     new EnemyBatteryBullet({
       x: this.x,
       y: this.y,
       angle: theta + shake,
-      stage: this.stage
+      stage: this.stage,
     });
 
     new EnemyBatteryBullet({
       x: this.x,
       y: this.y,
       angle: theta - shake,
-      stage: this.stage
+      stage: this.stage,
     });
   }
 
@@ -78,16 +83,15 @@ class Battery extends Enemy {
     this.walkAround(STAGE_EDGE_LEFT, STAGE_EDGE_RIGHT, STAGE_EDGE_TOP, STAGE_EDGE_BOTTOM);
     this.updatePos();
   }
-  
+
   walkAround(minX, maxX, minY, maxY) {
-    
     if (this.directionX === 1 && this.x >= maxX) {
       this.directionX = -1;
     } else if (this.directionX === -1 && this.x <= minX) {
       this.directionX = 1;
     }
     this.x += this.directionX;
-    
+
     if (this.directionY === 1 && this.y >= maxY) {
       this.directionY = -1;
     } else if (this.directionY === -1 && this.y <= minY) {

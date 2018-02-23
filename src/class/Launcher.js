@@ -1,17 +1,16 @@
-"use strict";
-import Enemy from "./Enemy";
-import {LAUNCHER_WIDTH, LAUNCHER_HEIGHT, BOMBER_SHOT_DEPTH, BOMBER_SHOT_COUNT} from "./Constant";
-import MathUtil from "./MathUtil";
-import Sign from "./Sign";
-import EnemyMarker from "./EnemyMarker";
-import FireWorks from "./FireWorks";
+'use strict';
+import Enemy from './Enemy';
+import {LAUNCHER_WIDTH, LAUNCHER_HEIGHT, BOMBER_SHOT_DEPTH, BOMBER_SHOT_COUNT} from './Constant';
+import MathUtil from './MathUtil';
+import Sign from './Sign';
+import EnemyMarker from './EnemyMarker';
+import FireWorks from './FireWorks';
 
 /**
  * Enemy "Launcher" class.
  * Once locked you, he launch missiles rapidly.
  */
 class Launcher extends Enemy {
-
   /**
    * @constructor
    * @param {Object} args - x, y, stage
@@ -29,7 +28,7 @@ class Launcher extends Enemy {
         return false;
       }
       this.text.text = `launcher:{hp: ${this.hitPoint}`;
-    })
+    });
   }
 
   /**
@@ -37,44 +36,42 @@ class Launcher extends Enemy {
    */
   trigger() {
     if (createjs.Ticker.getTicks() % 120 !== 0) {
-      return
+      return;
     }
-  
-    let theta = MathUtil.getAngleDegree(
+
+    const theta = MathUtil.getAngleDegree(
       this.x,
       this.y,
       this.airCraft.x,
-      this.airCraft.y,
+      this.airCraft.y
     );
-  
+
     /*
      * lock marker on you.
      */
-    let marker = new EnemyMarker({
-      x    : this.x,
-      y    : this.y,
+    const marker = new EnemyMarker({
+      x: this.x,
+      y: this.y,
       angle: theta,
     });
     marker.p.then(() => {
-    
       /*
        * Bomber was dead, sign does not appear.
        */
       if (this.alive === false) {
         return;
       }
-    
+
       /*
        * effect sign on you.
        */
-      let signX = this.airCraft.x;
-      let signY = this.airCraft.y;
-      let sign  = new Sign({
-        x    : signX,
-        y    : signY,
+      const signX = this.airCraft.x;
+      const signY = this.airCraft.y;
+      const sign = new Sign({
+        x: signX,
+        y: signY,
       });
       sign.p.then(() => {
-      
         /*
          * bomb on you.
          */
@@ -82,7 +79,7 @@ class Launcher extends Enemy {
           signX,
           signY,
           BOMBER_SHOT_COUNT,
-          BOMBER_SHOT_DEPTH,
+          BOMBER_SHOT_DEPTH
         );
       });
     });
@@ -93,9 +90,9 @@ class Launcher extends Enemy {
    */
   move() {
     this.slideIn();
-    this.updatePos()
+    this.updatePos();
   }
-  
+
   deploy() {
     this.shape = new createjs.Shape();
     this.shape.graphics.beginFill('darkgray').drawRect(0 - LAUNCHER_WIDTH / 2, 0 - LAUNCHER_HEIGHT / 2, LAUNCHER_WIDTH, LAUNCHER_HEIGHT);

@@ -1,13 +1,12 @@
-"use strict";
+'use strict';
 
-import Events from "Events";
+import Events from 'Events';
 
 /**
  * nodejs "Events" wrapper
  * @class
  */
 class EventsWrapper extends Events {
-  
   /**
    * @singleton
    * @constructor
@@ -19,38 +18,38 @@ class EventsWrapper extends Events {
     super();
     EventsWrapper.instance = this;
   }
-  
+
   /**
    * shorthand of #emit
-   * @param args
+   * @param {object} args
    */
   static emit(...args) {
     EventsWrapper.instance.emit(...args);
   }
-  
+
   /**
    * shorthand of #on
-   * @param args
+   * @param {object} args
    */
   static on(...args) {
     EventsWrapper.instance.on(...args);
   }
-  
+
   /**
    * shorthand of #once
    * diff with #on ...when #once triggered, listeners are removed.
    *
-   * @param args
+   * @param {object} args
    */
   static once(...args) {
     EventsWrapper.instance.once(...args);
   }
-  
+
   /**
    * shorthand of #removeAllListeners
-   * @param args
+   * @param {object} args
    */
-  static removeAllListeners(...args){
+  static removeAllListeners(...args) {
     EventsWrapper.instance.removeAllListeners(...args);
   }
 }

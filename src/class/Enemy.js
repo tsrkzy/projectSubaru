@@ -1,16 +1,16 @@
-"use strict";
-import FriendBullet from "./FriendBullet";
-import Clock from "./Clock";
-import Blow from "./Blow";
-import AirCraft from "./AirCraft";
-import EventsWrapper from "./EventsWrapper";
+'use strict';
+import FriendBullet from './FriendBullet';
+import Clock from './Clock';
+import Blow from './Blow';
+import AirCraft from './AirCraft';
+import EventsWrapper from './EventsWrapper';
 import {
   STAGE_FRAME_LEFT,
   STAGE_FRAME_RIGHT,
   STAGE_FRAME_TOP,
-  STAGE_FRAME_BOTTOM, STAGE_EDGE_LEFT, STAGE_EDGE_RIGHT, STAGE_EDGE_TOP, STAGE_EDGE_BOTTOM
-} from "./Constant";
-import Canvas from "./Canvas";
+  STAGE_FRAME_BOTTOM, STAGE_EDGE_LEFT, STAGE_EDGE_RIGHT, STAGE_EDGE_TOP, STAGE_EDGE_BOTTOM,
+} from './Constant';
+import Canvas from './Canvas';
 
 /**
  * Enemy base class.
@@ -35,16 +35,16 @@ class Enemy {
   constructor(args) {
     this.id = Enemy.id;
     Enemy.id++;
-    this.x        = args.x;
-    this.y        = args.y;
+    this.x = args.x;
+    this.y = args.y;
     this.airCraft = AirCraft.getInstance();
     this.hitPoint = args.hitPoint;
-    this.alive    = true;
-    this.stage    = Canvas.getStage();
-    this.clock    = new Clock(this);
-    this.shape    = null;
-    this.hitArea  = null;
-    this.text     = null;
+    this.alive = true;
+    this.stage = Canvas.getStage();
+    this.clock = new Clock(this);
+    this.shape = null;
+    this.hitArea = null;
+    this.text = null;
     console.log(`enemy_${this.id} spawned`);
     this.p = new Promise((resolve) => {
       EventsWrapper.once(`enemyDestroyed_${this.id}`, () => {
@@ -80,7 +80,7 @@ class Enemy {
       }
       this.trigger();
       this.move();
-      let gatlingBullets = ((FriendBullet.instances || {}).GatlingBullet || []);
+      const gatlingBullets = ((FriendBullet.instances || {}).GatlingBullet || []);
       this.collisionCheck(gatlingBullets);
     });
   }
@@ -90,16 +90,15 @@ class Enemy {
    * @param {Array<Object>} targetArray - Object must have #shape to hitTest
    */
   collisionCheck(targetArray) {
-
     for (let i = 0; i < targetArray.length; i++) {
       if (!this.alive) {
         break;
       }
-      let target = targetArray[i];
-      let pos = this.hitArea.localToLocal(0, 0, target.shape);
-      let hitTest = this.hitArea.hitTest(pos.x, pos.y);
+      const target = targetArray[i];
+      const pos = this.hitArea.localToLocal(0, 0, target.shape);
+      const hitTest = this.hitArea.hitTest(pos.x, pos.y);
       if (hitTest) {
-        this.beShot({ x: pos.x, y: pos.y, bullet: target });
+        this.beShot({x: pos.x, y: pos.y, bullet: target});
       }
     }
   }
@@ -107,16 +106,15 @@ class Enemy {
   /**
    * kicked by collision check.
    *
-   * @param args
+   * @param {object} args
    */
   beShot(args) {
-
     if (!this.alive) {
       return;
     }
 
-    let x = args.x;
-    let y = args.y;
+    const x = args.x;
+    const y = args.y;
 
     new Blow({
       stage: this.stage,
@@ -138,26 +136,25 @@ class Enemy {
   }
 
   beHit(args) {
-    let bullet = args.bullet;
+    const bullet = args.bullet;
 
     this.hitPoint -= bullet.stoppingPower;
   }
 
   destroyed() {
-  
     this.last();
-    
+
     new Blow({
       stage: this.stage,
       x: this.x,
       y: this.y,
       color: 'red',
-      radius: 100
+      radius: 100,
     });
 
     this.die();
   }
-  
+
   /**
    * kicked just after #destroyed, before #die.
    */
@@ -181,19 +178,19 @@ class Enemy {
     EventsWrapper.emit(`enemyDestroyed_${this.id}`);
 
     for (let i = 0; i < Enemy.instances.length; i++) {
-      let enemy = Enemy.instances[i];
+      const enemy = Enemy.instances[i];
       if (enemy === this) {
         Enemy.instances.splice(i, 1);
         break;
       }
     }
   }
-  
+
   slideIn() {
     if (!this.isEdgeOut) {
       return false;
     }
-    
+
     if (this.x <= STAGE_EDGE_LEFT) {
       this.x += 1;
     }
@@ -207,19 +204,19 @@ class Enemy {
       this.y -= 1;
     }
   }
-  
+
   get isEdgeOut() {
     return this.x <= STAGE_EDGE_LEFT ||
       this.x >= STAGE_EDGE_RIGHT ||
       this.y <= STAGE_EDGE_TOP ||
-      this.y >= STAGE_EDGE_BOTTOM
+      this.y >= STAGE_EDGE_BOTTOM;
   }
-  
+
   get isFrameOut() {
     return this.x <= STAGE_FRAME_LEFT ||
       this.x >= STAGE_FRAME_RIGHT ||
       this.y <= STAGE_FRAME_TOP ||
-      this.y >= STAGE_FRAME_BOTTOM
+      this.y >= STAGE_FRAME_BOTTOM;
   }
 }
 
