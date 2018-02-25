@@ -17,6 +17,13 @@ class Canvas {
     }
     Canvas.instance = this;
 
+  }
+
+  static initStage() {
+    if (!Canvas.stage) {
+      Canvas.stage = null;
+    }
+
     Canvas.stage = new createjs.Stage(CANVAS_ID);
 
     const background = new createjs.Shape();

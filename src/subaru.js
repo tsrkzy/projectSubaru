@@ -1,6 +1,6 @@
 'use strict';
 
-import Stage from './class/Stage.js';
+import Game from './class/Game.js';
 import EventsWrapper from './class/EventsWrapper';
 import Wave from './class/Wave';
 import Canvas from './class/Canvas';
@@ -10,7 +10,8 @@ import Canvas from './class/Canvas';
  */
 (window.onLoad = () => {
   new Canvas();
-  const s = Canvas.stage;
+  Canvas.initStage();
+  const s = Canvas.getStage();
 
   createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
@@ -22,11 +23,10 @@ import Canvas from './class/Canvas';
   const rectShape = new createjs.Shape(rect);
 
   const gameStartHandler = () => {
-
     rectShape.removeEventListener('click', gameStartHandler, false);
     s.removeChild(rectShape);
 
-    new Stage();
+    new Game();
     const stageListener = new EventsWrapper();
     const wi = waveIterator(stageListener);
     let die = false;
@@ -36,7 +36,7 @@ import Canvas from './class/Canvas';
       wi.next();
     });
 
-    stageListener.on('gameOver', () => {
+    stageListener.once('gameOver', () => {
       die = true;
       wi.next();
     });

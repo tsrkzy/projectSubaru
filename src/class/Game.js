@@ -10,14 +10,15 @@ import {
   INDICATOR_Y,
 } from './Constant';
 import Canvas from './Canvas';
+import Wave from './Wave';
 
-class Stage {
+class Game {
   /**
    * @constructor
    * @singleton
    */
   constructor() {
-    new Canvas();
+    Canvas.initStage();
     this.stage = Canvas.getStage();
 
     this.airCraft = new AirCraft();
@@ -40,13 +41,20 @@ class Stage {
       const friendBulletCount = ((FriendBullet.instances || {}).GatlingBullet || []).length;
       const enemyBulletCount = ((EnemyBullet.instances || {}).EnemyBatteryBullet || []).length;
       const enemyCount = (Enemy.instances || []).length;
+      const wave = Wave.level;
       this.indicator.text =
         `FPS: ${measuredFPS}\n` +
         `FriendBullets: ${friendBulletCount}\n` +
         `Enemy: ${enemyCount}\n` +
-        `EnemyBullets:${enemyBulletCount}`;
+        `EnemyBullets:${enemyBulletCount}\n` +
+        `Wave:${wave}`;
     });
+  }
+
+  destroy() {
+    this.airCraft = null;
+
   }
 }
 
-export default Stage;
+export default Game;

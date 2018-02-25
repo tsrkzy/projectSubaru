@@ -2,6 +2,7 @@
 import {WAVE_TIME_LIMIT} from './Constant';
 import Canvas from './Canvas';
 import WaveUtil from './WaveUtil';
+import AirCraft from './AirCraft';
 
 class Wave {
   static nextLevel() {
@@ -81,14 +82,23 @@ class Wave {
     const EnemyClass = config.enemyClass;
     const delayMs = config.delayMs;
     const args = config.args;
+
     return new Promise((resolve) => {
+
       window.setTimeout(() => {
+
+        if (!AirCraft.isAlive()) {
+          resolve();
+        }
+
         const e = new EnemyClass(args);
         const p = e.p;
         p.then(() => {
           resolve();
         });
+
       }, delayMs);
+
     });
   }
 }

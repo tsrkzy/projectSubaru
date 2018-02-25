@@ -24,7 +24,7 @@ class Amplifier extends Enemy {
     this.assignTickListener();
     window.setTimeout(() => {
       this.rage();
-    }, 1000);
+    }, 2000);
   }
 
   rage() {
@@ -34,7 +34,7 @@ class Amplifier extends Enemy {
     this.enrage = true;
     this.shape.graphics
       .endFill()
-      .setStrokeStyle(1)
+      .setStrokeStyle(2)
       .beginStroke('lightblue')
       .drawCircle(0, 0, 40);
   }

@@ -14,7 +14,7 @@ class Sign {
   constructor(args) {
     this.stage = Canvas.getStage();
     this.radius = SIGN_RADIUS;
-    this.color = 'red';
+    this.color = 'yellow';
 
     this.shape = new createjs.Shape();
     this.shape.x = args.x || 0;

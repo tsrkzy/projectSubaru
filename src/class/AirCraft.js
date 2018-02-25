@@ -20,6 +20,7 @@ import {
 } from './Constant';
 import Canvas from './Canvas';
 import Jammer from './Jammer';
+import EventsWrapper from './EventsWrapper';
 
 /**
  * Your AirCraft Class.
@@ -62,6 +63,7 @@ class AirCraft {
 
   /**
    * initialize parameters, set listeners
+   * @singleton
    * @constructor
    */
   constructor() {
@@ -74,6 +76,7 @@ class AirCraft {
     this.vp = new VirtualPad();
     this.clock = new Clock(this);
 
+    this.alive = true;
     this.x = AIRCRAFT_INITIAL_X;
     this.y = AIRCRAFT_INITIAL_Y;
     this.snared = false;
@@ -86,12 +89,23 @@ class AirCraft {
     this.deploy();
   }
 
+  static isAlive() {
+    if (!AirCraft.instance) {
+      return false;
+    }
+    return AirCraft.instance.alive;
+  }
+
   /**
    * set listeners
    * kicks every tick
    */
   assignTickListener() {
     this.clock.onTick(() => {
+      if (!this.alive) {
+        return false;
+      }
+
       /*
        * moving control
        */
@@ -156,6 +170,10 @@ class AirCraft {
    * @param {number} y
    */
   updatePos(x = this.x, y = this.y) {
+    if (!this.alive) {
+      return false;
+    }
+
     this.shape.x = x;
     this.shape.y = y;
     this.hitArea.x = x;
@@ -171,6 +189,10 @@ class AirCraft {
    * @return {Object} result
    */
   collisionCheck(targetArray, fn = null) {
+    if (!this.alive) {
+      return false;
+    }
+
     const result = {
       all: true,
       test: false,
@@ -181,6 +203,15 @@ class AirCraft {
        * relative axis from target to hitArea(aircraft)-origin (zero-point)
        */
       const target = targetArray[j];
+
+      if (target === null) {
+        continue;
+      }
+
+      if (this.hitArea === null) {
+        break;
+      }
+
       const pos = target.hitArea.localToLocal(0, 0, this.hitArea);
       const hitTest = target.hitArea.hitTest(pos.x, pos.y);
       if (hitTest) {
@@ -210,6 +241,28 @@ class AirCraft {
       y: this.y - y,
       color: 'red',
     });
+
+    EventsWrapper.emit('gameOver');
+
+    this.die();
+
+    window.setTimeout(() => {
+      createjs.Ticker.reset();
+    }, 1000);
+  }
+
+  die() {
+    this.stage.removeChild(this.shape);
+    this.stage.removeChild(this.hitArea);
+    this.stage.removeChild(this.text);
+    this.clock.allOff();
+    this.alive = false;
+    this.clock = null;
+    this.shape = null;
+    this.text = null;
+    this.hitArea = null;
+    this.stage = null;
+    this.alive = false;
   }
 
   deploy() {

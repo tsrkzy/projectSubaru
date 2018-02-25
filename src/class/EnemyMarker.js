@@ -97,6 +97,10 @@ class EnemyMarker {
     if (!this.alive) {
       return false;
     }
+    if (!AirCraft.isAlive()) {
+      return false;
+    }
+
     const pos = this.hitArea.localToLocal(0, 0, this.airCraft.shape);
     const hitTest = this.hitArea.hitTest(pos.x, pos.y);
     if (hitTest) {

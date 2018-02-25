@@ -175,6 +175,7 @@ class Enemy {
     this.text = null;
     this.hitArea = null;
     this.stage = null;
+    this.alive = false;
     EventsWrapper.emit(`enemyDestroyed_${this.id}`);
 
     for (let i = 0; i < Enemy.instances.length; i++) {
