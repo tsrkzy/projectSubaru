@@ -13,6 +13,7 @@ module.exports = {
     'semi': ['error', 'always'],
     'quotes': ['error', 'single'],
     'prefer-const': ['error'],
+    'no-trailing-spaces': 0,
     'camelcase': 0,
     'comma-spacing': 0,
     'comma-dangle': 0,

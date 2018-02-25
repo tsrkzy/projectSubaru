@@ -20,7 +20,9 @@ export const INDICATOR_FONT_STYLE = 'bold 9px Arial';
  * stage
  */
 export const STAGE_WIDTH = 700;
+export const STAGE_MIDDLE_X = STAGE_WIDTH / 2;
 export const STAGE_HEIGHT = 500;
+export const STAGE_MIDDLE_Y = STAGE_HEIGHT / 2;
 export const STAGE_PADDING_X = 20;
 export const STAGE_PADDING_Y = 20;
 export const STAGE_MARGIN_X = 50;
@@ -38,7 +40,16 @@ export const STAGE_FRAME_BOTTOM = STAGE_HEIGHT + STAGE_MARGIN_Y;
  * wave
  */
 export const WAVE_TIME_LIMIT = 20 * 1000;
-export const ENEMY_VARIATION = 10;
+export const ENEMY_VARIATION = 4;
+
+/*
+ * TIER
+ */
+export const MAX_TIER = 3;
+export const TUTORIAL = 0;
+export const EASY = 1;
+export const HARD = 2;
+export const HUSH = 3;
 
 /*
  * aircraft
