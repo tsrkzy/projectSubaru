@@ -1,6 +1,10 @@
 'use strict';
 
-import {CANVAS_ID} from './Constant';
+import {
+  CANVAS_ID,
+  STAGE_HEIGHT,
+  STAGE_WIDTH
+} from './Constant';
 
 class Canvas {
   /**
@@ -14,6 +18,12 @@ class Canvas {
     Canvas.instance = this;
 
     Canvas.stage = new createjs.Stage(CANVAS_ID);
+
+    const background = new createjs.Shape();
+    background.graphics
+      .beginFill('#151515')
+      .drawRect(0, 0, STAGE_WIDTH, STAGE_HEIGHT);
+    Canvas.stage.addChild(background);
   }
 
   static getStage() {

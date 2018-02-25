@@ -10,8 +10,7 @@ import Clock from './Clock';
 import {
   AIRCRAFT_INITIAL_X,
   AIRCRAFT_INITIAL_Y,
-  AIRCRAFT_WIDTH,
-  AIRCRAFT_HEIGHT,
+  AIRCRAFT_RADIUS,
   AIRCRAFT_HIT_AREA,
   AIRCRAFT_VELOCITY,
   STAGE_EDGE_LEFT,
@@ -218,13 +217,16 @@ class AirCraft {
      * aircraft
      */
     this.shape = new createjs.Shape();
-    this.shape.graphics.setStrokeStyle(1).beginStroke('lightgray').drawRect(0 - AIRCRAFT_WIDTH / 2, 0 - AIRCRAFT_HEIGHT / 2, AIRCRAFT_WIDTH, AIRCRAFT_HEIGHT);
+    this.shape.graphics
+      .setStrokeStyle(2)
+      .beginStroke('lightgray')
+      .drawCircle(0, 0, AIRCRAFT_RADIUS);
 
     /*
      * hit area
      */
     this.hitArea = new createjs.Shape();
-    this.hitArea.graphics.beginFill('red').drawCircle(0, 0, AIRCRAFT_HIT_AREA);
+    this.hitArea.graphics.beginFill('#1295b8').drawCircle(0, 0, AIRCRAFT_HIT_AREA);
 
     /*
      * text label

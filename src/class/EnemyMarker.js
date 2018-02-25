@@ -30,6 +30,7 @@ class EnemyMarker {
     EnemyMarker.id++;
     this.x = args.x;
     this.y = args.y;
+    this.alive = true;
     this.stage = Canvas.getStage();
     this.airCraft = AirCraft.getInstance();
     this.clock = new Clock(this);
@@ -92,8 +93,10 @@ class EnemyMarker {
     }
   }
 
-
   collisionCheckWithAircraft() {
+    if (!this.alive) {
+      return false;
+    }
     const pos = this.hitArea.localToLocal(0, 0, this.airCraft.shape);
     const hitTest = this.hitArea.hitTest(pos.x, pos.y);
     if (hitTest) {
@@ -110,11 +113,11 @@ class EnemyMarker {
     this.shape = new createjs.Shape();
     this.shape.alpha = 1;
     this.shape.graphics
-      .setStrokeStyle(1)
+      .setStrokeStyle(2)
       .beginStroke('dimgray')
       .drawCircle(0, 0, MARKER_SHAPE_RADIUS);
 
-    this.text = new createjs.Text('marker', 'bold 9px Arial', 'black');
+    this.text = new createjs.Text('marker', 'bold 9px Arial', 'white');
 
     this.hitArea = new createjs.Shape();
     this.hitArea.alpha = 0;
@@ -140,6 +143,7 @@ class EnemyMarker {
     this.text = null;
     this.hitArea = null;
     this.stage = null;
+    this.alive = false;
   }
 }
 

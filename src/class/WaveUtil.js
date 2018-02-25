@@ -44,7 +44,7 @@ class WaveUtil {
     /*
      * get tier (0<=tier<=MAX_TIER)
      */
-    let tier = Math.floor(level / 5) + 1;
+    let tier = Math.floor(level / 5);
     if (tier > MAX_TIER) {
       tier = MAX_TIER;
     }
@@ -426,7 +426,7 @@ class WaveUtil {
   static dispatchAmplifierSortie() {
     const spanY = 120;
     const spanMs = 800;
-    const count = 3;
+    const count = 2;
 
     const waveConf = WaveUtil.dispatchSortie({
       enemyClass: Amplifier,

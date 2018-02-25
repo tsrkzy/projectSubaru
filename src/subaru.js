@@ -2,14 +2,15 @@
 
 import Stage from './class/Stage.js';
 import EventsWrapper from './class/EventsWrapper';
-import {CANVAS_ID} from './class/Constant.js';
 import Wave from './class/Wave';
+import Canvas from './class/Canvas';
 
 /*
  * display "GAME START"
  */
 (window.onLoad = () => {
-  const s = new createjs.Stage(CANVAS_ID);
+  new Canvas();
+  const s = Canvas.stage;
 
   createjs.Ticker.timingMode = createjs.Ticker.RAF;
 
@@ -20,13 +21,10 @@ import Wave from './class/Wave';
   const rect = g.drawRect(200, 100, 300, 100);
   const rectShape = new createjs.Shape(rect);
 
-  rectShape.addEventListener('click', gameStartHandler, false);
+  const gameStartHandler = () => {
 
-  s.addChild(rectShape);
-  s.update();
-
-  function gameStartHandler() {
     rectShape.removeEventListener('click', gameStartHandler, false);
+    s.removeChild(rectShape);
 
     new Stage();
     const stageListener = new EventsWrapper();
@@ -58,5 +56,10 @@ import Wave from './class/Wave';
         yield;
       }
     }
-  }
+  };
+
+  rectShape.addEventListener('click', gameStartHandler, false);
+
+  s.addChild(rectShape);
+  s.update();
 })();

@@ -34,8 +34,8 @@ class GatlingBullet extends FriendBullet {
   deploy() {
     this.shape = new createjs.Shape();
     this.shape.graphics
-      .setStrokeStyle(1)
-      .beginStroke('blue')
+      .setStrokeStyle(2)
+      .beginStroke('white')
       .drawRect(-GATLING_BULLET_WIDTH / 2, -GATLING_BULLET_HEIGHT / 2, GATLING_BULLET_WIDTH, GATLING_BULLET_HEIGHT);
 
     this.hitArea = new createjs.Shape();

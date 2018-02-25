@@ -1,8 +1,7 @@
 'use strict';
 import EnemyBullet from './EnemyBullet';
 import {
-  GUNPOWDER_BULLET_WIDTH,
-  GUNPOWDER_BULLET_HEIGHT,
+  GUNPOWDER_BULLET_RADIUS,
   GUNPOWDER_BULLET_SPEED,
 } from './Constant';
 import Amplifier from './Amplifier';
@@ -39,13 +38,8 @@ class GunPowder extends EnemyBullet {
 
     this.shape = new createjs.Shape();
     this.shape.graphics
-      .setStrokeStyle(1)
-      .beginStroke('black')
-      .drawRect(
-        amplify * -GUNPOWDER_BULLET_WIDTH / 2,
-        amplify * -GUNPOWDER_BULLET_HEIGHT / 2,
-        amplify * GUNPOWDER_BULLET_WIDTH,
-        amplify * GUNPOWDER_BULLET_HEIGHT);
+      .beginFill('white')
+      .drawCircle(0, 0, amplify * GUNPOWDER_BULLET_RADIUS);
 
     this.text.text = '';
 
@@ -53,11 +47,7 @@ class GunPowder extends EnemyBullet {
     this.hitArea.alpha = 0;
     this.hitArea.graphics
       .beginFill('purple')
-      .drawRect(
-        amplify * -GUNPOWDER_BULLET_WIDTH / 2,
-        amplify * -GUNPOWDER_BULLET_HEIGHT / 2,
-        amplify * GUNPOWDER_BULLET_WIDTH,
-        amplify * GUNPOWDER_BULLET_HEIGHT);
+      .drawCircle(0, 0, amplify * GUNPOWDER_BULLET_RADIUS);
 
     this.updatePos();
 

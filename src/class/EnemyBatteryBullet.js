@@ -3,7 +3,7 @@ import EnemyBullet from './EnemyBullet';
 import {
   BATTERY_BULLET_HEIGHT,
   BATTERY_BULLET_SPEED,
-  BATTERY_BULLET_WIDTH,
+  BATTERY_BULLET_RADIUS,
 } from './Constant';
 import Amplifier from './Amplifier';
 
@@ -36,14 +36,8 @@ class EnemyBatteryBullet extends EnemyBullet {
 
     this.shape = new createjs.Shape();
     this.shape.graphics
-      .setStrokeStyle(1)
-      .beginStroke('black')
-      .drawRect(
-        amplify * -BATTERY_BULLET_WIDTH / 2,
-        amplify * -BATTERY_BULLET_HEIGHT / 2,
-        amplify * BATTERY_BULLET_WIDTH,
-        amplify * BATTERY_BULLET_HEIGHT
-      );
+      .beginFill('white')
+      .drawCircle(0, 0, amplify * BATTERY_BULLET_RADIUS);
 
     this.text.text = '';
 
@@ -51,12 +45,7 @@ class EnemyBatteryBullet extends EnemyBullet {
     this.hitArea.alpha = 0;
     this.hitArea.graphics
       .beginFill('purple')
-      .drawRect(
-        amplify * -BATTERY_BULLET_WIDTH / 2,
-        amplify * -BATTERY_BULLET_HEIGHT / 2,
-        amplify * BATTERY_BULLET_WIDTH,
-        amplify * BATTERY_BULLET_HEIGHT
-      );
+      .drawCircle(0, 0, amplify * BATTERY_BULLET_RADIUS);
 
     this.updatePos();
 

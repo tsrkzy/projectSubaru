@@ -56,8 +56,7 @@ export const HUSH = 3;
  */
 export const AIRCRAFT_INITIAL_X = 50;
 export const AIRCRAFT_INITIAL_Y = 250;
-export const AIRCRAFT_WIDTH = 30;
-export const AIRCRAFT_HEIGHT = 10;
+export const AIRCRAFT_RADIUS = 10;
 export const AIRCRAFT_HIT_AREA = 2;
 export const AIRCRAFT_VELOCITY = 3;
 
@@ -72,11 +71,10 @@ export const GATLING_BULLET_STOPPING_POWER = 1;
 
 
 /*
- * >>>>> enemies
+ * gunpowder
  */
-export const GUNPOWDER_BULLET_WIDTH = 8;
-export const GUNPOWDER_BULLET_HEIGHT = 4;
-export const GUNPOWDER_BULLET_SPEED = 4;
+export const GUNPOWDER_BULLET_RADIUS = 8;
+export const GUNPOWDER_BULLET_SPEED = 3;
 
 
 /*
@@ -84,8 +82,7 @@ export const GUNPOWDER_BULLET_SPEED = 4;
  */
 export const BATTERY_WIDTH = 30;
 export const BATTERY_HEIGHT = 30;
-export const BATTERY_BULLET_WIDTH = 4;
-export const BATTERY_BULLET_HEIGHT = 2;
+export const BATTERY_BULLET_RADIUS = 10;
 export const BATTERY_BULLET_SPEED = 4;
 
 
@@ -107,7 +104,7 @@ export const AMPLIFIER_HEIGHT = 20;
 export const BOMBER_WIDTH = 20;
 export const BOMBER_HEIGHT = 20;
 export const BOMBER_SPEED = 1;
-export const BOMBER_LAST_SHOT_COUNT = 30;
+export const BOMBER_LAST_SHOT_COUNT = 15;
 export const BOMBER_LAST_SHOT_DEPTH = 2;
 export const BOMBER_SHOT_COUNT = 3;
 export const BOMBER_SHOT_DEPTH = 8;
@@ -116,7 +113,7 @@ export const BOMBER_SHOT_DEPTH = 8;
  * marker
  */
 export const MARKER_SPEED = 6;
-export const MARKER_SHAPE_RADIUS = 40;
+export const MARKER_SHAPE_RADIUS = 30;
 export const MARKER_HITAREA_RADIUS = 10;
 
 /*
@@ -139,5 +136,5 @@ export const NOISE_HEIGHT = 20;
 /*
  * jammer
  */
-export const JAMMER_RADIUS = 120;
-export const JAMMER_LIFE_TIME = 8000;
+export const JAMMER_RADIUS = 100;
+export const JAMMER_LIFE_TIME = 6000;

@@ -42,7 +42,9 @@ class Jammer {
 
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.beginFill('darkgray').drawCircle(0, 0, JAMMER_RADIUS);
+    this.shape.graphics
+      .beginFill('darkgray')
+      .drawCircle(0, 0, JAMMER_RADIUS);
     this.shape.alpha = 0.3;
 
     this.hitArea = new createjs.Shape();
