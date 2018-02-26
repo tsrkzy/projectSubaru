@@ -7,6 +7,7 @@ import {
   STAGE_FRAME_TOP,
 } from './Constant';
 import Canvas from './Canvas';
+import EventsWrapper from './EventsWrapper';
 
 /**
  * main weapon base bullet class.
@@ -73,6 +74,10 @@ class Bullet {
     this.hitArea = null;
     this.clock = new Clock(this);
     this.text = new createjs.Text('', '9px Arial', 'black');
+    EventsWrapper.once('gameOver', () => {
+      EventsWrapper.removeAllListeners('gameOver');
+      this.die();
+    });
   }
 
   /**

@@ -52,6 +52,12 @@ class Enemy {
         resolve();
       });
     });
+
+    EventsWrapper.once('gameOver', () => {
+      EventsWrapper.removeAllListeners('gameOver');
+      this.die();
+    });
+
     this._assignTickListener();
   }
 

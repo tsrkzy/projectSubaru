@@ -63,13 +63,9 @@ class AirCraft {
 
   /**
    * initialize parameters, set listeners
-   * @singleton
    * @constructor
    */
   constructor() {
-    if (AirCraft.instance === 'object') {
-      return AirCraft.instance;
-    }
     AirCraft.instance = this;
 
     this.stage = Canvas.getStage();
@@ -242,12 +238,11 @@ class AirCraft {
       color: 'red',
     });
 
-    EventsWrapper.emit('gameOver');
-
     this.die();
 
     window.setTimeout(() => {
       createjs.Ticker.reset();
+      EventsWrapper.emit('gameOver');
     }, 1000);
   }
 

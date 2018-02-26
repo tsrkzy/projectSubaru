@@ -11,6 +11,8 @@ import {
 } from './Constant';
 import Canvas from './Canvas';
 import Wave from './Wave';
+import EventsWrapper from './EventsWrapper';
+import Title from './Title';
 
 class Game {
   /**
@@ -18,6 +20,7 @@ class Game {
    * @singleton
    */
   constructor() {
+
     Canvas.initStage();
     this.stage = Canvas.getStage();
 
@@ -27,6 +30,41 @@ class Game {
     this.indicator.x = INDICATOR_X;
     this.indicator.y = INDICATOR_Y;
     this.stage.addChild(this.indicator);
+
+    const stageListener = new EventsWrapper();
+    stageListener.removeAllListeners('wave.clear');
+    stageListener.removeAllListeners('gameOver');
+
+    const wi = waveIterator(stageListener);
+    let die = false;
+    wi.next();
+
+    stageListener.on('wave.clear', () => {
+      wi.next();
+    });
+
+    stageListener.once('gameOver', () => {
+      die = true;
+      wi.next();
+      this.destroy();
+      new Title();
+    });
+
+    function* waveIterator(listener) {
+      while (1) {
+        if (die) {
+          break;
+        }
+        new Wave().p.then(() => {
+          listener.emit('wave.clear');
+        });
+
+        /*
+         * pause process flow till next waveIterator#next();
+         */
+        yield;
+      }
+    }
 
     /*
      * update stage every tick
@@ -53,7 +91,6 @@ class Game {
 
   destroy() {
     this.airCraft = null;
-
   }
 }
 
