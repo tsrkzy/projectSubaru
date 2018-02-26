@@ -1,7 +1,6 @@
 'use strict';
 import EnemyBullet from './EnemyBullet';
 import {
-  BATTERY_BULLET_HEIGHT,
   BATTERY_BULLET_SPEED,
   BATTERY_BULLET_RADIUS,
 } from './Constant';

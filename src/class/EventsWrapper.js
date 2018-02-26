@@ -50,8 +50,13 @@ class EventsWrapper extends Events {
    * @param {object} args
    */
   static removeAllListeners(...args) {
-    EventsWrapper.instance.removeAllListeners(...args);
+    if (args.length === 0) {
+      EventsWrapper.instance.removeAllListeners();
+    } else {
+      EventsWrapper.instance.removeAllListeners(...args);
+    }
   }
+
 }
 
 export default EventsWrapper;

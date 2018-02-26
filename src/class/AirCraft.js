@@ -143,8 +143,10 @@ class AirCraft {
     this.clock.onTick(() => {
       this.collisionCheck(Enemy.instances, this.beShot);
 
-      for (let i = 0; i < Object.keys(EnemyBullet.instances || {}).length; i++) {
-        const enemyBulletInstances = EnemyBullet.instances[Object.keys(EnemyBullet.instances)[i]];
+      const keys = Object.keys(EnemyBullet.instances || {});
+      for (let i = 0; i < keys.length; i++) {
+        const key = keys[i];
+        const enemyBulletInstances = EnemyBullet.instances[key];
         this.collisionCheck(enemyBulletInstances, this.beShot);
       }
 
@@ -204,6 +206,10 @@ class AirCraft {
         continue;
       }
 
+      if (!target.alive) {
+        continue;
+      }
+
       if (this.hitArea === null) {
         break;
       }
@@ -215,7 +221,7 @@ class AirCraft {
         if (typeof fn === 'function') {
           fn.call(this, pos.x, pos.y, target);
         }
-
+        target.die();
         continue;
       }
       result.all = false;
@@ -242,8 +248,9 @@ class AirCraft {
 
     window.setTimeout(() => {
       createjs.Ticker.reset();
+      createjs.Ticker.removeAllEventListeners();
       EventsWrapper.emit('gameOver');
-    }, 1000);
+    }, 4000);
   }
 
   die() {

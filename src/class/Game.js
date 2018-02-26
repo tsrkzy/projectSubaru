@@ -21,7 +21,6 @@ class Game {
    */
   constructor() {
 
-    Canvas.initStage();
     this.stage = Canvas.getStage();
 
     this.airCraft = new AirCraft();
@@ -32,8 +31,7 @@ class Game {
     this.stage.addChild(this.indicator);
 
     const stageListener = new EventsWrapper();
-    stageListener.removeAllListeners('wave.clear');
-    stageListener.removeAllListeners('gameOver');
+    EventsWrapper.removeAllListeners();
 
     const wi = waveIterator(stageListener);
     let die = false;

@@ -74,10 +74,6 @@ class Bullet {
     this.hitArea = null;
     this.clock = new Clock(this);
     this.text = new createjs.Text('', '9px Arial', 'black');
-    EventsWrapper.once('gameOver', () => {
-      EventsWrapper.removeAllListeners('gameOver');
-      this.die();
-    });
   }
 
   /**
@@ -111,6 +107,7 @@ class Bullet {
       return;
     }
 
+    this.airCraft = null;
     this.alive = false;
     this.stage.removeChild(this.shape);
     this.stage.removeChild(this.text);

@@ -10,7 +10,6 @@ class Title {
   constructor() {
 
     new Canvas();
-    Canvas.initStage();
     this.stage = Canvas.getStage();
 
     const g = new createjs.Graphics();
