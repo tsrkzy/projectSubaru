@@ -221,7 +221,6 @@ class AirCraft {
         if (typeof fn === 'function') {
           fn.call(this, pos.x, pos.y, target);
         }
-        target.die();
         continue;
       }
       result.all = false;
@@ -250,7 +249,7 @@ class AirCraft {
       createjs.Ticker.reset();
       createjs.Ticker.removeAllEventListeners();
       EventsWrapper.emit('gameOver');
-    }, 4000);
+    }, 2000);
   }
 
   die() {

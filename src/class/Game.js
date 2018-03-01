@@ -17,9 +17,13 @@ import Title from './Title';
 class Game {
   /**
    * @constructor
-   * @singleton
    */
   constructor() {
+    console.info('new game start.');
+
+    Wave.level = 0;
+    EnemyBullet.flush();
+    console.log(EnemyBullet.instances);
 
     this.stage = Canvas.getStage();
 

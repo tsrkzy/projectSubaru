@@ -96,6 +96,7 @@ class Bullet {
     this.id = this.constructor.id;
     this.constructor.id++;
     this.constructor.instances.push(this);
+
     return this.constructor.instances;
   }
 
