@@ -13,6 +13,7 @@ import Canvas from './Canvas';
 import Wave from './Wave';
 import EventsWrapper from './EventsWrapper';
 import Title from './Title';
+import EnemyMarker from './EnemyMarker';
 
 class Game {
   /**
@@ -22,8 +23,13 @@ class Game {
     console.info('new game start.');
 
     Wave.level = 0;
+
+    Enemy.flush();
+    console.log('Enemy.flush(); done.'); // @DELETEME
+    EnemyMarker.flush();
+    console.log('EnemyMarker.flush(); done.'); // @DELETEME
     EnemyBullet.flush();
-    console.log(EnemyBullet.instances);
+    console.log('EnemyBullet.flush(); done.'); // @DELETEME
 
     this.stage = Canvas.getStage();
 
@@ -78,8 +84,8 @@ class Game {
      */
     createjs.Ticker.addEventListener('tick', () => {
       const measuredFPS = createjs.Ticker.getMeasuredFPS();
-      const friendBulletCount = ((FriendBullet.instances || {}).GatlingBullet || []).length;
-      const enemyBulletCount = ((EnemyBullet.instances || {}).EnemyBatteryBullet || []).length;
+      const friendBulletCount = (FriendBullet.instances || []).length;
+      const enemyBulletCount = EnemyBullet.instances.length;
       const enemyCount = (Enemy.instances || []).length;
       const wave = Wave.level;
       this.indicator.text =

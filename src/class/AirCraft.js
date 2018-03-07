@@ -21,6 +21,7 @@ import {
 import Canvas from './Canvas';
 import Jammer from './Jammer';
 import EventsWrapper from './EventsWrapper';
+import EnemyMarker from './EnemyMarker';
 
 /**
  * Your AirCraft Class.
@@ -143,12 +144,7 @@ class AirCraft {
     this.clock.onTick(() => {
       this.collisionCheck(Enemy.instances, this.beShot);
 
-      const keys = Object.keys(EnemyBullet.instances || {});
-      for (let i = 0; i < keys.length; i++) {
-        const key = keys[i];
-        const enemyBulletInstances = EnemyBullet.instances[key];
-        this.collisionCheck(enemyBulletInstances, this.beShot);
-      }
+      this.collisionCheck(EnemyBullet.instances, this.beShot);
 
       this.snareCheck();
     });
@@ -253,16 +249,21 @@ class AirCraft {
   }
 
   die() {
-    this.stage.removeChild(this.shape);
-    this.stage.removeChild(this.hitArea);
-    this.stage.removeChild(this.text);
-    this.clock.allOff();
-    this.alive = false;
-    this.clock = null;
+    if (this.clock) {
+      this.clock.allOff();
+      this.clock = null;
+    }
+
+    if (this.stage) {
+      this.stage.removeChild(this.shape);
+      this.stage.removeChild(this.hitArea);
+      this.stage.removeChild(this.text);
+      this.stage = null;
+    }
+
     this.shape = null;
     this.text = null;
     this.hitArea = null;
-    this.stage = null;
     this.alive = false;
   }
 

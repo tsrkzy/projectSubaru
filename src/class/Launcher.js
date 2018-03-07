@@ -20,6 +20,7 @@ class Launcher extends Enemy {
     this.addInstance();
     this.deploy();
     this.assignTickListener();
+    this.aimTime = Math.floor(Math.random() * 100);
   }
 
   assignTickListener() {
@@ -35,7 +36,7 @@ class Launcher extends Enemy {
    * firing control kicked every tick
    */
   trigger() {
-    if (createjs.Ticker.getTicks() % 120 !== 0) {
+    if ((createjs.Ticker.getTicks() + this.aimTime) % 120 !== 0) {
       return;
     }
 
@@ -59,6 +60,7 @@ class Launcher extends Enemy {
        * Bomber was dead, sign does not appear.
        */
       if (this.alive === false) {
+        marker.die();
         return;
       }
 

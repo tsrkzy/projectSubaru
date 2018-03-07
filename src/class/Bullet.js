@@ -77,30 +77,6 @@ class Bullet {
   }
 
   /**
-   * initialize static instances pool.
-   * "this.constructor" means class function
-   *  call it after super(); in constructor()
-   *  eg.
-   *    subclassExtendsBullet#initStaticProperty();
-   *
-   * @return {Array<Object>}
-   */
-  initStaticProperty() {
-    if (typeof this.constructor.id === 'undefined') {
-      this.constructor.id = 0;
-    }
-    if (!(this.constructor.instances instanceof Array)) {
-      this.constructor.instances = [];
-    }
-
-    this.id = this.constructor.id;
-    this.constructor.id++;
-    this.constructor.instances.push(this);
-
-    return this.constructor.instances;
-  }
-
-  /**
    * remove bullets themselves got out of stage.
    */
   die() {
@@ -119,13 +95,11 @@ class Bullet {
     this.hitArea = null;
     this.stage = null;
 
-    for (let i = 0; i < this.constructor.instances.length; i++) {
-      const bullet = this.constructor.instances[i];
-      if (bullet.id === this.id) {
-        this.constructor.instances.splice(i, 1);
-        break;
-      }
-    }
+    this.removeFromInstances();
+  }
+
+  removeFromInstances() {
+    throw new Error('abstract #removeFromInstances is not implemented');
   }
 }
 

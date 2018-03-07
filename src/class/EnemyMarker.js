@@ -26,8 +26,11 @@ class EnemyMarker {
    * @param {Object} args - x, y
    */
   constructor(args) {
-    this.id = EnemyMarker.id;
+    this.id = EnemyMarker.id || 0;
     EnemyMarker.id++;
+
+    EnemyMarker.instances.push(this);
+
     this.x = args.x;
     this.y = args.y;
     this.alive = true;
@@ -44,6 +47,23 @@ class EnemyMarker {
     this.assignTickListener();
   }
 
+  static get instances() {
+    return EnemyMarker._instances || [];
+  }
+
+  static set instances(_instances) {
+    EnemyMarker._instances = _instances;
+  }
+
+  static flush() {
+    while (EnemyMarker.instances.length > 0) {
+      for (let i_b = 0; i_b < EnemyMarker.instances.length; i_b++) {
+        const marker = EnemyMarker.instances[i_b];
+        marker.die();
+      }
+    }
+  }
+
   /**
    * assign two listeners.
    *   (1) hitTest with aircraft.
@@ -55,6 +75,11 @@ class EnemyMarker {
       this.updatePos();
       this.getOutHandler();
       this.collisionCheckWithAircraft();
+
+      if (this.alive !== true) {
+        this.die();
+        return false;
+      }
     });
   }
 
@@ -94,10 +119,8 @@ class EnemyMarker {
   }
 
   collisionCheckWithAircraft() {
-    if (!this.alive) {
-      return false;
-    }
-    if (!AirCraft.isAlive()) {
+    if (!AirCraft.isAlive() || !this.airCraft) {
+      this.locked();
       return false;
     }
 
@@ -137,20 +160,35 @@ class EnemyMarker {
   }
 
   die() {
-    this.stage.removeChild(this.shape);
-    this.stage.removeChild(this.hitArea);
-    this.stage.removeChild(this.text);
-    this.clock.allOff();
+    if (this.clock) {
+      this.clock.allOff();
+      this.clock = null;
+    }
+
+    if (this.stage) {
+      this.stage.removeChild(this.shape);
+      this.stage.removeChild(this.hitArea);
+      this.stage.removeChild(this.text);
+      this.stage = null;
+    }
+
     this.airCraft = null;
-    this.clock = null;
     this.shape = null;
     this.text = null;
     this.hitArea = null;
-    this.stage = null;
     this.alive = false;
+    this.removeFromInstances();
+  }
+
+  removeFromInstances() {
+    for (let i_i = 0; i_i < EnemyMarker.instances.length; i_i++) {
+      const marker = EnemyMarker.instances[i_i];
+      if (marker === this) {
+        EnemyMarker.instances.splice(i_i, 1);
+        break;
+      }
+    }
   }
 }
-
-EnemyMarker.id = 0;
 
 export default EnemyMarker;

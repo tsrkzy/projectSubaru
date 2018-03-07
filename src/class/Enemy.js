@@ -23,9 +23,16 @@ class Enemy {
   set hitPoint(value) {
     this._hitPoint = value;
     if (this._hitPoint <= 0) {
-      this.alive = false;
       this.destroyed();
     }
+  }
+
+  static get instances() {
+    return Enemy._instances || [];
+  }
+
+  static set instances(instances) {
+    Enemy._instances = instances;
   }
 
   /**
@@ -33,8 +40,12 @@ class Enemy {
    * @param {Object} args - x, y
    */
   constructor(args) {
+    Enemy.id = Enemy.id || 0;
     this.id = Enemy.id;
     Enemy.id++;
+
+    Enemy.instances.push(this);
+
     this.x = args.x;
     this.y = args.y;
     this.airCraft = AirCraft.getInstance();
@@ -81,8 +92,8 @@ class Enemy {
       }
       this.trigger();
       this.move();
-      const gatlingBullets = ((FriendBullet.instances || {}).GatlingBullet || []);
-      this.collisionCheck(gatlingBullets);
+
+      this.collisionCheck(FriendBullet.instances);
     });
   }
 
@@ -166,17 +177,24 @@ class Enemy {
   }
 
   die() {
-    this.stage.removeChild(this.shape);
-    this.stage.removeChild(this.hitArea);
-    this.stage.removeChild(this.text);
-    this.clock.allOff();
+    if (this.clock) {
+      this.clock.allOff();
+      this.clock = null;
+    }
+
+    if (this.stage) {
+      this.stage.removeChild(this.shape);
+      this.stage.removeChild(this.hitArea);
+      this.stage.removeChild(this.text);
+      this.stage = null;
+    }
+
     this.airCraft = null;
-    this.clock = null;
     this.shape = null;
     this.text = null;
     this.hitArea = null;
-    this.stage = null;
     this.alive = false;
+
     EventsWrapper.emit(`enemyDestroyed_${this.id}`);
 
     for (let i = 0; i < Enemy.instances.length; i++) {
@@ -184,6 +202,15 @@ class Enemy {
       if (enemy === this) {
         Enemy.instances.splice(i, 1);
         break;
+      }
+    }
+  }
+
+  static flush() {
+    while (Enemy.instances.length > 0) {
+      for (let i_b = 0; i_b < Enemy.instances.length; i_b++) {
+        const enemy = Enemy.instances[i_b];
+        enemy.die();
       }
     }
   }
@@ -221,8 +248,5 @@ class Enemy {
       this.y >= STAGE_FRAME_BOTTOM;
   }
 }
-
-Enemy.id = 0;
-Enemy.instances = [];
 
 export default Enemy;
