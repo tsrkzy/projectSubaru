@@ -43,11 +43,13 @@ class Noise extends Enemy {
       return;
     }
 
+    const airCraft = AirCraft.getInstance();
+
     const theta = MathUtil.getAngleDegree(
       this.x,
       this.y,
-      this.airCraft.x,
-      this.airCraft.y
+      airCraft.x,
+      airCraft.y
     );
 
     /*
@@ -69,8 +71,8 @@ class Noise extends Enemy {
       /*
        * jammer on you.
        */
-      const x = AirCraft.getInstance().x;
-      const y = AirCraft.getInstance().y;
+      const x = airCraft.x;
+      const y = airCraft.y;
       new Jammer(x, y);
     });
   }

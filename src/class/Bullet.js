@@ -84,7 +84,6 @@ class Bullet {
       return;
     }
 
-    this.airCraft = null;
     this.alive = false;
     this.stage.removeChild(this.shape);
     this.stage.removeChild(this.text);

@@ -48,7 +48,6 @@ class Enemy {
 
     this.x = args.x;
     this.y = args.y;
-    this.airCraft = AirCraft.getInstance();
     this.hitPoint = args.hitPoint;
     this.alive = true;
     this.stage = Canvas.getStage();
@@ -189,7 +188,6 @@ class Enemy {
       this.stage = null;
     }
 
-    this.airCraft = null;
     this.shape = null;
     this.text = null;
     this.hitArea = null;

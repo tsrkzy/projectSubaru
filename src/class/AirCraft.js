@@ -21,7 +21,6 @@ import {
 import Canvas from './Canvas';
 import Jammer from './Jammer';
 import EventsWrapper from './EventsWrapper';
-import EnemyMarker from './EnemyMarker';
 
 /**
  * Your AirCraft Class.

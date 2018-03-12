@@ -10,6 +10,7 @@ import {
   STAGE_EDGE_RIGHT,
   STAGE_EDGE_TOP,
 } from './Constant';
+import AirCraft from './AirCraft';
 
 /**
  * Enemy "Battery" class.
@@ -46,11 +47,13 @@ class Battery extends Enemy {
       return;
     }
 
+    const airCraft = AirCraft.getInstance();
+
     const theta = MathUtil.getAngleDegree(
       this.x,
       this.y,
-      this.airCraft.x,
-      this.airCraft.y
+      airCraft.x,
+      airCraft.y
     );
     const shake = MathUtil.d2r(3);
 

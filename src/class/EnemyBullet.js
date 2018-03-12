@@ -12,7 +12,6 @@ class EnemyBullet extends Bullet {
    */
   constructor(args) {
     super(args);
-    this.airCraft = AirCraft.getInstance();
 
     EnemyBullet.id = EnemyBullet.id || 0;
     this.id = EnemyBullet.id;

@@ -5,6 +5,7 @@ import MathUtil from './MathUtil';
 import Sign from './Sign';
 import EnemyMarker from './EnemyMarker';
 import FireWorks from './FireWorks';
+import AirCraft from './AirCraft';
 
 /**
  * Enemy "Launcher" class.
@@ -39,12 +40,13 @@ class Launcher extends Enemy {
     if ((createjs.Ticker.getTicks() + this.aimTime) % 120 !== 0) {
       return;
     }
+    const airCraft = AirCraft.getInstance();
 
     const theta = MathUtil.getAngleDegree(
       this.x,
       this.y,
-      this.airCraft.x,
-      this.airCraft.y
+      airCraft.x,
+      airCraft.y
     );
 
     /*
@@ -67,8 +69,8 @@ class Launcher extends Enemy {
       /*
        * effect sign on you.
        */
-      const signX = this.airCraft.x;
-      const signY = this.airCraft.y;
+      const signX = airCraft.x;
+      const signY = airCraft.y;
       const sign = new Sign({
         x: signX,
         y: signY,

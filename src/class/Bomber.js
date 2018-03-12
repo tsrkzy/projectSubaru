@@ -9,6 +9,7 @@ import {
 } from './Constant';
 import MathUtil from './MathUtil';
 import FireWorks from './FireWorks';
+import AirCraft from './AirCraft';
 
 /**
  * Enemy "Bomber" class.
@@ -47,12 +48,20 @@ class Bomber extends Enemy {
    * moving control kicked every tick
    */
   move() {
-    const angle = MathUtil.getAngleDegree(this.x, this.y, this.airCraft.x, this.airCraft.y);
+    const airCraft = AirCraft.getInstance();
+
+    if (!airCraft) {
+      return false;
+    }
+
+    const angle = MathUtil.getAngleDegree(this.x, this.y, airCraft.x, airCraft.y);
     const sinTheta = 1 - Math.sin(this.theta);
     const speed = BOMBER_SPEED;
+
     this.x -= speed * sinTheta * Math.cos(angle);
     this.y -= speed * sinTheta * Math.sin(angle);
     this.theta += MathUtil.d2r(1);
+
     this.updatePos();
   }
 

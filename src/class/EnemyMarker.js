@@ -35,7 +35,6 @@ class EnemyMarker {
     this.y = args.y;
     this.alive = true;
     this.stage = Canvas.getStage();
-    this.airCraft = AirCraft.getInstance();
     this.clock = new Clock(this);
     this.p = new Promise((resolve) => {
       EventsWrapper.once(`reached_${this.id}`, () => {
@@ -84,12 +83,15 @@ class EnemyMarker {
   }
 
   move() {
+    const airCraft = AirCraft.getInstance();
+
     const angle = MathUtil.getAngleDegree(
       this.x,
       this.y,
-      this.airCraft.x,
-      this.airCraft.y
+      airCraft.x,
+      airCraft.y,
     );
+
     this.x -= MARKER_SPEED * Math.cos(angle);
     this.y -= MARKER_SPEED * Math.sin(angle);
   }
@@ -119,12 +121,14 @@ class EnemyMarker {
   }
 
   collisionCheckWithAircraft() {
-    if (!AirCraft.isAlive() || !this.airCraft) {
+    const airCraft = AirCraft.getInstance();
+
+    if (!AirCraft.isAlive() || airCraft) {
       this.locked();
       return false;
     }
 
-    const pos = this.hitArea.localToLocal(0, 0, this.airCraft.shape);
+    const pos = this.hitArea.localToLocal(0, 0, airCraft.shape);
     const hitTest = this.hitArea.hitTest(pos.x, pos.y);
     if (hitTest) {
       this.locked();
@@ -172,7 +176,6 @@ class EnemyMarker {
       this.stage = null;
     }
 
-    this.airCraft = null;
     this.shape = null;
     this.text = null;
     this.hitArea = null;

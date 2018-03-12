@@ -22,6 +22,8 @@ class Game {
   constructor() {
     console.info('new game start.');
 
+    new AirCraft();
+
     Wave.level = 0;
 
     Enemy.flush();
@@ -32,8 +34,6 @@ class Game {
     console.log('EnemyBullet.flush(); done.'); // @DELETEME
 
     this.stage = Canvas.getStage();
-
-    this.airCraft = new AirCraft();
 
     this.indicator = new createjs.Text('', INDICATOR_FONT_STYLE, 'lightgray');
     this.indicator.x = INDICATOR_X;
@@ -98,7 +98,6 @@ class Game {
   }
 
   destroy() {
-    this.airCraft = null;
 
     if (this.stageListener) {
       this.stageListener.removeAllListeners();
