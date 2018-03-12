@@ -61,7 +61,7 @@ class Launcher extends Enemy {
        */
       if (this.alive === false) {
         marker.die();
-        return;
+        return false;
       }
 
       /*
@@ -74,6 +74,7 @@ class Launcher extends Enemy {
         y: signY,
       });
       sign.p.then(() => {
+        console.count('marker fired');
         /*
          * bomb on you.
          */

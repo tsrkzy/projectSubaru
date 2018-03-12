@@ -40,18 +40,18 @@ class Game {
     this.indicator.y = INDICATOR_Y;
     this.stage.addChild(this.indicator);
 
-    const stageListener = new EventsWrapper();
+    this.stageListener = new EventsWrapper();
     EventsWrapper.removeAllListeners();
 
-    const wi = waveIterator(stageListener);
+    const wi = waveIterator(this.stageListener);
     let die = false;
     wi.next();
 
-    stageListener.on('wave.clear', () => {
+    this.stageListener.on('wave.clear', () => {
       wi.next();
     });
 
-    stageListener.once('gameOver', () => {
+    this.stageListener.once('gameOver', () => {
       die = true;
       wi.next();
       this.destroy();
@@ -99,6 +99,11 @@ class Game {
 
   destroy() {
     this.airCraft = null;
+
+    if (this.stageListener) {
+      this.stageListener.removeAllListeners();
+      this.stageListener = null;
+    }
   }
 }
 
