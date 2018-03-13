@@ -76,7 +76,6 @@ class Launcher extends Enemy {
         y: signY,
       });
       sign.p.then(() => {
-        console.count('marker fired');
         /*
          * bomb on you.
          */
