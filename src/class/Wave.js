@@ -3,6 +3,7 @@ import {WAVE_TIME_LIMIT} from './Constant';
 import Canvas from './Canvas';
 import WaveUtil from './WaveUtil';
 import AirCraft from './AirCraft';
+import EventsWrapper from './EventsWrapper';
 
 class Wave {
   static nextLevel() {
@@ -43,14 +44,40 @@ class Wave {
       }, WAVE_TIME_LIMIT);
     });
 
+    const gameOver = new Promise((resolve) => {
+      EventsWrapper.once('gameOver', () => {
+        resolve();
+      });
+    });
+
     /*
      * wave clear ... when (1) or (2) done
      *   (1) destroy all enemy.
      *   (2) after ${timeMs} milli seconds.
+     *
+     * wave fails immediately
+     *   (1) 'gameOver' event fired.
+     *
      */
-    this.p = Promise.race([Promise.all(this.promises), timer])
+    this.p = new Promise((resolve, reject) => {
+
+      Promise.race([
+        Promise.all(this.promises),
+        timer
+      ]).then(() => {
+        resolve();
+      });
+
+      gameOver.then(() => {
+        reject();
+      });
+
+    })
       .then(() => {
-        console.warn('wave clear!!');
+        console.warn(`wave: ${this.level} clear!!`);
+      })
+      .catch(() => {
+        console.warn(`wave: ${this.level} failed!!`);
       });
   }
 

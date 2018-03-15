@@ -27,11 +27,8 @@ class Game {
     Wave.level = 0;
 
     Enemy.flush();
-    console.log('Enemy.flush(); done.'); // @DELETEME
     EnemyMarker.flush();
-    console.log('EnemyMarker.flush(); done.'); // @DELETEME
     EnemyBullet.flush();
-    console.log('EnemyBullet.flush(); done.'); // @DELETEME
 
     this.stage = Canvas.getStage();
 
@@ -53,7 +50,7 @@ class Game {
 
     this.stageListener.once('gameOver', () => {
       die = true;
-      wi.next();
+      wi.return();
       this.destroy();
       new Title();
     });
@@ -103,6 +100,8 @@ class Game {
       this.stageListener.removeAllListeners();
       this.stageListener = null;
     }
+
+    createjs.Ticker.removeAllEventListeners();
   }
 }
 

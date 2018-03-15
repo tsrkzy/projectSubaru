@@ -67,7 +67,6 @@ class Jammer {
     this.stage.removeChild(this.hitArea);
     this.stage.removeChild(this.text);
     this.clock.allOff();
-    this.airCraft = null;
     this.clock = null;
     this.shape = null;
     this.text = null;
