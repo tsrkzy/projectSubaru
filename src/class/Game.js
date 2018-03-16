@@ -60,9 +60,15 @@ class Game {
         if (die) {
           break;
         }
-        new Wave().p.then(() => {
-          listener.emit('wave.clear');
-        });
+        const wave = new Wave();
+        wave.p
+          .then((level) => {
+            console.warn(`wave: ${level} clear!!`);
+            listener.emit('wave.clear');
+          })
+          .catch((level) => {
+            console.warn(`wave: ${level} failed!!`);
+          });
 
         /*
          * pause process flow till next waveIterator#next();

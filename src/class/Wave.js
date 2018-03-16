@@ -11,6 +11,7 @@ class Wave {
   }
 
   static get level() {
+    Wave._level = Wave._level || 0;
     return Wave._level;
   };
 
@@ -22,9 +23,6 @@ class Wave {
    * @constructor
    */
   constructor() {
-    if (typeof Wave.level === 'undefined') {
-      Wave.level = 0;
-    }
 
     this.level = Wave.level;
     Wave.nextLevel();
@@ -65,20 +63,13 @@ class Wave {
         Promise.all(this.promises),
         timer
       ]).then(() => {
-        resolve();
+        resolve(this.level);
       });
 
       gameOver.then(() => {
-        reject();
+        reject(this.level);
       });
-
-    })
-      .then(() => {
-        console.warn(`wave: ${this.level} clear!!`);
-      })
-      .catch(() => {
-        console.warn(`wave: ${this.level} failed!!`);
-      });
+    });
   }
 
 
