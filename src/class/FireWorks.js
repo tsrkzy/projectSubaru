@@ -2,6 +2,7 @@
 
 import GunPowder from './GunPowder';
 import Canvas from './Canvas';
+import EventsWrapper from './EventsWrapper';
 
 /**
  * bullet art utility class.

@@ -41,6 +41,7 @@ export const STAGE_FRAME_BOTTOM = STAGE_HEIGHT + STAGE_MARGIN_Y;
  */
 export const WAVE_TIME_LIMIT = 20 * 1000;
 export const ENEMY_VARIATION = 4;
+export const NEXT_GAME_TIMEOUT = 4000;
 
 /*
  * TIER

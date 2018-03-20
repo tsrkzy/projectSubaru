@@ -2,6 +2,7 @@
 
 import {SIGN_RADIUS} from './Constant';
 import Canvas from './Canvas';
+import AirCraft from './AirCraft';
 
 /**
  * enemy bullet-storm drop zone.
@@ -34,13 +35,14 @@ class Sign {
     this.stage.addChild(this.shape);
     this.stage.addChild(this.outline);
 
-    this.p = new Promise((resolve) => {
+    this.p = new Promise((resolve, reject) => {
       const completeHandler = () => {
         createjs.Tween.removeTweens(this.shape);
         this.stage.removeChild(this.shape);
         this.stage.removeChild(this.outline);
         this.shape = null;
         this.outline = null;
+
         resolve();
       };
 

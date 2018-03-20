@@ -77,6 +77,8 @@ class Launcher extends Enemy {
           BOMBER_SHOT_DEPTH
         );
       });
+    }).catch(() => {
+      console.log('AirCraft already died');
     });
   }
 

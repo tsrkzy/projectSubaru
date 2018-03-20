@@ -36,7 +36,7 @@ class EnemyMarker {
     this.alive = true;
     this.stage = Canvas.getStage();
     this.clock = new Clock(this);
-    this.p = new Promise((resolve) => {
+    this.p = new Promise((resolve, reject) => {
       EventsWrapper.once(`reached_${this.id}`, () => {
         EventsWrapper.removeAllListeners(`reached_${this.id}`);
         resolve();

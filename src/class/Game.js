@@ -8,6 +8,7 @@ import {
   INDICATOR_FONT_STYLE,
   INDICATOR_X,
   INDICATOR_Y,
+  NEXT_GAME_TIMEOUT,
 } from './Constant';
 import Canvas from './Canvas';
 import Wave from './Wave';
@@ -49,9 +50,17 @@ class Game {
     });
 
     this.stageListener.once('gameOver', () => {
+      /* kill timer */
+      createjs.Ticker.reset();
+      createjs.Ticker.removeAllEventListeners();
+
       die = true;
+
+      /* kill wave generator */
       wi.return();
+
       this.destroy();
+
       new Title();
     });
 

@@ -17,6 +17,7 @@ import {
   STAGE_EDGE_RIGHT,
   STAGE_EDGE_TOP,
   STAGE_EDGE_BOTTOM,
+  NEXT_GAME_TIMEOUT,
 } from './Constant';
 import Canvas from './Canvas';
 import Jammer from './Jammer';
@@ -240,11 +241,13 @@ class AirCraft {
 
     this.die();
 
+    /*
+     * wait for prevent "bullet after game over"
+     * once gameOver emitted, all animations stops and all handlers die.
+     */
     window.setTimeout(() => {
-      createjs.Ticker.reset();
-      createjs.Ticker.removeAllEventListeners();
       EventsWrapper.emit('gameOver');
-    }, 2000);
+    }, NEXT_GAME_TIMEOUT);
   }
 
   die() {
