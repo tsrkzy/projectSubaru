@@ -26,8 +26,8 @@ class EnemyMarker {
    * @param {Object} args - x, y
    */
   constructor(args) {
-    this.id = EnemyMarker.id || 0;
-    EnemyMarker.id++;
+
+    this.id = EnemyMarker.getId();
 
     EnemyMarker.instances.push(this);
 
@@ -45,6 +45,15 @@ class EnemyMarker {
     this.deploy();
     this.assignTickListener();
   }
+
+  static getId() {
+    EnemyMarker._id = EnemyMarker._id || 0;
+    const id = EnemyMarker._id;
+    EnemyMarker._id++;
+
+    return id;
+  }
+
 
   static get instances() {
     return EnemyMarker._instances || [];

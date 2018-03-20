@@ -1,7 +1,6 @@
 'use strict';
 import Enemy from './Enemy';
 import {LAUNCHER_WIDTH, LAUNCHER_HEIGHT, BOMBER_SHOT_DEPTH, BOMBER_SHOT_COUNT} from './Constant';
-import MathUtil from './MathUtil';
 import Sign from './Sign';
 import EnemyMarker from './EnemyMarker';
 import FireWorks from './FireWorks';
@@ -42,29 +41,21 @@ class Launcher extends Enemy {
     }
     const airCraft = AirCraft.getInstance();
 
-    const theta = MathUtil.getAngleDegree(
-      this.x,
-      this.y,
-      airCraft.x,
-      airCraft.y
-    );
-
     /*
      * lock marker on you.
      */
     const marker = new EnemyMarker({
       x: this.x,
       y: this.y,
-      angle: theta,
     });
     marker.p.then(() => {
-      /*
-       * Bomber was dead, sign does not appear.
-       */
-      if (this.alive === false) {
-        marker.die();
-        return false;
-      }
+      // /*
+      //  * Bomber was dead, sign does not appear.
+      //  */
+      // if (this.alive === false) {
+      //   marker.die();
+      //   return false;
+      // }
 
       /*
        * effect sign on you.

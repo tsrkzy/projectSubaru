@@ -14,7 +14,6 @@ class Sign {
   constructor(args) {
     this.stage = Canvas.getStage();
     this.radius = SIGN_RADIUS;
-    this.color = 'yellow';
 
     this.shape = new createjs.Shape();
     this.shape.x = args.x || 0;
@@ -23,20 +22,20 @@ class Sign {
 
     this.shape.alpha = 0.3;
     this.shape.graphics
-      .beginFill(this.color)
+      .beginFill('rgba(255, 255, 60, 0.4)')
       .drawCircle(0, 0, this.radius);
 
     this.outline.alpha = 0.3;
     this.outline.graphics
       .setStrokeStyle(1)
-      .beginStroke(this.color)
+      .beginStroke('orange')
       .drawCircle(0, 0, this.radius);
 
     this.stage.addChild(this.shape);
     this.stage.addChild(this.outline);
 
     this.p = new Promise((resolve) => {
-      const completeHandler = (resolve) => {
+      const completeHandler = () => {
         createjs.Tween.removeTweens(this.shape);
         this.stage.removeChild(this.shape);
         this.stage.removeChild(this.outline);
@@ -45,11 +44,7 @@ class Sign {
         resolve();
       };
 
-      createjs.Tween.get(this.shape)
-        .to({scaleX: 0, scaleY: 0}, 400)
-        .to({scaleX: 1, scaleY: 1, alpha: 0.6}, 200)
-
-        .call(completeHandler.bind(this, resolve));
+      window.setTimeout(completeHandler.bind(this), 600);
     });
   }
 }
