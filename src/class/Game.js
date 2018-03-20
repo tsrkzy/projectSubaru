@@ -101,6 +101,7 @@ class Game {
   }
 
   destroy() {
+    this.stage.removeChild(this.indicator);
 
     if (this.stageListener) {
       this.stageListener.removeAllListeners();
