@@ -21,7 +21,6 @@ class Noise extends Enemy {
    */
   constructor(args) {
     super(args);
-    this.addInstance();
     this.deploy();
     this.assignTickListener();
   }

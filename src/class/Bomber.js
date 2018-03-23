@@ -23,7 +23,6 @@ class Bomber extends Enemy {
   constructor(args) {
     super(args);
     this.theta = 0;
-    this.addInstance();
     this.deploy();
     this.assignTickListener();
   }

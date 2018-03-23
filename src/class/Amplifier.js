@@ -1,6 +1,7 @@
 'use strict';
 import Enemy from './Enemy';
 import {
+  AMPLIFIER_COEFFICIENT,
   AMPLIFIER_HEIGHT,
   AMPLIFIER_WIDTH,
 } from './Constant';
@@ -15,16 +16,15 @@ class Amplifier extends Enemy {
    * @param {Object} args - x, y, stage
    */
   constructor(args) {
+
     super(args);
-    Amplifier.instances = Amplifier.instances || [];
     this.enrage = false;
 
-    this.addInstance();
     this.deploy();
     this.assignTickListener();
     window.setTimeout(() => {
       this.rage();
-    }, 2000);
+    }, 4000);
   }
 
   rage() {
@@ -39,6 +39,18 @@ class Amplifier extends Enemy {
       .drawCircle(0, 0, 40);
   }
 
+  static getAmplifiers() {
+    const result = [];
+    for (let i = 0; i < Enemy.instances.length; i++) {
+      const enemy = Enemy.instances[i];
+      if (enemy instanceof Amplifier) {
+        result.push(enemy);
+      }
+    }
+
+    return result;
+  }
+
   /**
    * return bullet expand ratio.
    * returns 2 to the power of number of Amplifier enraged.
@@ -48,15 +60,20 @@ class Amplifier extends Enemy {
    */
   static getRatio() {
     let enraged = 0;
+    const amplifiers = Amplifier.getAmplifiers();
 
-    for (let i = 0; i < Amplifier.instances.length; i++) {
-      const amp = Amplifier.instances[i];
-      if (amp.enrage === true) {
+    for (let i = 0; i < amplifiers.length; i++) {
+      const enemy = amplifiers[i];
+      if (!(enemy instanceof Amplifier)) {
+        continue;
+      }
+
+      if (enemy.enrage === true) {
         enraged++;
       }
     }
 
-    const amplify = Math.pow(2, enraged);
+    const amplify = Math.pow(AMPLIFIER_COEFFICIENT, enraged);
 
     return amplify;
   }
@@ -103,7 +120,7 @@ class Amplifier extends Enemy {
         AMPLIFIER_WIDTH,
         AMPLIFIER_HEIGHT);
 
-    this.text = new createjs.Text('amp', 'bold 9px Arial', 'black');
+    this.text = new createjs.Text('amp', 'bold 9px Arial', 'white');
 
     this.updatePos();
 

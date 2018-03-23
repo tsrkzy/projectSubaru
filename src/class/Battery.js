@@ -25,7 +25,6 @@ class Battery extends Enemy {
     super(args);
     this.directionX = 1;
     this.directionY = 1;
-    this.addInstance();
     this.deploy();
     this.assignTickListener();
   }

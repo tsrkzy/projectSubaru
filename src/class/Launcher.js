@@ -17,7 +17,6 @@ class Launcher extends Enemy {
    */
   constructor(args) {
     super(args);
-    this.addInstance();
     this.deploy();
     this.assignTickListener();
     this.aimTime = Math.floor(Math.random() * 100);

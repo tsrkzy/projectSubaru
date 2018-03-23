@@ -44,7 +44,7 @@ class Enemy {
     this.id = Enemy.id;
     Enemy.id++;
 
-    Enemy.instances.push(this);
+    this.addInstance();
 
     this.x = args.x;
     this.y = args.y;

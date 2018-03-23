@@ -20,7 +20,6 @@ class Debris extends Enemy {
     this.angleRadian = MathUtil.d2r(this.angleDegree);
     this.vX = this.speed * Math.cos(this.angleRadian);
     this.vY = this.speed * Math.sin(this.angleRadian);
-    this.addInstance();
     this.deploy();
     this.assignTickListener();
   }

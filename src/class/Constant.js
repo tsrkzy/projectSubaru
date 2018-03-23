@@ -96,6 +96,7 @@ export const DEBRIS_HEIGHT = 20;
 /*
  * amplifier
  */
+export const AMPLIFIER_COEFFICIENT = 1.4;
 export const AMPLIFIER_WIDTH = 20;
 export const AMPLIFIER_HEIGHT = 20;
 

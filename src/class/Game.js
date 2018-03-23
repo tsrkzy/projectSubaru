@@ -8,13 +8,13 @@ import {
   INDICATOR_FONT_STYLE,
   INDICATOR_X,
   INDICATOR_Y,
-  NEXT_GAME_TIMEOUT,
 } from './Constant';
 import Canvas from './Canvas';
 import Wave from './Wave';
 import EventsWrapper from './EventsWrapper';
 import Title from './Title';
 import EnemyMarker from './EnemyMarker';
+import Amplifier from './Amplifier';
 
 class Game {
   /**
@@ -99,13 +99,16 @@ class Game {
       const friendBulletCount = (FriendBullet.instances || []).length;
       const enemyBulletCount = EnemyBullet.instances.length;
       const enemyCount = (Enemy.instances || []).length;
+      const amp = Amplifier.getRatio() || 1;
+      const amp_c = Amplifier.getAmplifiers().length || 0;
       const wave = Wave.level;
       this.indicator.text =
         `FPS: ${measuredFPS}\n` +
         `FriendBullets: ${friendBulletCount}\n` +
         `Enemy: ${enemyCount}\n` +
-        `EnemyBullets:${enemyBulletCount}\n` +
-        `Wave:${wave}`;
+        `EnemyBullets: ${enemyBulletCount}\n` +
+        `amp: ${amp} - ${amp_c}\n` +
+        `Wave: ${wave}`;
     });
   }
 
