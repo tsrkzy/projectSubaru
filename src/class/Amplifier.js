@@ -3,6 +3,7 @@ import Enemy from './Enemy';
 import {
   AMPLIFIER_COEFFICIENT,
   AMPLIFIER_HEIGHT,
+  AMPLIFIER_SPIN_UP_TIME,
   AMPLIFIER_WIDTH,
 } from './Constant';
 
@@ -24,7 +25,7 @@ class Amplifier extends Enemy {
     this.assignTickListener();
     window.setTimeout(() => {
       this.rage();
-    }, 4000);
+    }, AMPLIFIER_SPIN_UP_TIME);
   }
 
   rage() {

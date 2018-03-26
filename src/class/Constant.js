@@ -75,7 +75,7 @@ export const GATLING_BULLET_STOPPING_POWER = 1;
  * gunpowder
  */
 export const GUNPOWDER_BULLET_RADIUS = 8;
-export const GUNPOWDER_BULLET_SPEED = 3;
+export const GUNPOWDER_BULLET_SPEED = 2;
 
 
 /*
@@ -99,6 +99,7 @@ export const DEBRIS_HEIGHT = 20;
 export const AMPLIFIER_COEFFICIENT = 1.4;
 export const AMPLIFIER_WIDTH = 20;
 export const AMPLIFIER_HEIGHT = 20;
+export const AMPLIFIER_SPIN_UP_TIME = 4000;
 
 /*
  * bomber
@@ -108,8 +109,6 @@ export const BOMBER_HEIGHT = 20;
 export const BOMBER_SPEED = 1;
 export const BOMBER_LAST_SHOT_COUNT = 15;
 export const BOMBER_LAST_SHOT_DEPTH = 2;
-export const BOMBER_SHOT_COUNT = 3;
-export const BOMBER_SHOT_DEPTH = 8;
 
 /*
  * marker
@@ -128,6 +127,9 @@ export const SIGN_RADIUS = 40;
  */
 export const LAUNCHER_WIDTH = 20;
 export const LAUNCHER_HEIGHT = 20;
+export const BOMBER_SHOT_COUNT = 3;
+export const BOMBER_SHOT_DEPTH = 8;
+export const LAUNCHER_DELAY = 180;
 
 /*
  * noise

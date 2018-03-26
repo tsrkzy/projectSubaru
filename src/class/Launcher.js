@@ -1,6 +1,12 @@
 'use strict';
 import Enemy from './Enemy';
-import {LAUNCHER_WIDTH, LAUNCHER_HEIGHT, BOMBER_SHOT_DEPTH, BOMBER_SHOT_COUNT} from './Constant';
+import {
+  LAUNCHER_WIDTH,
+  LAUNCHER_HEIGHT,
+  BOMBER_SHOT_DEPTH,
+  BOMBER_SHOT_COUNT,
+  LAUNCHER_DELAY
+} from './Constant';
 import Sign from './Sign';
 import EnemyMarker from './EnemyMarker';
 import FireWorks from './FireWorks';
@@ -35,7 +41,7 @@ class Launcher extends Enemy {
    * firing control kicked every tick
    */
   trigger() {
-    if ((createjs.Ticker.getTicks() + this.aimTime) % 120 !== 0) {
+    if ((createjs.Ticker.getTicks() + this.aimTime) % LAUNCHER_DELAY !== 0) {
       return;
     }
     const airCraft = AirCraft.getInstance();
@@ -48,13 +54,6 @@ class Launcher extends Enemy {
       y: this.y,
     });
     marker.p.then(() => {
-      // /*
-      //  * Bomber was dead, sign does not appear.
-      //  */
-      // if (this.alive === false) {
-      //   marker.die();
-      //   return false;
-      // }
 
       /*
        * effect sign on you.
