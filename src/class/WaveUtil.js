@@ -92,7 +92,7 @@ class WaveUtil {
       waveConfig.push(...WaveUtil.dispatchNoiseSortie());
       break;
     default:
-      throw new Error(`unexpected level: ${level} in #intro`);
+      throw new Error(`unexpected level: ${level} in #tutorial`);
     }
 
     return waveConfig;
@@ -352,18 +352,22 @@ class WaveUtil {
    * @return {Array<Object>}
    */
   static dispatchBatterySortie(args = {}) {
-    const spanMs = args.spanMs || 800;
-    const count = args.count || 1;
-    const entry = args.entry;
-    const hitPoint = args.hitPoint || 1;
+    const
+      {
+        delayMs = 0,
+        spanMs = 800,
+        count = 1,
+        entry,
+        hitPoint = 1
+      } = args;
 
     const waveConf = WaveUtil.dispatchSortie({
       enemyClass: Battery,
-      delayMs: 0,
-      spanMs: spanMs,
-      count: count,
-      entry: entry,
-      hitPoint: hitPoint,
+      delayMs,
+      spanMs,
+      count,
+      entry,
+      hitPoint,
     });
 
     return waveConf;
@@ -374,21 +378,25 @@ class WaveUtil {
    * @return {Array<Object>}
    */
   static dispatchLauncherSortie(args = {}) {
-    const spanY = args.spanY || 80;
-    const count = args.count || 5;
-    const entry = args.entry || 'front';
-    const x = args.x || STAGE_FRAME_RIGHT;
-    const y = args.y || STAGE_EDGE_TOP;
+    const {
+      delayMs = 0,
+      spanY = 80,
+      count = 5,
+      entry = 'front',
+      x = STAGE_FRAME_RIGHT,
+      y = STAGE_EDGE_TOP,
+      hitPoint = 1,
+    } = args;
 
     const waveConf = WaveUtil.dispatchSortie({
       enemyClass: Launcher,
-      delayMs: 0,
-      spanY: spanY,
-      count: count,
-      entry: entry,
-      x: x,
-      y: y,
-      hitPoint: 1,
+      delayMs,
+      spanY,
+      count,
+      entry,
+      x,
+      y,
+      hitPoint,
     });
 
     return waveConf;
@@ -399,44 +407,54 @@ class WaveUtil {
    * @return {Array<Object>}
    */
   static dispatchBomberSortie(args = {}) {
-    const spanY = args.spanY || 100;
-    const spanMs = args.spanMs || 800;
-    const count = args.count || 3;
-    const entry = args.entry || 'front';
-    const x = args.x || STAGE_FRAME_RIGHT;
-    const y = args.y || STAGE_EDGE_TOP;
+    const {
+      delayMs = 0,
+      spanY = 100,
+      spanMs = 800,
+      count = 3,
+      entry = 'front',
+      x = STAGE_FRAME_RIGHT,
+      y = STAGE_EDGE_TOP,
+    } = args;
 
     const waveConf = WaveUtil.dispatchSortie({
       enemyClass: Bomber,
-      delayMs: 0,
-      spanMs: spanMs,
-      count: count,
-      entry: entry,
-      x: x,
-      y: y,
-      spanY: spanY,
+      delayMs,
+      spanMs,
+      count,
+      entry,
+      x,
+      y,
+      spanY,
     });
 
     return waveConf;
   }
 
   /**
+   * @param {object} args
    * @return {Array<Object>}
    */
-  static dispatchAmplifierSortie() {
-    const spanY = 120;
-    const spanMs = 800;
-    const count = 2;
+  static dispatchAmplifierSortie(args = {}) {
+    const {
+      delayMs = 0,
+      spanY = 120,
+      spanMs = 800,
+      count = 2,
+      x = STAGE_FRAME_RIGHT,
+      y = 120,
+      hitPoint = 3,
+    } = args;
 
     const waveConf = WaveUtil.dispatchSortie({
       enemyClass: Amplifier,
-      delayMs: 0,
-      spanMs: spanMs,
-      spanY: spanY,
-      count: count,
-      x: STAGE_FRAME_RIGHT,
-      y: 120,
-      hitPoint: 3,
+      delayMs,
+      spanMs,
+      spanY,
+      count,
+      x,
+      y,
+      hitPoint,
     });
 
     return waveConf;
@@ -447,22 +465,25 @@ class WaveUtil {
    * @return {Array<Object>}
    */
   static dispatchNoiseSortie(args = {}) {
-    const spanY = args.spanY || 100;
-    const spanMs = args.spanMs || 800;
-    const count = args.count || 3;
-    const entry = args.entry || 'front';
-    const x = args.x || STAGE_FRAME_RIGHT;
-    const y = args.y || STAGE_EDGE_TOP;
+    const {
+      spanY = 100,
+      spanMs = 800,
+      count = 3,
+      entry = 'front',
+      x = STAGE_FRAME_RIGHT,
+      y = STAGE_EDGE_TOP,
+      hitPoint = 1,
+    } = args;
 
     const waveConf = WaveUtil.dispatchSortie({
       enemyClass: Noise,
-      spanMs: spanMs,
-      entry: entry,
-      x: x,
-      y: y,
-      spanY: spanY,
-      count: count,
-      hitPoint: 1,
+      spanMs,
+      entry,
+      x,
+      y,
+      spanY,
+      count,
+      hitPoint,
     });
 
     return waveConf;
@@ -474,27 +495,30 @@ class WaveUtil {
    * @return {Array<Object>}
    */
   static dispatchDebrisSortie(args) {
-    const number = args.number;
-    const _y = args.y;
-    const delayMs = args.delayMs;
-    const spanMs = args.spanMs;
-    // let direction = args.direction;
-    const spreadDegree = args.spreadDegree || 10;
-    // let speed = args.speed;
+    const {
+      number,
+      x = 740,
+      y,
+      delayMs,
+      spanMs,
+      spreadDegree = 10,
+      speed = -7,
+      hitPoint = 1,
+    } = args;
 
     const result = [];
     for (let i = 1; i <= number; i++) {
-      const y = MathUtil.normalRandom(_y, 100);
+      const _y = MathUtil.normalRandom(y, 100);
       const angleDegree = MathUtil.normalRandom(0, spreadDegree);
       const conf = {
         enemyClass: Debris,
         delayMs: delayMs + (i * spanMs / number),
         args: {
-          x: 740,
-          y: y,
-          speed: -7,
-          angleDegree: angleDegree,
-          hitPoint: 1,
+          x,
+          y: _y,
+          speed,
+          angleDegree,
+          hitPoint,
         },
       };
       result.push(conf);
@@ -510,13 +534,16 @@ class WaveUtil {
    */
   static dispatchSortie(args) {
     const enemyClass = args.enemyClass;
-    const delayMs = args.delayMs || 0;
-    const spanMs = args.spanMs || 0;
-    const spanX = args.spanX || 0;
-    const spanY = args.spanY || 0;
-    const count = args.count || 1;
-    const hitPoint = args.hitPoint || 1;
-    let entry = args.entry || 'front';
+    const {
+      delayMs = 0,
+      spanMs = 0,
+      spanX = 0,
+      spanY = 0,
+      count = 1,
+      hitPoint = 1,
+      entry = 'front'
+    } = args;
+    let entryPoint = entry;
 
     let x = 0;
     let y = 0;
@@ -525,26 +552,26 @@ class WaveUtil {
 
     switch (entry) {
     case 'vertical':
-      entry = (random0to3 % 2 === 0) ? 'top' : 'bottom';
+      entryPoint = (random0to3 % 2 === 0) ? 'top' : 'bottom';
       break;
 
     case 'horizontal':
-      entry = (random0to3 % 2 === 0) ? 'front' : 'back';
+      entryPoint = (random0to3 % 2 === 0) ? 'front' : 'back';
       break;
 
     case 'around':
       switch (random0to3) {
       case 0:
-        entry = 'top';
+        entryPoint = 'top';
         break;
       case 1:
-        entry = 'bottom';
+        entryPoint = 'bottom';
         break;
       case 2:
-        entry = 'front';
+        entryPoint = 'front';
         break;
       case 3:
-        entry = 'back';
+        entryPoint = 'back';
         break;
       }
       break;
@@ -553,7 +580,7 @@ class WaveUtil {
       break;
     }
 
-    switch (entry) {
+    switch (entryPoint) {
     case 'top':
       x = STAGE_MIDDLE_X;
       y = STAGE_FRAME_TOP;
