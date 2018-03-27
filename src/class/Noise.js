@@ -61,13 +61,6 @@ class Noise extends Enemy {
     });
     marker.p.then(() => {
       /*
-       * Noise was dead, jammer does not appear.
-       */
-      if (this.alive === false) {
-        return;
-      }
-
-      /*
        * jammer on you.
        */
       const x = airCraft.x;

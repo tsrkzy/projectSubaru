@@ -15,6 +15,7 @@ import EventsWrapper from './EventsWrapper';
 import Title from './Title';
 import EnemyMarker from './EnemyMarker';
 import Amplifier from './Amplifier';
+import Jammer from './Jammer';
 
 class Game {
   /**
@@ -99,6 +100,7 @@ class Game {
       const friendBulletCount = (FriendBullet.instances || []).length;
       const enemyBulletCount = EnemyBullet.instances.length;
       const enemyCount = (Enemy.instances || []).length;
+      const jam = Jammer.instances.length || 0;
       const amp = Amplifier.getRatio() || 1;
       const amp_c = Amplifier.getAmplifiers().length || 0;
       const wave = Wave.level;
@@ -107,6 +109,7 @@ class Game {
         `FriendBullets: ${friendBulletCount}\n` +
         `Enemy: ${enemyCount}\n` +
         `EnemyBullets: ${enemyBulletCount}\n` +
+        `jam: ${jam}\n` +
         `amp: ${amp} - ${amp_c}\n` +
         `Wave: ${wave}`;
     });

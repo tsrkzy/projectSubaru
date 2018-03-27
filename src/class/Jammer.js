@@ -9,26 +9,23 @@ class Jammer {
     return Jammer._instances || [];
   }
 
+  static set instances(instances) {
+    Jammer._instances = instances;
+  }
+
   constructor(x, y) {
-    Jammer._instances = Jammer.instances || [];
-    Jammer._instances.push(this);
+    Jammer.instances = Jammer.instances || [];
+    Jammer.instances.push(this);
     this.stage = Canvas.getStage();
+    this.alive = true;
     this.x = x;
     this.y = y;
     this.radius = JAMMER_RADIUS;
-    this.life = JAMMER_LIFE_TIME;
     this.clock = new Clock(this);
     this.deploy();
-    this.assignTickListener();
     window.setTimeout(() => {
       this.die();
-    }, this.life);
-  }
-
-  assignTickListener() {
-    this.clock.onTick(() => {
-
-    });
+    }, JAMMER_LIFE_TIME);
   }
 
   updatePos(x = this.x, y = this.y) {
@@ -72,6 +69,7 @@ class Jammer {
     this.text = null;
     this.hitArea = null;
     this.stage = null;
+    this.alive = false;
 
     for (let i = 0; i < Jammer.instances.length; i++) {
       const jammer = Jammer.instances[i];
