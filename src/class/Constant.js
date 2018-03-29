@@ -62,6 +62,15 @@ export const AIRCRAFT_HIT_AREA = 2;
 export const AIRCRAFT_VELOCITY = 3;
 
 /*
+ * score
+ */
+export const SCORE = {
+  BATTERY: 10,
+  LAUNCHER: 10,
+  BOMBER: 10,
+};
+
+/*
  * gatling
  */
 export const GATLING_COOL_TIME = 400;

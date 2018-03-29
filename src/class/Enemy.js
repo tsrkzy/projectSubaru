@@ -2,15 +2,20 @@
 import FriendBullet from './FriendBullet';
 import Clock from './Clock';
 import Blow from './Blow';
-import AirCraft from './AirCraft';
 import EventsWrapper from './EventsWrapper';
 import {
   STAGE_FRAME_LEFT,
   STAGE_FRAME_RIGHT,
   STAGE_FRAME_TOP,
-  STAGE_FRAME_BOTTOM, STAGE_EDGE_LEFT, STAGE_EDGE_RIGHT, STAGE_EDGE_TOP, STAGE_EDGE_BOTTOM,
+  STAGE_FRAME_BOTTOM,
+  STAGE_EDGE_LEFT,
+  STAGE_EDGE_RIGHT,
+  STAGE_EDGE_TOP,
+  STAGE_EDGE_BOTTOM,
+  SCORE,
 } from './Constant';
 import Canvas from './Canvas';
+import Score from './Score';
 
 /**
  * Enemy base class.
@@ -45,6 +50,9 @@ class Enemy {
     Enemy.id++;
 
     this.addInstance();
+    const enemyType = (this.constructor.name.toString()).toUpperCase();
+    this.score = SCORE[enemyType];
+    console.log(`enemy_${this.id} spawned`, enemyType);
 
     this.x = args.x;
     this.y = args.y;
@@ -55,7 +63,6 @@ class Enemy {
     this.shape = null;
     this.hitArea = null;
     this.text = null;
-    console.log(`enemy_${this.id} spawned`);
     this.p = new Promise((resolve) => {
       EventsWrapper.once(`enemyDestroyed_${this.id}`, () => {
         EventsWrapper.removeAllListeners(`enemyDestroyed_${this.id}`);
@@ -176,6 +183,8 @@ class Enemy {
   }
 
   die() {
+    Score.addPoint(this.score);
+
     if (this.clock) {
       this.clock.allOff();
       this.clock = null;
