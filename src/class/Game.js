@@ -33,6 +33,7 @@ class Game {
     Enemy.flush();
     EnemyMarker.flush();
     EnemyBullet.flush();
+    Jammer.flush();
 
     this.stage = Canvas.getStage();
 

@@ -3,6 +3,7 @@
 import Clock from './Clock';
 import Canvas from './Canvas';
 import {JAMMER_LIFE_TIME, JAMMER_RADIUS} from './Constant';
+import AirCraft from './AirCraft';
 
 class Jammer {
   static get instances() {
@@ -14,6 +15,10 @@ class Jammer {
   }
 
   constructor(x, y) {
+    if (!AirCraft.isAlive()) {
+      return null;
+    }
+
     Jammer.instances = Jammer.instances || [];
     Jammer.instances.push(this);
     this.stage = Canvas.getStage();
@@ -26,6 +31,14 @@ class Jammer {
     window.setTimeout(() => {
       this.die();
     }, JAMMER_LIFE_TIME);
+
+    this.clock = new Clock(this);
+    this.clock.onTick(() => {
+      if (AirCraft.isAlive()) {
+        return false;
+      }
+      this.die();
+    });
   }
 
   updatePos(x = this.x, y = this.y) {
@@ -59,7 +72,20 @@ class Jammer {
     this.stage.addChild(this.text);
   }
 
+  static flush() {
+    while (Jammer.instances.length > 0) {
+      const jammer = Jammer.instances[0];
+      jammer.die();
+      Jammer.instances.shift();
+      console.log(Jammer.instances.length);
+    }
+  }
+
   die() {
+    if (!this.alive) {
+      return false;
+    }
+
     this.stage.removeChild(this.shape);
     this.stage.removeChild(this.hitArea);
     this.stage.removeChild(this.text);
