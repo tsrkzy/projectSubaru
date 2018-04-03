@@ -39,7 +39,7 @@ export const STAGE_FRAME_BOTTOM = STAGE_HEIGHT + STAGE_MARGIN_Y;
 /*
  * wave
  */
-export const WAVE_TIME_LIMIT = 20 * 1000;
+export const WAVE_TIME_LIMIT = 5 * 1000;
 export const ENEMY_VARIATION = 4;
 export const NEXT_GAME_TIMEOUT = 4000;
 
@@ -137,7 +137,7 @@ export const SIGN_RADIUS = 40;
 export const LAUNCHER_WIDTH = 20;
 export const LAUNCHER_HEIGHT = 20;
 export const BOMBER_SHOT_COUNT = 3;
-export const BOMBER_SHOT_DEPTH = 8;
+export const BOMBER_SHOT_DEPTH = 5;
 export const LAUNCHER_DELAY = 180;
 
 /*

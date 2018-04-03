@@ -83,17 +83,19 @@ class WaveUtil {
       break;
     case 3:
       // "launcher and amplifier"
-      waveConfig.push(...WaveUtil.dispatchLauncherSortie());
       waveConfig.push(...WaveUtil.dispatchAmplifierSortie());
       break;
     case 4:
       // "bomber and noise"
+      waveConfig.push(...WaveUtil.dispatchLauncherSortie());
       waveConfig.push(...WaveUtil.dispatchBomberSortie());
       waveConfig.push(...WaveUtil.dispatchNoiseSortie());
       break;
     default:
       throw new Error(`unexpected level: ${level} in #tutorial`);
     }
+
+    waveConfig.push(...WaveUtil.dispatchDebrisSortie());
 
     return waveConfig;
   }
@@ -380,7 +382,7 @@ class WaveUtil {
   static dispatchLauncherSortie(args = {}) {
     const {
       delayMs = 0,
-      spanY = 80,
+      spanY = 100,
       count = 5,
       entry = 'front',
       x = STAGE_FRAME_RIGHT,
@@ -494,13 +496,13 @@ class WaveUtil {
    * @param {Object} args
    * @return {Array<Object>}
    */
-  static dispatchDebrisSortie(args) {
+  static dispatchDebrisSortie(args = {}) {
     const {
-      number,
-      x = 740,
-      y,
-      delayMs,
-      spanMs,
+      number = 10,
+      x = STAGE_FRAME_RIGHT,
+      y = STAGE_MIDDLE_Y,
+      delayMs = 100,
+      spanMs = 2000,
       spreadDegree = 10,
       speed = -7,
       hitPoint = 1,
@@ -508,7 +510,7 @@ class WaveUtil {
 
     const result = [];
     for (let i = 1; i <= number; i++) {
-      const _y = MathUtil.normalRandom(y, 100);
+      const _y = MathUtil.normalRandom(y, STAGE_MIDDLE_Y * 0.6);
       const angleDegree = MathUtil.normalRandom(0, spreadDegree);
       const conf = {
         enemyClass: Debris,

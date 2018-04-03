@@ -23,7 +23,6 @@ class Wave {
    * @constructor
    */
   constructor() {
-
     this.level = Wave.level;
     Wave.nextLevel();
     this.stage = Canvas.getStage();
@@ -58,7 +57,6 @@ class Wave {
      *
      */
     this.p = new Promise((resolve, reject) => {
-
       Promise.race([
         Promise.all(this.promises),
         timer
@@ -102,9 +100,7 @@ class Wave {
     const args = config.args;
 
     return new Promise((resolve) => {
-
       window.setTimeout(() => {
-
         if (!AirCraft.isAlive()) {
           resolve();
         }
@@ -114,9 +110,7 @@ class Wave {
         p.then(() => {
           resolve();
         });
-
       }, delayMs);
-
     });
   }
 }
