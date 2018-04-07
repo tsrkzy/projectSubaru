@@ -132,6 +132,11 @@ class EnemyMarker {
   collisionCheckWithAircraft() {
     const airCraft = AirCraft.getInstance();
 
+    if (!this.alive) {
+      return false;
+    }
+
+
     if (!AirCraft.isAlive() || !airCraft) {
       this.locked();
       return false;

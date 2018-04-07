@@ -52,7 +52,6 @@ class Enemy {
     this.addInstance();
     const enemyType = (this.constructor.name.toString()).toUpperCase();
     this.score = SCORE[enemyType];
-    console.log(`enemy_${this.id} spawned`, enemyType);
 
     this.x = args.x;
     this.y = args.y;
@@ -170,6 +169,8 @@ class Enemy {
       radius: 100,
     });
 
+    Score.addPoint(this.score);
+
     this.die();
   }
 
@@ -183,7 +184,6 @@ class Enemy {
   }
 
   die() {
-    Score.addPoint(this.score);
 
     if (this.clock) {
       this.clock.allOff();

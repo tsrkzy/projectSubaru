@@ -27,13 +27,14 @@ class Game {
 
     new AirCraft();
 
-    Score.reset();
     Wave.level = 0;
 
     Enemy.flush();
     EnemyMarker.flush();
     EnemyBullet.flush();
     Jammer.flush();
+
+    Score.reset();
 
     this.stage = Canvas.getStage();
 
@@ -101,6 +102,7 @@ class Game {
     createjs.Ticker.addEventListener('tick', () => {
       const measuredFPS = createjs.Ticker.getMeasuredFPS();
       const score = Score.point;
+      const highScore = Score.highScore;
       const friendBulletCount = (FriendBullet.instances || []).length;
       const enemyBulletCount = EnemyBullet.instances.length;
       const enemyCount = (Enemy.instances || []).length;
@@ -111,6 +113,7 @@ class Game {
       this.indicator.text =
         `FPS: ${measuredFPS}\n` +
         `Score: ${score}\n` +
+        `HighScore: ${highScore}\n` +
         `FriendBullets: ${friendBulletCount}\n` +
         `Enemy: ${enemyCount}\n` +
         `EnemyBullets: ${enemyBulletCount}\n` +
