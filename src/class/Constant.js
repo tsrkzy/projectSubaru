@@ -53,6 +53,9 @@ export const SCORE = {
   BATTERY: 10,
   LAUNCHER: 10,
   BOMBER: 10,
+  DEBRIS: 5,
+  NOISE: 20,
+  AMPLIFIER: 20,
 };
 
 /* gatling */
@@ -113,6 +116,8 @@ export const LAUNCHER_DELAY = 180;
 /* noise */
 export const NOISE_WIDTH = 20;
 export const NOISE_HEIGHT = 20;
+export const NOISE_OUTER_WIDTH = 24;
+export const NOISE_OUTER_HEIGHT = 24;
 
 /* jammer */
 export const JAMMER_RADIUS = 100;

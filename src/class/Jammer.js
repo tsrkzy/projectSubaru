@@ -2,7 +2,11 @@
 
 import Clock from './Clock';
 import Canvas from './Canvas';
-import {JAMMER_LIFE_TIME, JAMMER_RADIUS} from './Constant';
+import {
+  dd,
+  JAMMER_LIFE_TIME,
+  JAMMER_RADIUS
+} from './Constant';
 import AirCraft from './AirCraft';
 
 class Jammer {

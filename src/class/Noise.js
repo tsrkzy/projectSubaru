@@ -4,6 +4,8 @@ import {
   NOISE_WIDTH,
   NOISE_HEIGHT,
   dd,
+  NOISE_OUTER_HEIGHT,
+  NOISE_OUTER_WIDTH,
 } from './Constant';
 import MathUtil from './MathUtil';
 import EnemyMarker from './EnemyMarker';
@@ -82,7 +84,11 @@ class Noise extends Enemy {
 
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.beginFill(Hue.getHue()).drawRect(0 - NOISE_WIDTH / 2, 0 - NOISE_HEIGHT / 2, NOISE_WIDTH, NOISE_HEIGHT);
+    this.shape.graphics
+      .beginFill(Hue.getHue()).drawRect(0 - NOISE_WIDTH / 2, 0 - NOISE_HEIGHT / 2, NOISE_WIDTH, NOISE_HEIGHT)
+      .endFill();
+    this.shape.graphics.setStrokeStyle(1).beginStroke('white')
+      .drawRect(0 - NOISE_OUTER_WIDTH / 2, 0 - NOISE_OUTER_HEIGHT / 2, NOISE_OUTER_WIDTH, NOISE_OUTER_HEIGHT);
 
     this.hitArea = new createjs.Shape();
     this.hitArea.alpha = 0;

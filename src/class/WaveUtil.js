@@ -383,7 +383,7 @@ class WaveUtil {
     const {
       delayMs = 0,
       spanY = 100,
-      count = 5,
+      count = 2,
       entry = 'front',
       x = STAGE_FRAME_RIGHT,
       y = STAGE_EDGE_TOP,
@@ -413,7 +413,7 @@ class WaveUtil {
       delayMs = 0,
       spanY = 100,
       spanMs = 800,
-      count = 3,
+      count = 2,
       entry = 'front',
       x = STAGE_FRAME_RIGHT,
       y = STAGE_EDGE_TOP,
@@ -470,7 +470,7 @@ class WaveUtil {
     const {
       spanY = 100,
       spanMs = 800,
-      count = 3,
+      count = 1,
       entry = 'front',
       x = STAGE_FRAME_RIGHT,
       y = STAGE_EDGE_TOP,

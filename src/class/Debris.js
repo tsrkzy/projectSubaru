@@ -4,7 +4,8 @@ import MathUtil from './MathUtil';
 import {
   dd,
   DEBRIS_HEIGHT,
-  DEBRIS_WIDTH
+  DEBRIS_WIDTH,
+  SCORE
 } from './Constant';
 import Hue from './Hue';
 
