@@ -11,6 +11,7 @@ import Sign from './Sign';
 import EnemyMarker from './EnemyMarker';
 import FireWorks from './FireWorks';
 import AirCraft from './AirCraft';
+import MathUtil from './MathUtil';
 
 /**
  * Enemy "Launcher" class.
@@ -34,7 +35,13 @@ class Launcher extends Enemy {
         return false;
       }
       this.text.text = `launcher:{hp: ${this.hitPoint}`;
+
+      const tick = this.clock.getTick();
+      const radian = MathUtil.d2r(tick);
+      const sineWave = Math.sin(radian);
+      this.shape.rotation = 90 * sineWave;
     });
+
   }
 
   /**
@@ -85,6 +92,7 @@ class Launcher extends Enemy {
    */
   move() {
     this.slideIn();
+    this.drift();
     this.updatePos();
   }
 

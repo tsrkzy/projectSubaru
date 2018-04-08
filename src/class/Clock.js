@@ -6,6 +6,11 @@ class Clock {
     this.handlers = [];
   }
 
+  getTick() {
+    const tick = createjs.Ticker.getTicks();
+    return tick;
+  }
+
   onTick(fn) {
     if (typeof fn !== 'function') {
       throw new Error('fn must be a function');

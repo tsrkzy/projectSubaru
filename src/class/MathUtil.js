@@ -9,6 +9,11 @@ class MathUtil {
     return radian;
   }
 
+  static r2d(radian) {
+    const degree = (radian / PI) * 180;
+    return degree;
+  }
+
   /**
    * get angle(degree) from observer pos to target pos.
    *

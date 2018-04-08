@@ -26,7 +26,9 @@ class Debris extends Enemy {
 
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.beginFill('white').drawRect(0 - DEBRIS_WIDTH / 2, 0 - DEBRIS_HEIGHT / 2, DEBRIS_WIDTH, DEBRIS_HEIGHT);
+    this.shape.graphics
+      .beginFill('white')
+      .drawRect(0 - DEBRIS_WIDTH / 2, 0 - DEBRIS_HEIGHT / 2, DEBRIS_WIDTH, DEBRIS_HEIGHT);
 
     this.hitArea = this.shape.clone(true);
     this.hitArea.alpha = 0;
@@ -44,6 +46,9 @@ class Debris extends Enemy {
       if (!this.alive) {
         return false;
       }
+
+      this.shape.rotation += 12;
+
       if (this.isFrameOut) {
         this.die();
       }

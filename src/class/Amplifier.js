@@ -99,6 +99,7 @@ class Amplifier extends Enemy {
    */
   move() {
     this.slideIn();
+    this.drift();
     this.updatePos();
   }
 

@@ -74,6 +74,7 @@ class Noise extends Enemy {
    */
   move() {
     this.slideIn();
+    this.drift();
     this.updatePos();
   }
 

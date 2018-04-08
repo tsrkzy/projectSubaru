@@ -42,8 +42,8 @@ class Battery extends Enemy {
    * firing control kicked every tick
    */
   trigger() {
-    if (createjs.Ticker.getTicks() % 120 !== 0) {
-      return;
+    if (this.clock.getTick() % 120 !== 0) {
+      return false;
     }
 
     const airCraft = AirCraft.getInstance();
@@ -54,8 +54,9 @@ class Battery extends Enemy {
       airCraft.x,
       airCraft.y
     );
-    const shake = MathUtil.d2r(3);
+    this.shape.rotation = MathUtil.r2d(theta);
 
+    const shake = MathUtil.d2r(3);
     new EnemyBatteryBullet({
       x: this.x,
       y: this.y,

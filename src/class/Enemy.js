@@ -13,6 +13,7 @@ import {
   STAGE_EDGE_TOP,
   STAGE_EDGE_BOTTOM,
   SCORE,
+  DRIFT_SPEED_LEFT,
 } from './Constant';
 import Canvas from './Canvas';
 import Score from './Score';
@@ -57,6 +58,7 @@ class Enemy {
     this.y = args.y;
     this.hitPoint = args.hitPoint;
     this.alive = true;
+    this.slidedIn = false;
     this.stage = Canvas.getStage();
     this.clock = new Clock(this);
     this.shape = null;
@@ -223,7 +225,12 @@ class Enemy {
   }
 
   slideIn() {
+    if(this.slidedIn){
+      return false;
+    }
+    
     if (!this.isEdgeOut) {
+      this.slidedIn = true;
       return false;
     }
 
@@ -239,6 +246,12 @@ class Enemy {
     if (this.y >= STAGE_EDGE_BOTTOM) {
       this.y -= 1;
     }
+
+    return true;
+  }
+
+  drift(){
+    this.x -= DRIFT_SPEED_LEFT;
   }
 
   get isEdgeOut() {
