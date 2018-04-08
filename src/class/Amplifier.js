@@ -6,6 +6,7 @@ import {
   AMPLIFIER_SPIN_UP_TIME,
   AMPLIFIER_WIDTH,
 } from './Constant';
+import MathUtil from './MathUtil';
 
 /**
  * Enemy "Amplifier" class.
@@ -17,7 +18,6 @@ class Amplifier extends Enemy {
    * @param {Object} args - x, y, stage
    */
   constructor(args) {
-
     super(args);
     this.enrage = false;
 
@@ -33,11 +33,27 @@ class Amplifier extends Enemy {
       return false;
     }
     this.enrage = true;
-    this.shape.graphics
-      .endFill()
-      .setStrokeStyle(2)
-      .beginStroke('lightblue')
-      .drawCircle(0, 0, 40);
+
+    this.clock.onTick(() => {
+      if (!this.alive) {
+        return false;
+      }
+      const tick1 = this.clock.getTick() * 4;
+      const tick2 = tick1 + 60;
+      const tick3 = tick2 + 60;
+      const age1 = Math.abs(Math.sin(MathUtil.d2r(tick1)));
+      const age2 = Math.abs(Math.sin(MathUtil.d2r(tick2)));
+      const age3 = Math.abs(Math.sin(MathUtil.d2r(tick3)));
+      this.ripple1.alpha = 1 - age1;
+      this.ripple1.scaleX = age1;
+      this.ripple1.scaleY = age1;
+      this.ripple2.alpha = 1 - age2;
+      this.ripple2.scaleX = age2;
+      this.ripple2.scaleY = age2;
+      this.ripple3.alpha = 1 - age3;
+      this.ripple3.scaleX = age3;
+      this.ripple3.scaleY = age3;
+    });
   }
 
   static getAmplifiers() {
@@ -103,9 +119,28 @@ class Amplifier extends Enemy {
     this.updatePos();
   }
 
+  updatePos(x = this.x, y = this.y) {
+    if (!this.alive) {
+      return;
+    }
+
+    this.shape.x = x;
+    this.shape.y = y;
+    this.hitArea.x = x;
+    this.hitArea.y = y;
+    this.text.x = x;
+    this.text.y = y;
+    this.ripple1.x = x;
+    this.ripple1.y = y;
+    this.ripple2.x = x;
+    this.ripple2.y = y;
+    this.ripple3.x = x;
+    this.ripple3.y = y;
+  }
+
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.beginFill('blue')
+    this.shape.graphics.beginFill('white')
       .drawRect(
         -AMPLIFIER_WIDTH / 2,
         -AMPLIFIER_HEIGHT / 2,
@@ -122,6 +157,27 @@ class Amplifier extends Enemy {
         AMPLIFIER_WIDTH,
         AMPLIFIER_HEIGHT);
 
+    this.ripple1 = new createjs.Shape();
+    this.ripple1.alpha = 0;
+    this.ripple1.graphics
+      .setStrokeStyle(2)
+      .beginStroke('white')
+      .drawCircle(0, 0, 40);
+
+    this.ripple2 = new createjs.Shape();
+    this.ripple2.alpha = 0;
+    this.ripple2.graphics
+      .setStrokeStyle(2)
+      .beginStroke('white')
+      .drawCircle(0, 0, 40);
+
+    this.ripple3 = new createjs.Shape();
+    this.ripple3.alpha = 0;
+    this.ripple3.graphics
+      .setStrokeStyle(2)
+      .beginStroke('white')
+      .drawCircle(0, 0, 40);
+
     this.text = new createjs.Text('amp', 'bold 9px Arial', 'white');
 
     this.updatePos();
@@ -129,6 +185,17 @@ class Amplifier extends Enemy {
     this.stage.addChild(this.shape);
     this.stage.addChild(this.hitArea);
     this.stage.addChild(this.text);
+    this.stage.addChild(this.ripple1);
+    this.stage.addChild(this.ripple2);
+    this.stage.addChild(this.ripple3);
+  }
+
+  last() {
+    if (this.stage) {
+      this.stage.removeChild(this.ripple1);
+      this.stage.removeChild(this.ripple2);
+      this.stage.removeChild(this.ripple3);
+    }
   }
 }
 
