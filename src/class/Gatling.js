@@ -2,7 +2,10 @@
 
 import Guns from './Guns';
 import GatlingBullet from './GatlingBullet';
-import {GATLING_COOL_TIME} from './Constant';
+import {
+  AIRCRAFT_FIRE_DELAY,
+  GATLING_COOL_TIME
+} from './Constant';
 import Canvas from './Canvas';
 
 /**
@@ -31,7 +34,7 @@ class Gatling extends Guns {
    * @param {number} y
    */
   trigger(x, y) {
-    if (createjs.Ticker.getTicks() % 10 !== 0) {
+    if (createjs.Ticker.getTicks() % AIRCRAFT_FIRE_DELAY !== 0) {
       return;
     }
 

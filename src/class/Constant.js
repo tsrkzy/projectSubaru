@@ -47,6 +47,13 @@ export const AIRCRAFT_INITIAL_Y = 250;
 export const AIRCRAFT_RADIUS = 10;
 export const AIRCRAFT_HIT_AREA = 2;
 export const AIRCRAFT_VELOCITY = 3;
+export const AIRCRAFT_FIRE_DELAY = 10;
+
+/* pod */
+export const POD_CABLE_LENGTH = 40;
+export const POD_FIRE_DELAY = 15;
+export const POD_WIDTH = 10;
+export const POD_HEIGHT = 10;
 
 /* score */
 export const SCORE = {

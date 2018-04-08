@@ -23,6 +23,7 @@ import {
 import Canvas from './Canvas';
 import Jammer from './Jammer';
 import EventsWrapper from './EventsWrapper';
+import Pod from './Pod';
 
 /**
  * Your AirCraft Class.
@@ -79,6 +80,11 @@ class AirCraft {
     this.y = AIRCRAFT_INITIAL_Y;
     this.snared = false;
     this._gun = new Gatling({
+      x: this.x,
+      y: this.y,
+    });
+
+    new Pod({
       x: this.x,
       y: this.y,
     });
