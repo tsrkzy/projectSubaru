@@ -10,6 +10,7 @@ import {
 import MathUtil from './MathUtil';
 import FireWorks from './FireWorks';
 import AirCraft from './AirCraft';
+import Hue from './Hue';
 
 /**
  * Enemy "Bomber" class.
@@ -79,7 +80,7 @@ class Bomber extends Enemy {
   deploy() {
     this.shape = new createjs.Shape();
     this.shape.graphics
-      .beginFill('darkgray')
+      .beginFill(Hue.getHue())
       .drawRect(0 - BOMBER_WIDTH / 2, 0 - BOMBER_HEIGHT / 2, BOMBER_WIDTH, BOMBER_HEIGHT);
 
     this.hitArea = new createjs.Shape();

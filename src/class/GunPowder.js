@@ -5,6 +5,7 @@ import {
   GUNPOWDER_BULLET_SPEED,
 } from './Constant';
 import Amplifier from './Amplifier';
+import Hue from './Hue';
 
 /**
  * only use for FireWorks.
@@ -38,7 +39,7 @@ class GunPowder extends EnemyBullet {
 
     this.shape = new createjs.Shape();
     this.shape.graphics
-      .beginFill('white')
+      .beginFill(Hue.getHue())
       .drawCircle(0, 0, amplify * GUNPOWDER_BULLET_RADIUS);
 
     this.text.text = '';

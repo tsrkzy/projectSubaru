@@ -11,6 +11,7 @@ import {
   STAGE_EDGE_TOP,
 } from './Constant';
 import AirCraft from './AirCraft';
+import Hue from './Hue';
 
 /**
  * Enemy "Battery" class.
@@ -105,7 +106,7 @@ class Battery extends Enemy {
 
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.beginFill('darkgray').drawRect(0 - BATTERY_WIDTH / 2, 0 - BATTERY_HEIGHT / 2, BATTERY_WIDTH, BATTERY_HEIGHT);
+    this.shape.graphics.beginFill(Hue.getHue()).drawRect(0 - BATTERY_WIDTH / 2, 0 - BATTERY_HEIGHT / 2, BATTERY_WIDTH, BATTERY_HEIGHT);
 
     this.hitArea = new createjs.Shape();
     this.hitArea.alpha = 0;

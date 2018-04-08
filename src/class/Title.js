@@ -9,6 +9,7 @@ import {
   STAGE_WIDTH
 } from './Constant';
 import Score from './Score';
+import Hue from './Hue';
 
 class Title {
   /**
@@ -17,6 +18,7 @@ class Title {
   constructor() {
     new Canvas();
     new Score();
+    new Hue();
     this.stage = Canvas.getStage();
 
     const b = new createjs.Graphics();

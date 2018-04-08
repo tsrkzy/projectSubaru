@@ -12,6 +12,7 @@ import EnemyMarker from './EnemyMarker';
 import FireWorks from './FireWorks';
 import AirCraft from './AirCraft';
 import MathUtil from './MathUtil';
+import Hue from './Hue';
 
 /**
  * Enemy "Launcher" class.
@@ -98,7 +99,7 @@ class Launcher extends Enemy {
 
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.beginFill('darkgray').drawRect(0 - LAUNCHER_WIDTH / 2, 0 - LAUNCHER_HEIGHT / 2, LAUNCHER_WIDTH, LAUNCHER_HEIGHT);
+    this.shape.graphics.beginFill(Hue.getHue()).drawRect(0 - LAUNCHER_WIDTH / 2, 0 - LAUNCHER_HEIGHT / 2, LAUNCHER_WIDTH, LAUNCHER_HEIGHT);
 
     this.hitArea = new createjs.Shape();
     this.hitArea.alpha = 0;

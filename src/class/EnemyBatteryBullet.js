@@ -5,6 +5,7 @@ import {
   BATTERY_BULLET_RADIUS,
 } from './Constant';
 import Amplifier from './Amplifier';
+import Hue from './Hue';
 
 /**
  * enemy battery shoot it.
@@ -35,7 +36,7 @@ class EnemyBatteryBullet extends EnemyBullet {
 
     this.shape = new createjs.Shape();
     this.shape.graphics
-      .beginFill('white')
+      .beginFill(Hue.getHue())
       .drawCircle(0, 0, amplify * BATTERY_BULLET_RADIUS);
 
     this.text.text = '';

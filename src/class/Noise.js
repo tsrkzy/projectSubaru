@@ -8,6 +8,7 @@ import MathUtil from './MathUtil';
 import EnemyMarker from './EnemyMarker';
 import Jammer from './Jammer';
 import AirCraft from './AirCraft';
+import Hue from './Hue';
 
 /**
  * Enemy "Noise" class.
@@ -80,7 +81,7 @@ class Noise extends Enemy {
 
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.beginFill('darkgray').drawRect(0 - NOISE_WIDTH / 2, 0 - NOISE_HEIGHT / 2, NOISE_WIDTH, NOISE_HEIGHT);
+    this.shape.graphics.beginFill(Hue.getHue()).drawRect(0 - NOISE_WIDTH / 2, 0 - NOISE_HEIGHT / 2, NOISE_WIDTH, NOISE_HEIGHT);
 
     this.hitArea = new createjs.Shape();
     this.hitArea.alpha = 0;

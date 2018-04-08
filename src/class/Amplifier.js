@@ -7,6 +7,8 @@ import {
   AMPLIFIER_WIDTH,
 } from './Constant';
 import MathUtil from './MathUtil';
+import Hue from './Hue';
+import EventsWrapper from './EventsWrapper';
 
 /**
  * Enemy "Amplifier" class.
@@ -44,13 +46,13 @@ class Amplifier extends Enemy {
       const age1 = Math.abs(Math.sin(MathUtil.d2r(tick1)));
       const age2 = Math.abs(Math.sin(MathUtil.d2r(tick2)));
       const age3 = Math.abs(Math.sin(MathUtil.d2r(tick3)));
-      this.ripple1.alpha = 1 - age1;
+      this.ripple1.alpha = 1 - (age1 * 0.8);
       this.ripple1.scaleX = age1;
       this.ripple1.scaleY = age1;
-      this.ripple2.alpha = 1 - age2;
+      this.ripple2.alpha = 1 - (age2 * 0.8);
       this.ripple2.scaleX = age2;
       this.ripple2.scaleY = age2;
-      this.ripple3.alpha = 1 - age3;
+      this.ripple3.alpha = 1 - (age3 * 0.8);
       this.ripple3.scaleX = age3;
       this.ripple3.scaleY = age3;
     });
@@ -140,7 +142,7 @@ class Amplifier extends Enemy {
 
   deploy() {
     this.shape = new createjs.Shape();
-    this.shape.graphics.beginFill('white')
+    this.shape.graphics.beginFill(Hue.getHue())
       .drawRect(
         -AMPLIFIER_WIDTH / 2,
         -AMPLIFIER_HEIGHT / 2,
@@ -190,11 +192,35 @@ class Amplifier extends Enemy {
     this.stage.addChild(this.ripple3);
   }
 
-  last() {
+  die() {
+    if (this.clock) {
+      this.clock.allOff();
+      this.clock = null;
+    }
+
     if (this.stage) {
+      this.stage.removeChild(this.shape);
+      this.stage.removeChild(this.hitArea);
+      this.stage.removeChild(this.text);
       this.stage.removeChild(this.ripple1);
       this.stage.removeChild(this.ripple2);
       this.stage.removeChild(this.ripple3);
+      this.stage = null;
+    }
+
+    this.shape = null;
+    this.text = null;
+    this.hitArea = null;
+    this.alive = false;
+
+    EventsWrapper.emit(`enemyDestroyed_${this.id}`);
+
+    for (let i = 0; i < Enemy.instances.length; i++) {
+      const enemy = Enemy.instances[i];
+      if (enemy === this) {
+        Enemy.instances.splice(i, 1);
+        break;
+      }
     }
   }
 }

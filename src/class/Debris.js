@@ -2,6 +2,7 @@
 import Enemy from './Enemy';
 import MathUtil from './MathUtil';
 import {DEBRIS_HEIGHT, DEBRIS_WIDTH} from './Constant';
+import Hue from './Hue';
 
 /**
  * Enemy "Debris" class.
@@ -27,7 +28,7 @@ class Debris extends Enemy {
   deploy() {
     this.shape = new createjs.Shape();
     this.shape.graphics
-      .beginFill('white')
+      .beginFill(Hue.getHue())
       .drawRect(0 - DEBRIS_WIDTH / 2, 0 - DEBRIS_HEIGHT / 2, DEBRIS_WIDTH, DEBRIS_HEIGHT);
 
     this.hitArea = this.shape.clone(true);
