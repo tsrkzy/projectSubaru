@@ -5,6 +5,7 @@ import MathUtil from './MathUtil';
 import {
   BATTERY_HEIGHT,
   BATTERY_WIDTH,
+  dd,
   STAGE_EDGE_BOTTOM,
   STAGE_EDGE_LEFT,
   STAGE_EDGE_RIGHT,
@@ -35,7 +36,7 @@ class Battery extends Enemy {
       if (!this.alive) {
         return false;
       }
-      this.text.text = `battery:{hp: ${this.hitPoint}`;
+      this.text.text = dd(`battery:{hp: ${this.hitPoint}`);
     });
   }
 
@@ -114,7 +115,7 @@ class Battery extends Enemy {
       .beginFill('purple')
       .drawRect(-BATTERY_WIDTH / 2, -BATTERY_HEIGHT / 2, BATTERY_WIDTH, BATTERY_HEIGHT);
 
-    this.text = new createjs.Text('battery', 'bold 9px Arial', 'black');
+    this.text = new createjs.Text(dd('battery'), 'bold 9px Arial', 'black');
 
     this.updatePos();
 

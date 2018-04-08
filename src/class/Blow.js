@@ -32,7 +32,7 @@ class Blow {
     };
 
     createjs.Tween.get(this.shape)
-      .to({alpha: 0.2}, 40)
+      .to({alpha: 0.6}, 40)
       .to({alpha: 0}, 80)
       .call(completeHandler.bind(this));
   }

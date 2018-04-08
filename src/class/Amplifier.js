@@ -5,6 +5,7 @@ import {
   AMPLIFIER_HEIGHT,
   AMPLIFIER_SPIN_UP_TIME,
   AMPLIFIER_WIDTH,
+  dd,
 } from './Constant';
 import MathUtil from './MathUtil';
 import Hue from './Hue';
@@ -102,7 +103,7 @@ class Amplifier extends Enemy {
       if (!this.alive) {
         return false;
       }
-      this.text.text = `amp:{hp: ${this.hitPoint}`;
+      this.text.text = dd(`amp:{hp: ${this.hitPoint}`);
     });
   }
 
@@ -180,7 +181,7 @@ class Amplifier extends Enemy {
       .beginStroke('white')
       .drawCircle(0, 0, 40);
 
-    this.text = new createjs.Text('amp', 'bold 9px Arial', 'white');
+    this.text = new createjs.Text(dd('amp'), 'bold 9px Arial', 'white');
 
     this.updatePos();
 

@@ -5,6 +5,7 @@ import Enemy from './Enemy';
 import EnemyBullet from './EnemyBullet';
 import FriendBullet from './FriendBullet';
 import {
+  dd,
   INDICATOR_FONT_STYLE,
   INDICATOR_X,
   INDICATOR_Y,
@@ -114,11 +115,11 @@ class Game {
         `FPS: ${measuredFPS}\n` +
         `Score: ${score}\n` +
         `HighScore: ${highScore}\n` +
-        `FriendBullets: ${friendBulletCount}\n` +
-        `Enemy: ${enemyCount}\n` +
-        `EnemyBullets: ${enemyBulletCount}\n` +
-        `jam: ${jam}\n` +
-        `amp: ${amp} - ${amp_c}\n` +
+        dd(`FriendBullets: ${friendBulletCount}\n`) +
+        dd(`Enemy: ${enemyCount}\n`) +
+        dd(`EnemyBullets: ${enemyBulletCount}\n`) +
+        dd(`jam: ${jam}\n`) +
+        dd(`amp: ${amp} - ${amp_c}\n`) +
         `Wave: ${wave}`;
     });
   }

@@ -18,6 +18,7 @@ import {
   STAGE_EDGE_TOP,
   STAGE_EDGE_BOTTOM,
   NEXT_GAME_TIMEOUT,
+  dd,
 } from './Constant';
 import Canvas from './Canvas';
 import Jammer from './Jammer';
@@ -128,7 +129,7 @@ class AirCraft {
       if (this.y > STAGE_EDGE_BOTTOM) this.y = STAGE_EDGE_BOTTOM;
       this.updatePos();
 
-      this.text.text = `airCraft: {${Math.floor(this.x)},${Math.round(this.y)}}`;
+      this.text.text = dd(`airCraft: {${Math.floor(this.x)},${Math.round(this.y)}}`);
     });
 
     /*
@@ -236,7 +237,7 @@ class AirCraft {
     new Blow({
       x: this.x - x,
       y: this.y - y,
-      color: 'red',
+      color: 'white',
     });
 
     this.die();
@@ -288,7 +289,7 @@ class AirCraft {
     /*
      * text label
      */
-    this.text = new createjs.Text('airCraft', 'bold 9px Arial', 'black');
+    this.text = new createjs.Text(dd('airCraft'), 'bold 9px Arial', 'white');
 
     /*
      * staging

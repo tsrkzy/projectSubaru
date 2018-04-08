@@ -1,7 +1,11 @@
 'use strict';
 import Enemy from './Enemy';
 import MathUtil from './MathUtil';
-import {DEBRIS_HEIGHT, DEBRIS_WIDTH} from './Constant';
+import {
+  dd,
+  DEBRIS_HEIGHT,
+  DEBRIS_WIDTH
+} from './Constant';
 import Hue from './Hue';
 
 /**
@@ -33,7 +37,7 @@ class Debris extends Enemy {
 
     this.hitArea = this.shape.clone(true);
     this.hitArea.alpha = 0;
-    this.text = new createjs.Text('debris', 'bold 9px Arial', 'lightgray');
+    this.text = new createjs.Text(dd('debris'), 'bold 9px Arial', 'lightgray');
 
     this.updatePos();
 

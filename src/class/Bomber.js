@@ -5,7 +5,8 @@ import {
   BOMBER_LAST_SHOT_COUNT,
   BOMBER_LAST_SHOT_DEPTH,
   BOMBER_SPEED,
-  BOMBER_WIDTH
+  BOMBER_WIDTH,
+  dd
 } from './Constant';
 import MathUtil from './MathUtil';
 import FireWorks from './FireWorks';
@@ -33,7 +34,7 @@ class Bomber extends Enemy {
       if (!this.alive) {
         return false;
       }
-      this.text.text = `bomb:{hp: ${this.hitPoint}`;
+      this.text.text = dd(`bomb:{hp: ${this.hitPoint}`);
     });
   }
 
@@ -89,7 +90,7 @@ class Bomber extends Enemy {
       .beginFill('purple')
       .drawRect(-BOMBER_WIDTH / 2, -BOMBER_HEIGHT / 2, BOMBER_WIDTH, BOMBER_HEIGHT);
 
-    this.text = new createjs.Text('bomber', 'bold 9px Arial', 'black');
+    this.text = new createjs.Text(dd('bomber'), 'bold 9px Arial', 'white');
 
     this.updatePos();
 

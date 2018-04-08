@@ -5,7 +5,8 @@ import {
   LAUNCHER_HEIGHT,
   BOMBER_SHOT_DEPTH,
   BOMBER_SHOT_COUNT,
-  LAUNCHER_DELAY
+  LAUNCHER_DELAY,
+  dd
 } from './Constant';
 import Sign from './Sign';
 import EnemyMarker from './EnemyMarker';
@@ -35,7 +36,7 @@ class Launcher extends Enemy {
       if (!this.alive) {
         return false;
       }
-      this.text.text = `launcher:{hp: ${this.hitPoint}`;
+      this.text.text = dd(`launcher:{hp: ${this.hitPoint}`);
 
       const tick = this.clock.getTick();
       const radian = MathUtil.d2r(tick);
@@ -107,7 +108,7 @@ class Launcher extends Enemy {
       .beginFill('purple')
       .drawRect(-LAUNCHER_WIDTH / 2, -LAUNCHER_HEIGHT / 2, LAUNCHER_WIDTH, LAUNCHER_HEIGHT);
 
-    this.text = new createjs.Text('launcher', 'bold 9px Arial', 'black');
+    this.text = new createjs.Text(dd('launcher'), 'bold 9px Arial', 'black');
 
     this.updatePos();
 

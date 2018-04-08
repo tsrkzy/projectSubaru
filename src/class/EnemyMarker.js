@@ -5,6 +5,7 @@ import AirCraft from './AirCraft';
 import Clock from './Clock';
 import MathUtil from './MathUtil';
 import {
+  dd,
   MARKER_HITAREA_RADIUS,
   MARKER_SHAPE_RADIUS,
   MARKER_SPEED,
@@ -162,7 +163,7 @@ class EnemyMarker {
       .beginStroke('dimgray')
       .drawCircle(0, 0, MARKER_SHAPE_RADIUS);
 
-    this.text = new createjs.Text('marker', 'bold 9px Arial', 'white');
+    this.text = new createjs.Text(dd('marker'), 'bold 9px Arial', 'white');
 
     this.hitArea = new createjs.Shape();
     this.hitArea.alpha = 0;

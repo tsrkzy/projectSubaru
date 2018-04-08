@@ -1,5 +1,8 @@
 'use strict';
 
+export const DEBUG = false;
+export const dd = ((text) => DEBUG ? text : '');
+
 /* canvas config */
 export const CANVAS_ID = 'subaru';
 
@@ -97,7 +100,8 @@ export const MARKER_SHAPE_RADIUS = 30;
 export const MARKER_HITAREA_RADIUS = 10;
 
 /* sign */
-export const SIGN_RADIUS = 40;
+export const SIGN_INNER_RADIUS = 5;
+export const SIGN_OUTER_RADIUS = 10;
 
 /* launcher */
 export const LAUNCHER_WIDTH = 20;

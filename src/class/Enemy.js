@@ -139,7 +139,7 @@ class Enemy {
       stage: this.stage,
       x: this.x - x,
       y: this.y - y,
-      color: 'red',
+      color: 'white',
     });
 
     this.beHit(args);
@@ -167,7 +167,7 @@ class Enemy {
       stage: this.stage,
       x: this.x,
       y: this.y,
-      color: 'red',
+      color: 'white',
       radius: 100,
     });
 

@@ -3,6 +3,7 @@ import Enemy from './Enemy';
 import {
   NOISE_WIDTH,
   NOISE_HEIGHT,
+  dd,
 } from './Constant';
 import MathUtil from './MathUtil';
 import EnemyMarker from './EnemyMarker';
@@ -31,7 +32,7 @@ class Noise extends Enemy {
       if (!this.alive) {
         return false;
       }
-      this.text.text = `noise:{hp: ${this.hitPoint}`;
+      this.text.text = dd(`noise:{hp: ${this.hitPoint}`);
     });
   }
 
@@ -89,7 +90,7 @@ class Noise extends Enemy {
       .beginFill('purple')
       .drawRect(-NOISE_WIDTH / 2, -NOISE_HEIGHT / 2, NOISE_WIDTH, NOISE_HEIGHT);
 
-    this.text = new createjs.Text('noise', 'bold 9px Arial', 'black');
+    this.text = new createjs.Text(dd('noise'), 'bold 9px Arial', 'black');
 
     this.updatePos();
 

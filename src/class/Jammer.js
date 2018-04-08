@@ -63,7 +63,7 @@ class Jammer {
       .beginFill('purple')
       .drawCircle(0, 0, JAMMER_RADIUS);
 
-    this.text = new createjs.Text('jammer', 'bold 9px Arial', 'black');
+    this.text = new createjs.Text(dd('jammer'), 'bold 9px Arial', 'black');
 
     this.updatePos();
 
