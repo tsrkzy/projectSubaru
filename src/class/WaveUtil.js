@@ -151,6 +151,9 @@ class WaveUtil {
       waveConfig.push(...WaveUtil.generateBomberConf(level, tier));
       waveConfig.push(...WaveUtil.generateNoiseConf(level, tier));
       break;
+    case 5:
+      waveConfig.push(...WaveUtil.generateBomberConf(level, tier));
+      break;
     default:
       throw new Error(`unexpected level: ${patternSeedId} in #generateRandomConf`);
     }
@@ -584,20 +587,20 @@ class WaveUtil {
 
     switch (entryPoint) {
     case 'top':
-      x = STAGE_MIDDLE_X;
+      x = MathUtil.normalRandom(STAGE_MIDDLE_X, 200);
       y = STAGE_FRAME_TOP;
       break;
     case 'bottom':
-      x = STAGE_MIDDLE_X;
+      x = MathUtil.normalRandom(STAGE_MIDDLE_X, 200);
       y = STAGE_FRAME_BOTTOM;
       break;
     case 'front':
       x = STAGE_FRAME_RIGHT;
-      y = STAGE_MIDDLE_Y;
+      y = MathUtil.normalRandom(STAGE_MIDDLE_Y, 100);
       break;
     case 'back':
       x = STAGE_FRAME_LEFT;
-      y = STAGE_MIDDLE_Y;
+      y = MathUtil.normalRandom(STAGE_MIDDLE_Y, 100);
       break;
     }
 
