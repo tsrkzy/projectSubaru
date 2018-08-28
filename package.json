@@ -2,23 +2,20 @@
   "name": "subaru",
   "version": "1.0.0",
   "scripts": {
-    "build": "webpack --optimize-minimize --devtool source-map"
+    "build": "webpack --progress --watch"
   },
   "main": "./subaru.js",
   "description": "shooting game like gradius",
   "dependencies": {
     "createjs": "^1.0.1",
-    "gulp": "^3.9.1",
-    "gulp-concat": "^2.6.1",
-    "gulp-watch": "^5.0.0",
     "webpack": "^3.10.0",
-    "webpack-notifier": "^1.5.0",
-    "Events": "latest"
+    "webpack-notifier": "^1.5.0"
   },
   "devDependencies": {
     "createjs": "^1.0.1",
     "eslint": "^4.18.1",
     "eslint-config-google": "^0.9.1",
+    "events": "^3.0.0",
     "webpack-notifier": "^1.5.0"
   },
   "author": "tsrm",
