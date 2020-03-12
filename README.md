@@ -1,6 +1,6 @@
 # project subaru
 
-2D shooter. [Try on Github Pages.](https://lepra-tsr.github.io/projectSubaru/)
+2D shooter. [Try on Github Pages.](https://tsrkzy.github.io/projectSubaru/)
 
 # CreateJS
 
