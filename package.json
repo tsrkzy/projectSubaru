@@ -8,7 +8,7 @@
   "description": "shooting game like gradius",
   "dependencies": {
     "createjs": "^1.0.1",
-    "webpack": "^3.10.0",
+    "webpack": "^5.75.0",
     "webpack-notifier": "^1.5.0"
   },
   "devDependencies": {
